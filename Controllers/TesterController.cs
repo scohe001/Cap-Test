@@ -43,7 +43,10 @@ namespace thing.Controllers
     public IEnumerable<Account> GetAccounts()
     {
       using var context = new ApplicationDbContext();
-      return context.Accounts.ToArray();
+      return context.Accounts
+                    .Include(acct => acct.Transactions)
+                        .ThenInclude(tran => tran.TransactionType)
+                    .ToArray();
     }
 
     [HttpPost]
@@ -67,6 +70,16 @@ namespace thing.Controllers
         context.SaveChanges();
       }
       return a;
+    }
+
+    [HttpGet]
+    public IEnumerable<Transaction> GetTransactions()
+    {
+      using var context = new ApplicationDbContext();
+      return context.Transactions
+                    .Include(tran => tran.Account)
+                    .Include(tran => tran.TransactionType)
+                    .ToArray();
     }
 
     [HttpDelete]

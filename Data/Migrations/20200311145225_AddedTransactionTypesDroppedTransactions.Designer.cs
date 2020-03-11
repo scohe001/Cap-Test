@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using thing.Data;
 
 namespace thing.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200311145225_AddedTransactionTypesDroppedTransactions")]
+    partial class AddedTransactionTypesDroppedTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,33 +239,6 @@ namespace thing.Data.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("thing.Models.Transaction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AccountId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TransactionTypeId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("TransactionTypeId");
-
-                    b.ToTable("Transactions");
-                });
-
             modelBuilder.Entity("thing.Models.TransactionType", b =>
                 {
                     b.Property<int>("Id")
@@ -326,21 +301,6 @@ namespace thing.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("thing.Models.Transaction", b =>
-                {
-                    b.HasOne("thing.Models.Account", "Account")
-                        .WithMany("Transactions")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("thing.Models.TransactionType", "TransactionType")
-                        .WithMany()
-                        .HasForeignKey("TransactionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

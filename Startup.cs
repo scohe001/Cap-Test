@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Newtonsoft.Json;
 
 namespace thing
 {
@@ -34,7 +36,9 @@ namespace thing
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
 
             services.AddCors(options =>
             {
@@ -84,39 +88,3 @@ namespace thing
         }
     }
 }
-
-/*
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-        services.AddCors(options =>
-        {
-            options.AddPolicy(MyAllowSpecificOrigins,
-            builder =>
-            {
-                builder.WithOrigins("http://example.com",
-                                    "http://www.contoso.com");
-            });
-        });
-
-        services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-    }
-
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-    {
-        if (env.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
-        {
-            app.UseHsts();
-        }
-
-        app.UseCors(MyAllowSpecificOrigins); 
-
-        app.UseHttpsRedirection();
-        app.UseMvc();
-    }
-}
-*/

@@ -1,5 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Account } from './interfaces/account';
+import { Transaction } from './interfaces/transaction';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +26,8 @@ export class AccountmanagerService {
     //}, error => console.error(error));
     return await this.http.get<Account[]>(this.url + 'Tester/GetAccounts').toPromise();
   }
-}
 
-export interface Account {
-  Id: number;
-  FirstName: string;
-  LastName: string;
-  PhoneNumber: string;
-  Notes: string;
+  public async GetTransactions() {
+    return await this.http.get<Transaction[]>(this.url + 'Tester/GetTransactions').toPromise();
+  }
 }

@@ -8,10 +8,9 @@ import { UsertableComponent } from './usertable/usertable.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AccountmanagerService } from './accountmanager.service'
 
-import { FormsModule } from '@angular/forms';
-import{ MatTableModule } from '@angular/material/table';
-import {MatSortModule, MatInputModule} from '@angular/material';
-import {MatButtonModule} from '@angular/material';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, MatBadgeModule, MatRippleModule } from '@angular/material';
 
 
 @NgModule({
@@ -24,11 +23,15 @@ import {MatButtonModule} from '@angular/material';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatSortModule,
     MatInputModule,
     MatButtonModule,
+    MatSelectModule,
+    MatBadgeModule,
+    MatRippleModule,
+    FormsModule,
   ],
   providers: [AccountmanagerService],
   bootstrap: [AppComponent]

@@ -14,7 +14,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 
 namespace thing
 {
@@ -32,13 +35,15 @@ namespace thing
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(
-                    Configuration.GetConnectionString("DefaultConnection")));
+                options.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging()
+                       .UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
+            );
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            );
+            services.AddControllersWithViews().AddNewtonsoftJson(options => {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
 
             services.AddCors(options =>
             {
@@ -51,7 +56,8 @@ namespace thing
                 });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,5 +92,12 @@ namespace thing
                 endpoints.MapRazorPages();
             });
         }
+
+        public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
+        builder.AddFilter("Microsoft", LogLevel.Warning)
+               .AddFilter("System", LogLevel.Warning)
+               .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information)
+               .AddConsole();
+            });
     }
 }

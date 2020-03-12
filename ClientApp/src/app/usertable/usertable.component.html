@@ -1,48 +1,97 @@
-<button (click)="thing()">Button!</button>
-
 <h1 id="tableLabel">Accounts</h1>
 
 <p *ngIf="!accountList"><em>Loading...</em></p>
 
-<!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
-<table mat-table [dataSource]="tranList" class="mat-elevation-z8" *ngIf="tranList">
+<div
+  matRipple
+  [matRippleUnbounded]=true
+  [matRippleRadius]="'10'"
+  [matRippleColor]="'pink'">
+  <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
+  <table mat-table [dataSource]="accountTableSource" matSort class="mat-elevation-z8" *ngIf="tranList">
 
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
-  
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef> Amount </th>
-      <td mat-cell *matCellDef="let element"> {{element.amount | currency}} </td>
-    </ng-container>
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+      
+      <ng-container matColumnDef="Amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.Amount | currency}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Date </th>
-      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-    </ng-container>
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.Date}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef> Type </th>
-      <td mat-cell *matCellDef="let element"> {{element.transactionType.name}} </td>
-    </ng-container>
+      <ng-container matColumnDef="TransactionType.Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.TransactionType.Name}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="firstName">
-      <th mat-header-cell *matHeaderCellDef> First </th>
-      <td mat-cell *matCellDef="let element"> {{element.account.firstName}} </td>
-    </ng-container>
+      <ng-container matColumnDef="Account.FirstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> First </th>
+        <td mat-cell *matCellDef="let element"> {{element.Account.FirstName}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Account.LastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last </th>
+        <td mat-cell *matCellDef="let element"> {{element.Account.LastName}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="Account.PhoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let element"> {{element.Account.PhoneNumber}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table><br>
+</div>
+
+<form>
+  <mat-form-field>
+  <mat-label>Amount</mat-label>
+  <input matInput [formControl]="amountControl" placeholder="0.00" type="number" [(ngModel)]="newTransaction.Amount">
+  <mat-hint>Value of the transaction</mat-hint>
+  <mat-error *ngIf="amountControl.hasError('required')">
+    Transaction Amount is <strong>required</strong>
+  </mat-error>
+  </mat-form-field><br><br>
+
+  <!-- Transaction Type:<br> -->
+  <mat-form-field>
+    <mat-label>Transaction Type</mat-label>
+    <mat-select [formControl]="transactionTypeControl" required [(value)]="newTransaction.TransactionType">
+      <mat-option>--</mat-option>
+      <mat-option *ngFor="let tranType of transactionTypes" [value]="tranType">
+        {{tranType.Name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="transactionTypeControl.hasError('required')">Please select a Transaction type</mat-error>
+    <!-- <mat-hint>{{animalControl.value?.sound}}</mat-hint> -->
+    <mat-hint>Yayyyy!!</mat-hint>
+  </mat-form-field><br><br>
   
-    <ng-container matColumnDef="lastName">
-      <th mat-header-cell *matHeaderCellDef> Last </th>
-      <td mat-cell *matCellDef="let element"> {{element.account.lastName}} </td>
-    </ng-container>
+  <!-- Account:<br> -->
+  <mat-form-field>
+    <mat-label>Account</mat-label>
+    <mat-select [formControl]="accountControl" required [(value)]="newTransaction.Account">
+      <mat-option>--</mat-option>
+      <mat-option *ngFor="let acct of accountList" [value]="acct">
+        {{acct.FirstName}} {{acct.LastName}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="accountControl.hasError('required')">Please select an Account</mat-error>
+    <!-- <mat-hint>{{animalControl.value?.sound}}</mat-hint> -->
+    <mat-hint>Yayyyy!!</mat-hint>
+  </mat-form-field><br><br>
   
-    <ng-container matColumnDef="phoneNumber">
-      <th mat-header-cell *matHeaderCellDef> Phone </th>
-      <td mat-cell *matCellDef="let element"> {{element.account.phoneNumber}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table><br>
+  <button mat-stroked-button color="primary" matBadge="{{badgeNum}}" matBadgeColor="accent" (click)="thing()">Add!</button><br><br>
+  <button mat-stroked-button color="primary" matBadge="{{30 - badgeNum}}" matBadgeColor="accent" (click)="save()">Testing</button>
+
+</form>
+
+<!--
 
 First Name
 <input [(ngModel)]="newAccount.FirstName" name="firstName" />
@@ -51,4 +100,6 @@ Last Name
 Phone #
 <input [(ngModel)]="newAccount.PhoneNumber" name="phoneNumber" />
 <button (click)="save()">Save</button>
+
+-->
 

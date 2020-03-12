@@ -18,6 +18,7 @@ namespace thing.Controllers
   [Route("{controller=Home}/{action=Index}/{id?}")] //This is cheating. Should really be routing each method individually
   public class TesterController : ControllerBase
   {
+
     // GET: /Tester/
     [HttpGet]
     public string Index()
@@ -80,6 +81,29 @@ namespace thing.Controllers
                     .Include(tran => tran.Account)
                     .Include(tran => tran.TransactionType)
                     .ToArray();
+    }
+
+    [HttpGet]
+    public IEnumerable<TransactionType> GetTransactionTypes()
+    {
+      using var context = new ApplicationDbContext();
+      return context.TransactionTypes
+                    .ToArray();
+    }
+
+    [HttpPost]
+    public Transaction AddTransaction(Transaction pTran)
+    {
+        Transaction tran = new Transaction();
+        tran.AccountId = pTran.AccountId;
+        tran.TransactionTypeId = pTran.TransactionTypeId;
+        tran.Amount = pTran.Amount;
+        tran.Date = DateTime.Now;
+
+        using var context = new ApplicationDbContext();
+        var entry = context.Transactions.Add(tran);
+        context.SaveChanges();
+        return entry.Entity;
     }
 
     [HttpDelete]

@@ -8,6 +8,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { interval, Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-usertable',
@@ -32,6 +33,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   badgeNum: number = 0;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public accountManager: AccountmanagerService) { }
 
@@ -42,7 +44,21 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.badgeSubscription = interval(1000).subscribe(val => this.badgeNum = (this.badgeNum + 30) % 31);
     // this.accountTableSource.sort = this.sort;
-    setTimeout(() => this.accountTableSource.sort = this.sort);
+    // setTimeout(() => this.accountTableSource.sort = this.sort);
+    this.accountTableSource.paginator = this.paginator;
+    this.accountTableSource.sort = this.sort;
+    this.accountTableSource.filterPredicate = (tran: Transaction, filter: string) => {
+      const accumulator = (currentTerm, key) => {
+        return key === 
+                       'TransactionType' ? currentTerm + tran.TransactionType.Name :
+                       'Account' ? currentTerm + tran.Account.FirstName + ' ' + tran.Account.LastName + tran.Account.PhoneNumber:
+                       currentTerm + tran[currentTerm];
+      };
+      const dataStr = Object.keys(tran).reduce(accumulator, '').toLowerCase();
+      // Transform the filter by converting it to lowercase and removing whitespace.
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
+    };
   }
 
   ngAfterViewInit() {
@@ -95,6 +111,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   private async RefreshTable() {
     this.accountList = await this.accountManager.GetAccounts();
     this.tranList = await this.accountManager.GetTransactions();
+    // this.accountTableSource.data = this.tranList.slice(0, 20);
     this.accountTableSource.data = this.tranList;
     console.log('Tran List:');
     console.log(this.tranList);
@@ -103,5 +120,10 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   private async RefreshDropdowns() {
     this.transactionTypes = await this.accountManager.GetTransactionTypes();
     console.log(this.transactionTypes);
+  }
+
+  private applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.accountTableSource.filter = filterValue.trim().toLowerCase();
   }
 }

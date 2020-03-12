@@ -10,7 +10,7 @@ import { AccountmanagerService } from './accountmanager.service'
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, MatBadgeModule, MatRippleModule } from '@angular/material';
+import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, MatBadgeModule, MatRippleModule, MatPaginatorModule } from '@angular/material';
 
 
 @NgModule({
@@ -31,6 +31,7 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, MatBad
     MatSelectModule,
     MatBadgeModule,
     MatRippleModule,
+    MatPaginatorModule,
     FormsModule,
   ],
   providers: [AccountmanagerService],

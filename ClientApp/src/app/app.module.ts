@@ -10,13 +10,16 @@ import { AccountmanagerService } from './accountmanager.service'
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
-import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, MatBadgeModule, MatRippleModule, MatPaginatorModule } from '@angular/material';
+import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, 
+          MatBadgeModule, MatRippleModule, MatPaginatorModule, MatIconModule } from '@angular/material';
+import { AlltransactiontableComponent } from './alltransactiontable/alltransactiontable.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     UsertableComponent,
+    AlltransactiontableComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, MatBad
     MatBadgeModule,
     MatRippleModule,
     MatPaginatorModule,
+    MatIconModule,
     FormsModule,
   ],
   providers: [AccountmanagerService],

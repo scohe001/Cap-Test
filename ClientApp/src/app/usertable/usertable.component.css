@@ -7,3 +7,11 @@ table {
   max-width: 500px;
   width: 100%;
 }
+
+.my-row:hover {
+  background-color: lightgrey;
+}
+
+.my-butt:hover {
+  background-color: slategrey;
+}

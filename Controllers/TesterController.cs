@@ -1,14 +1,17 @@
 using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Encodings.Web;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+
+using Newtonsoft.Json;
 
 using thing.Data;
 using thing.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -131,5 +134,48 @@ namespace thing.Controllers
 
       return Ok();
     }
+
+    // // To convert credits over. This is a pretty hacky job. Going to need to do it better when it's for real
+    // [HttpPost]
+    // public IActionResult Convert() {
+    //   using StreamReader streamReader = System.IO.File.OpenText("/Users/aricohen/Desktop/dev/Credit Cache/Credits.json");
+    //   //var thing = (Dictionary<string, object>)JsonSerializer.Create().Deserialize(streamReader.ReadToEnd());
+    //   string txt = streamReader.ReadToEnd();
+    //   dynamic thing = JsonConvert.DeserializeObject(txt);
+    //   Console.WriteLine(thing[0]);
+
+    //   using var context = new ApplicationDbContext();
+    //   foreach(dynamic cust in thing) {
+    //     Account acct = new Account();
+    //     acct.FirstName = cust.firstName;
+    //     acct.LastName = cust.lastName;
+    //     acct.PhoneNumber = cust.phoneNumber;
+    //     acct.Notes = cust.notes;
+
+    //     acct = context.Accounts.Add(acct).Entity;
+    //     context.SaveChanges();
+
+    //     foreach(dynamic action in cust.Actions) {
+    //       Transaction tran = new Transaction();
+    //       tran.Account = acct;
+    //       tran.AccountId = acct.Id;
+    //       tran.Amount = action.theValue;
+    //       tran.Date = action.date;
+
+    //       string actionType = action.transaction;
+
+    //       TransactionType tranType = context.TransactionTypes.FirstOrDefault(tt => tt.Name == actionType);
+    //       tran.TransactionType = tranType;
+    //       tran.TransactionTypeId = tranType.Id;
+
+    //       context.Add(tran);
+    //     }
+
+    //     context.SaveChanges();
+    //   }
+
+
+    //   return Ok();
+    // }
   }
 }

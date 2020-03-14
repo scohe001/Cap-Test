@@ -44,9 +44,12 @@ namespace thing.Controllers
     }
 
     [HttpGet]
-    public IEnumerable<Account> GetAccounts()
+    public IEnumerable<Account> GetAccounts(bool isIncludeRelatedData = true)
     {
       using var context = new ApplicationDbContext();
+
+      if (!isIncludeRelatedData) { return context.Accounts.ToArray(); }
+
       return context.Accounts
                     .Include(acct => acct.Transactions)
                         .ThenInclude(tran => tran.TransactionType)

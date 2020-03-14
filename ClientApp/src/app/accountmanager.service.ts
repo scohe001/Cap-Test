@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Account } from './interfaces/account';
 import { Transaction } from './interfaces/transaction';
 import { TransactionType } from './interfaces/transactiontype';
@@ -21,11 +21,12 @@ export class AccountmanagerService {
     return await this.http.post<Account>(this.url + 'Tester/AddAccountByAccount', acct).toPromise();
   }
 
-  public async GetAccounts() {
+  public async GetAccounts(isIncludeRelatedData: boolean = false) {
     // this.http.get<Account[]>(this.url + 'Tester/GetAccounts').subscribe(result => {
     //   this.accounts = result;
     // }, error => console.error(error));
-    return await this.http.get<Account[]>(this.url + 'Tester/GetAccounts').toPromise();
+    return await this.http.get<Account[]>(this.url + 'Tester/GetAccounts',
+                                    { params: new HttpParams().set('isIncludeRelatedData', isIncludeRelatedData.toString()) }).toPromise();
   }
 
   public async GetTransactions() {

@@ -1,6 +1,6 @@
-<h1 id="tableLabel">Accounts</h1>
+<h1 id="tableLabel">Transactions</h1>
 
-<p *ngIf="!accountList"><em>Loading...</em></p>
+<p *ngIf="!tranList"><em>Loading...</em></p>
 
 <div
   matRipple
@@ -14,41 +14,43 @@
   </mat-form-field>
 
   <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
-  <table mat-table [dataSource]="accountTableSource" matSort class="mat-elevation-z8" *ngIf="accountList">
+  <table mat-table [dataSource]="accountTableSource" matSort class="mat-elevation-z8" *ngIf="tranList">
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
       
-      <ng-container matColumnDef="FirstName">
+      <ng-container matColumnDef="Amount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.Amount | currency}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.Date | date:short}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="TransactionType.Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.TransactionType.Name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Account.FirstName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> First </th>
-        <td mat-cell *matCellDef="let element"> {{element.FirstName}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Account.FirstName}} </td>
       </ng-container>
     
-      <ng-container matColumnDef="LastName">
+      <ng-container matColumnDef="Account.LastName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Last </th>
-        <td mat-cell *matCellDef="let element"> {{element.LastName}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Account.LastName}} </td>
       </ng-container>
     
-      <ng-container matColumnDef="PhoneNumber">
+      <ng-container matColumnDef="Account.PhoneNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-        <td mat-cell *matCellDef="let element"> {{element.PhoneNumber}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.Account.PhoneNumber}} </td>
       </ng-container>
-
-      <ng-container matColumnDef="Actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button class="my-butt">
-            <mat-icon aria-hidden="false" aria-label="Edit!">edit</mat-icon>
-          </button>
-          <button mat-icon-button class="my-butt">
-            <mat-icon aria-hidden="false" aria-label="Delete!">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
     
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="my-row"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   </table><br>
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

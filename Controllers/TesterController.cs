@@ -87,6 +87,16 @@ namespace thing.Controllers
     }
 
     [HttpGet]
+    public IEnumerable<Transaction> GetTransactionsForAccountId(int acctId)
+    {
+      using var context = new ApplicationDbContext();
+      return context.Transactions
+                    .Include(tran => tran.TransactionType)
+                    .Where(tran => tran.AccountId == acctId)
+                    .ToArray();
+    }
+
+    [HttpGet]
     public IEnumerable<TransactionType> GetTransactionTypes()
     {
       using var context = new ApplicationDbContext();

@@ -39,4 +39,8 @@ export class AccountmanagerService {
   public async AddTransaction(tran: Transaction) {
     return await this.http.post<Transaction>(this.url + 'Tester/AddTransaction', tran).toPromise();
   }
+
+  // public async GetTransactionsForAccountId(acctId: number) {
+  //   return await this.http.get<Transaction[]>(this.url + 'Tester/GetTransactionForAccountId', ).toPromise();
+  // }
 }

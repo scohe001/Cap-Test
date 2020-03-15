@@ -12,18 +12,26 @@ table {
   background-color: lightgrey;
 }
 
+/*
+Don't want the table to be clickable, so don't do this
 .my-row:active {
   background-color: slategrey;
 }
+*/
 
 .my-butt:hover {
   background-color: slategrey;
 }
 
-.my-row {
-    height: auto;
+.my-but {
+    display: inline-block;
+    width: auto;
 }
+
+.mat-row {
+    height: auto;
+  }
   
-.my-cell {
-  padding: 0px 0px 0px 0;
+.mat-cell {
+  padding: 8px 8px 8px 0;
 }

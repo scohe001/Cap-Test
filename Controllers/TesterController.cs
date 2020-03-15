@@ -56,6 +56,18 @@ namespace thing.Controllers
                     .ToArray();
     }
 
+    [HttpGet]
+    public Account GetAccount(int acctId)
+    {
+      using var context = new ApplicationDbContext();
+
+      return context.Accounts
+                    .Include(acct => acct.Transactions)
+                        .ThenInclude(tran => tran.TransactionType)
+                    .Where(acct => acct.Id == acctId)
+                    .FirstOrDefault();
+    }
+
     [HttpPost]
     public Account AddAccount(string pFirstName, string pLastName)
     {

@@ -41,7 +41,14 @@ export class AccountmanagerService {
     return await this.http.post<Transaction>(this.url + 'Tester/AddTransaction', tran).toPromise();
   }
 
-  // public async GetTransactionsForAccountId(acctId: number) {
-  //   return await this.http.get<Transaction[]>(this.url + 'Tester/GetTransactionForAccountId', ).toPromise();
-  // }
+  public async GetTransactionsForAccountId(acctId: number) {
+    return await this.http.get<Transaction[]>(this.url + 'Tester/GetTransactionForAccountId',
+                                    { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
+  }
+
+  public async GetAccount(acctId: string) {
+    return await this.http.get<Account>(this.url + 'Tester/GetAccount',
+                                    { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
+
+  }
 }

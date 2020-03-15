@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener } from '@angular/core';
 import { AccountmanagerService } from '../accountmanager.service';
 import { TestBed } from '@angular/core/testing';
 import { Account } from '../interfaces/account';
@@ -9,6 +9,7 @@ import { interval, Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usertable',
@@ -35,12 +36,20 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(public accountManager: AccountmanagerService) { }
+  private innerWidth: any;
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.RefreshWindowSize();
+  }
+
+  constructor(public accountManager: AccountmanagerService,
+              private router: Router) { }
 
   ngOnInit() {
     this.ResetInputs();
     this.RefreshTable();
     this.RefreshDropdowns();
+    this.RefreshWindowSize();
 
     this.badgeSubscription = interval(1000).subscribe(val => this.badgeNum = (this.badgeNum + 30) % 31);
     // this.accountTableSource.sort = this.sort;
@@ -59,27 +68,8 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   async thing() {
     console.log('Account List:');
     console.log(this.accountList);
-    // console.log('Tran List:');
-    // console.log(this.tranList);
-    console.log('Selected Tran Type:');
-    console.log(this.selectedTranType);
-    console.log('Selected Account:');
-    console.log(this.selectedAccount);
-    console.log('New Tran:');
-    console.log(this.newTransaction);
-
-    // If they're missing something, don't do anything
-    if (!this.newTransaction.Amount || !this.newTransaction.TransactionType || !this.newTransaction.Account) { return; }
-
-    // Update values on newTran to be correct
-    this.newTransaction.TransactionTypeId = this.newTransaction.TransactionType.Id;
-    this.newTransaction.AccountId = this.newTransaction.Account.Id;
-    console.log(this.newTransaction.TransactionType.Id);
-    console.log(this.newTransaction.TransactionTypeId);
-    // Do the thing!
-    await this.accountManager.AddTransaction(this.newTransaction);
-    this.ResetInputs();
-    this.RefreshTable();
+    console.log('Inner Width:');
+    console.log(this.innerWidth);
   }
 
   private async save() {
@@ -107,6 +97,17 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     console.log(this.accountList.slice(0, 10));
   }
 
+  private RefreshWindowSize() {
+    this.innerWidth = window.innerWidth;
+    if(this.innerWidth < 275) {
+      this.displayedColumns = ['FirstName', 'LastName'];
+    } else if(this.innerWidth < 400) {
+      this.displayedColumns = ['FirstName', 'LastName', 'Actions'];
+    } else {
+      this.displayedColumns = ['FirstName', 'LastName', 'PhoneNumber', 'Actions'];
+    }
+  }
+
   private async RefreshDropdowns() {
     this.transactionTypes = await this.accountManager.GetTransactionTypes();
     console.log(this.transactionTypes);
@@ -115,5 +116,10 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   private applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.accountTableSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  private AccountClick(acct: Account) {
+    console.log(acct);
+    this.router.navigate(['a/' + acct.Id]);
   }
 }

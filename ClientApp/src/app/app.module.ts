@@ -11,8 +11,11 @@ import { AccountmanagerService } from './accountmanager.service'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, 
-          MatBadgeModule, MatRippleModule, MatPaginatorModule, MatIconModule } from '@angular/material';
+          MatBadgeModule, MatRippleModule, MatPaginatorModule, MatIconModule, MatPaginatorIntl } from '@angular/material';
 import { AlltransactiontableComponent } from './alltransactiontable/alltransactiontable.component';
+import { SingleaccountComponent } from './singleaccount/singleaccount.component';
+import { CustomPaginatorComponent } from './custom-paginator/custom-paginator.component';
+import { AccountPathUpdaterComponent } from './account-path-updater/account-path-updater.component';
 
 
 @NgModule({
@@ -20,6 +23,9 @@ import { AlltransactiontableComponent } from './alltransactiontable/alltransacti
     AppComponent,
     UsertableComponent,
     AlltransactiontableComponent,
+    SingleaccountComponent,
+    CustomPaginatorComponent,
+    AccountPathUpdaterComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +44,10 @@ import { AlltransactiontableComponent } from './alltransactiontable/alltransacti
     MatIconModule,
     FormsModule,
   ],
-  providers: [AccountmanagerService],
+  providers: [
+    AccountmanagerService,
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

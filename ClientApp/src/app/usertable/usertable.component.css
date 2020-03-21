@@ -8,17 +8,19 @@ table {
   width: 100%;
 }
 
+/*
 .my-row:hover {
-  background-color: lightgrey;
+
 }
 
 .my-row:active {
-  background-color: slategrey;
+
 }
 
 .my-butt:hover {
-  background-color: slategrey;
+
 }
+*/
 
 .my-row {
     height: auto;
@@ -26,4 +28,12 @@ table {
   
 .my-cell {
   padding: 0px 0px 0px 0;
+}
+
+.highlight:hover {
+  background-color: lightgrey;
+}
+
+.highlight:active {
+  background-color: slategrey;
 }

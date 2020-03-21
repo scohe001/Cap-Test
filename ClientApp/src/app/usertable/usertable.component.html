@@ -36,18 +36,18 @@
 
       <ng-container matColumnDef="Actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element" class="my-cell">
-          <button mat-icon-button class="my-butt">
+        <td mat-cell *matCellDef="let element" class="my-cell" (click)="$event.stopPropagation()">
+          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;">
             <mat-icon aria-hidden="false" aria-label="Edit!">edit</mat-icon>
           </button>
-          <button mat-icon-button class="my-butt">
+          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;">
             <mat-icon aria-hidden="false" aria-label="Delete!">delete</mat-icon>
           </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="my-row" (click)="AccountClick(row)"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': !buttonMousedOver}" class="my-row" (click)="AccountClick(row)"></tr>
   </table><br>
   <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[20]" showFirstLastButtons></mat-paginator>
 </div>

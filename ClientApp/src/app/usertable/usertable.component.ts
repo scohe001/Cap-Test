@@ -32,6 +32,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   accountTableSource: MatTableDataSource<Account> = new MatTableDataSource<Account>();
   badgeSubscription: Subscription;
   badgeNum: number = 0;
+  buttonMousedOver: boolean = false;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -48,17 +49,20 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.ResetInputs();
     this.RefreshTable();
-    this.RefreshDropdowns();
     this.RefreshWindowSize();
 
     this.badgeSubscription = interval(1000).subscribe(val => this.badgeNum = (this.badgeNum + 30) % 31);
-    // this.accountTableSource.sort = this.sort;
     this.accountTableSource.paginator = this.paginator;
+
+    this.accountTableSource.sortingDataAccessor = (acct: Account, sortHeader: string) => {
+      return acct[sortHeader].toLowerCase(); // Ignore case on the sorting
+    };
+    this.accountTableSource.sort = this.sort;
   }
 
   ngAfterViewInit() {
     // this.accountTableSource.sort = this.sort;
-    setTimeout(() => this.accountTableSource.sort = this.sort);
+    // setTimeout(() => this.accountTableSource.sort = this.sort);
   }
 
   ngOnDestroy() {
@@ -73,9 +77,6 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private async save() {
-    // this.newAccount.FirstName = 'Tom';
-    // this.newAccount.LastName = 'Hudson';
-    // await this.accountManager.AddAccount(this.newAccount);
     console.log('Account List:');
     console.log(this.accountList.slice(0, 10));
     this.ResetInputs();
@@ -93,8 +94,8 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     // this.tranList = await this.accountManager.GetTransactions();
     // this.accountTableSource.data = this.tranList.slice(0, 20);
     this.accountTableSource.data = this.accountList;
-    console.log('Account List:');
-    console.log(this.accountList.slice(0, 10));
+    // console.log('Account List:');
+    // console.log(this.accountList.slice(0, 10));
   }
 
   private RefreshWindowSize() {
@@ -108,11 +109,6 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private async RefreshDropdowns() {
-    this.transactionTypes = await this.accountManager.GetTransactionTypes();
-    console.log(this.transactionTypes);
-  }
-
   private applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.accountTableSource.filter = filterValue.trim().toLowerCase();
@@ -120,6 +116,15 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private AccountClick(acct: Account) {
     console.log(acct);
-    this.router.navigate(['a/' + acct.Id]);
+    console.log("Navigating to: " + 'a/' + acct.Id + '/' + acct.FirstName + acct.LastName);
+    this.router.navigate(['a/' + acct.Id + '/' + acct.FirstName + acct.LastName]);
+  }
+
+  private MouseIn() {
+    console.log("In!");
+  }
+
+  private MouseOut() {
+    console.log("Out!");
   }
 }

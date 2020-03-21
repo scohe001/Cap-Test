@@ -16,6 +16,7 @@ export class AccountPathUpdaterComponent implements OnInit {
     private accountManager: AccountmanagerService) { }
 
   async ngOnInit() {
+    console.log("Re-navigating to the specific account path!");
     let id = this.route.snapshot.paramMap.get('id');
     let account: Account = await this.accountManager.GetAccount(id);
 

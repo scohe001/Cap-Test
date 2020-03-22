@@ -19,14 +19,14 @@ export class AccountmanagerService {
     // this.http.post<Account>(this.url + 'Tester/AddAccountByAccount', acct).subscribe(result => {
     //   console.log("Written successfully!");
     // }, error => console.error(error));
-    return await this.http.post<Account>(this.url + 'Tester/AddAccountByAccount', acct).toPromise();
+    return await this.http.post<Account>(this.url + 'Account/AddAccountByAccount', acct).toPromise();
   }
 
   public async GetAccounts(isIncludeRelatedData: boolean = false) {
     // this.http.get<Account[]>(this.url + 'Tester/GetAccounts').subscribe(result => {
     //   this.accounts = result;
     // }, error => console.error(error));
-    return await this.http.get<Account[]>(this.url + 'Tester/GetAccounts',
+    return await this.http.get<Account[]>(this.url + 'Account/GetAccounts',
                                     { params: new HttpParams().set('isIncludeRelatedData', isIncludeRelatedData.toString()) }).toPromise();
   }
 
@@ -48,7 +48,7 @@ export class AccountmanagerService {
   }
 
   public async GetAccount(acctId: string) {
-    return await this.http.get<Account>(this.url + 'Tester/GetAccount',
+    return await this.http.get<Account>(this.url + 'Account/GetAccount',
                                     { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
   }
 

@@ -44,53 +44,6 @@ namespace thing.Controllers
       return HtmlEncoder.Default.Encode($"str: {str}, x: {x}");
     }
 
-    [HttpGet]
-    public IEnumerable<Account> GetAccounts(bool isIncludeRelatedData = true)
-    {
-      using var context = new ApplicationDbContext();
-
-      if (!isIncludeRelatedData) { return context.Accounts.ToArray(); }
-
-      return context.Accounts
-                    .Include(acct => acct.Transactions)
-                        .ThenInclude(tran => tran.TransactionType)
-                    .ToArray();
-    }
-
-    [HttpGet]
-    public Account GetAccount(int acctId)
-    {
-      using var context = new ApplicationDbContext();
-
-      return context.Accounts
-                    .Include(acct => acct.Transactions)
-                        .ThenInclude(tran => tran.TransactionType)
-                    .Where(acct => acct.Id == acctId)
-                    .FirstOrDefault();
-    }
-
-    [HttpPost]
-    public Account AddAccount(string pFirstName, string pLastName)
-    {
-      Account a = new Account(pFirstName, pLastName);
-      using (var context = new ApplicationDbContext())
-      {
-        context.Accounts.Add(a);
-        context.SaveChanges();
-      }
-      return a;
-    }
-
-    [HttpPost]
-    public Account AddAccountByAccount(Account a)
-    {
-      using (var context = new ApplicationDbContext())
-      {
-        context.Accounts.Add(a);
-        context.SaveChanges();
-      }
-      return a;
-    }
 
     [HttpGet]
     public IEnumerable<Transaction> GetTransactions()
@@ -135,31 +88,6 @@ namespace thing.Controllers
         return entry.Entity;
     }
 
-    [HttpDelete]
-    public IActionResult DeleteAccountByAccount(Account a) {
-      using var context = new ApplicationDbContext();
-
-      try { 
-        context.Accounts.Remove(a);
-        context.SaveChanges();
-      } catch (DbUpdateConcurrencyException) {
-        return NotFound();
-      }
-
-      return Ok();
-    }
-
-    [HttpDelete]
-    public IActionResult DeleteAccountById(int pId) {
-      using var context = new ApplicationDbContext();
-
-      Account acct = context.Accounts.Where(a => a.Id == pId).FirstOrDefault();
-      if(acct == null) { return NotFound(); }
-      context.Accounts.Remove(acct);
-      context.SaveChanges();
-
-      return Ok();
-    }
 
     // By days
     [HttpGet]

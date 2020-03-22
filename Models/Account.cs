@@ -43,6 +43,7 @@ namespace thing.Models
     #region Static Methods
 
     #region Creates
+
     public static Account CreateAccount(Account a, ApplicationDbContext context) {
       var accountSaved = context.Accounts.Add(a);
       context.SaveChanges();
@@ -52,9 +53,11 @@ namespace thing.Models
     public static Account CreateAccount(string firstName, string lastName, ApplicationDbContext context) {
       return CreateAccount(new Account(firstName, lastName), context);
     }
+
     #endregion
 
     #region Gets
+
     public static IEnumerable<Account> GetAllAccounts(bool isIncludeRelatedData, ApplicationDbContext context) {
       if (!isIncludeRelatedData) { return context.Accounts.ToArray(); }
 
@@ -71,11 +74,12 @@ namespace thing.Models
                     .Where(acct => acct.Id == acctId)
                     .FirstOrDefault();
     }
+
     #endregion
 
     #region Deletes
-    public static void DeleteSingleAccount(int acctId, ApplicationDbContext context) {
 
+    public static void DeleteSingleAccount(int acctId, ApplicationDbContext context) {
       Account acct = context.Accounts.Where(a => a.Id == acctId).FirstOrDefault();
       if(acct == null) { 
         throw new InvalidOperationException("No Account with id '" + acctId.ToString() + "' found");
@@ -84,6 +88,7 @@ namespace thing.Models
       context.Accounts.Remove(acct);
       context.SaveChanges();
     }
+
     #endregion
 
     #endregion

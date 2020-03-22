@@ -29,19 +29,13 @@ namespace thing.Controllers
     [HttpGet]
     public IEnumerable<Transaction> GetTransactions()
     {
-      return context.Transactions
-                    .Include(tran => tran.Account)
-                    .Include(tran => tran.TransactionType)
-                    .ToArray();
+      return Transaction.GetAllTransactions(true, context);
     }
 
     [HttpGet]
     public IEnumerable<Transaction> GetTransactionsForAccountId(int acctId)
     {
-      return context.Transactions
-                    .Include(tran => tran.TransactionType)
-                    .Where(tran => tran.AccountId == acctId)
-                    .ToArray();
+      return Transaction.GetTransactionsForAccount(acctId, context);
     }
 
     [HttpGet]
@@ -54,17 +48,7 @@ namespace thing.Controllers
     [HttpPost]
     public Transaction AddTransaction(Transaction pTran)
     {
-      Transaction tran = new Transaction
-      {
-        AccountId = pTran.AccountId,
-        TransactionTypeId = pTran.TransactionTypeId,
-        Amount = pTran.Amount,
-        Date = DateTime.Now
-      };
-
-      var entry = context.Transactions.Add(tran);
-      context.SaveChanges();
-      return entry.Entity;
+      return Transaction.CreateTransaction(pTran, context);
     }
 
   }

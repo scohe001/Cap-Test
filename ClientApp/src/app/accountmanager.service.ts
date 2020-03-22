@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Account } from './interfaces/account';
 import { Transaction } from './interfaces/transaction';
 import { TransactionType } from './interfaces/transactiontype';
+import { DataSet, DataPoint } from './interfaces/graphdata';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,32 @@ export class AccountmanagerService {
   public async GetAccount(acctId: string) {
     return await this.http.get<Account>(this.url + 'Tester/GetAccount',
                                     { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
+  }
 
+  public async GetTransactionDataByDay(startDate: Date, endDate: Date) {
+    return await this.http.get<DataSet[]>(this.url + 'Tester/GetTransactionDataByDays',
+                                    { 
+                                      params: new HttpParams()
+                                                .set('startDate', startDate.toUTCString())
+                                                .set('endDate', endDate.toUTCString())
+                                    }).toPromise();
+  }
+  
+  public async GetTransactionDataByWeek(startDate: Date, endDate: Date) {
+    return await this.http.get<DataSet[]>(this.url + 'Tester/GetTransactionDataByWeeks',
+                                    { 
+                                      params: new HttpParams()
+                                                .set('startDate', startDate.toUTCString())
+                                                .set('endDate', endDate.toUTCString())
+                                    }).toPromise();
+  }
+
+  public async GetTransactionDataByMonth(startDate: Date, endDate: Date) {
+    return await this.http.get<DataSet[]>(this.url + 'Tester/GetTransactionDataByMonths',
+                                    { 
+                                      params: new HttpParams()
+                                                .set('startDate', startDate.toUTCString())
+                                                .set('endDate', endDate.toUTCString())
+                                    }).toPromise();
   }
 }

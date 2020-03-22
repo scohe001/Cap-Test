@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 using thing.Data;
 using thing.Models;
+using System.Globalization;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -160,6 +161,113 @@ namespace thing.Controllers
       return Ok();
     }
 
+    // By days
+    [HttpGet]
+    public IEnumerable<DataSet> GetTransactionDataByDays(DateTime startDate, DateTime endDate) {
+      using ApplicationDbContext context = new ApplicationDbContext();
+
+      List<DataSet> dataSets = new List<DataSet>();
+      foreach (TransactionType tranType in context.TransactionTypes) {
+        DataSet dataSet = new DataSet
+        {
+          name = tranType.Name,
+          series = new List<DataPoint>()
+        };
+
+        IEnumerable<Transaction> transInDateRange = context.Transactions.Where(tran => tran.Date >= startDate && tran.Date <= endDate && tran.TransactionType.Equals(tranType)).OrderBy(tran => tran.Date);
+        var groupByWeek = transInDateRange.GroupBy(tran => tran.Date.Date);
+        dataSet.series = groupByWeek.Select(trans => new DataPoint() { name = trans.FirstOrDefault().Date.Date, value = trans.Sum(tran => tran.Amount) }).ToList();
+        for (var day = startDate.Date; day.Date <= endDate.Date; day = day.AddDays(1)) { 
+          // It exists, we're good
+          if (dataSet.series.Any(dataPoint => dataPoint.name.Date.Equals(day.Date))) { continue; }
+          // Else, add a 0 value
+          dataSet.series.Add(new DataPoint() { name = day.Date, value = 0 });
+        }
+        dataSets.Add(dataSet);
+      }
+      return dataSets;
+    }
+
+    [HttpGet]
+    public IEnumerable<DataSet> GetTransactionDataByMonths(DateTime startDate, DateTime endDate) {
+      using ApplicationDbContext context = new ApplicationDbContext();
+
+      List<DataSet> dataSets = new List<DataSet>();
+      foreach (TransactionType tranType in context.TransactionTypes) {
+        DataSet dataSet = new DataSet
+        {
+          name = tranType.Name,
+          series = new List<DataPoint>()
+        };
+
+        IEnumerable<Transaction> transInDateRange = context.Transactions.Where(tran => tran.Date >= startDate && tran.Date <= endDate && tran.TransactionType.Equals(tranType)).OrderBy(tran => tran.Date);
+        var groupByWeek = transInDateRange.GroupBy(tran => new { tran.Date.Month, tran.Date.Year });
+        dataSet.series = groupByWeek.Select(trans => new DataPoint() { name = StartOfWeek(trans.FirstOrDefault().Date), value = trans.Sum(tran => tran.Amount) }).ToList();
+        for (var day = startDate.Date; day.Date <= endDate.Date; day = day.AddMonths(1)) { 
+          // It exists, we're good
+          if (dataSet.series.Any(dataPoint => dataPoint.name.Month == day.Month && dataPoint.name.Year == day.Year)) { continue; }
+          // Else, add a 0 value
+          dataSet.series.Add(new DataPoint() { name = day.Date, value = 0 });
+        }
+        dataSets.Add(dataSet);
+      }
+      return dataSets;
+    }
+
+    [HttpGet]
+    public IEnumerable<DataSet> GetTransactionDataByWeeks(DateTime startDate, DateTime endDate) {
+      using ApplicationDbContext context = new ApplicationDbContext();
+
+      List<DataSet> dataSets = new List<DataSet>();
+      foreach (TransactionType tranType in context.TransactionTypes) {
+        DataSet dataSet = new DataSet
+        {
+          name = tranType.Name,
+          series = new List<DataPoint>()
+        };
+        // dataSet.series = context.Transactions.Where(tran => tran.Date >= startDate && tran.Date <= endDate && tran.TransactionType.Equals(tranType)).ToList().GroupBy(tran => GetWeekNum(tran.Date)).Select(trans => new DataPoint() { name = trans.FirstOrDefault().Date.ToShortDateString(), value = trans.Sum(tran => tran.Amount) }).ToList();
+
+        IEnumerable<Transaction> transInDateRange = context.Transactions.Where(tran => tran.Date >= startDate && tran.Date <= endDate && tran.TransactionType.Equals(tranType)).OrderBy(tran => tran.Date);
+        var groupByWeek = transInDateRange.GroupBy(tran => new { WeekNum = GetWeekNum(tran.Date), tran.Date.Year });
+        dataSet.series = groupByWeek.Select(trans => new DataPoint() { name = StartOfWeek(trans.FirstOrDefault().Date), value = trans.Sum(tran => tran.Amount) }).ToList();
+        for (var day = startDate.Date; day.Date <= endDate.Date; day = day.AddDays(7)) { 
+          // It exists, we're good
+          if (dataSet.series.Any(dataPoint => dataPoint.name.Date.Equals(StartOfWeek(day.Date)))) { continue; }
+          // Else, add a 0 value
+          dataSet.series.Add(new DataPoint() { name = day.Date, value = 0 });
+        }
+        dataSets.Add(dataSet);
+      }
+      return dataSets;
+    }
+
+    // Really need to stick these two somewhere nice
+    private int GetWeekNum(DateTime dateTime) { 
+        // Gets the Calendar instance associated with a CultureInfo.
+        CultureInfo myCI = new CultureInfo("en-US");
+        Calendar myCal = myCI.Calendar;
+
+        // Gets the DTFI properties required by GetWeekOfYear.
+        CalendarWeekRule myCWR = myCI.DateTimeFormat.CalendarWeekRule;
+        DayOfWeek myFirstDOW = myCI.DateTimeFormat.FirstDayOfWeek;
+
+        return myCal.GetWeekOfYear(dateTime, myCWR, myFirstDOW);
+    }
+
+    private DateTime StartOfWeek(DateTime dt)
+    {
+        // Gets the Calendar instance associated with a CultureInfo.
+        CultureInfo myCI = new CultureInfo("en-US");
+        Calendar myCal = myCI.Calendar;
+
+        // Gets the DTFI properties required by GetWeekOfYear.
+        CalendarWeekRule myCWR = myCI.DateTimeFormat.CalendarWeekRule;
+        DayOfWeek myFirstDOW = myCI.DateTimeFormat.FirstDayOfWeek;
+
+        int diff = (7 + (dt.DayOfWeek - myFirstDOW)) % 7;
+        return dt.AddDays(-1 * diff).Date;
+    }
+
     // // To convert credits over. This is a pretty hacky job. Going to need to do it better when it's for real
     // [HttpPost]
     // public IActionResult Convert() {
@@ -202,5 +310,17 @@ namespace thing.Controllers
 
     //   return Ok();
     // }
+  }
+
+  public class DataPoint {
+    // Really a string, but we're doing date so we can work with it easier
+    // public string name;
+    public DateTime name;
+    public decimal value;
+  }
+
+  public class DataSet {
+    public string name;
+    public List<DataPoint> series;
   }
 }

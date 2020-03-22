@@ -15,6 +15,12 @@ namespace thing.Controllers
   [Route("{controller=Home}/{action=Index}/{id?}")] //This is cheating. Should really be routing each method individually
   public class AccountController : Controller
   {
+
+    private readonly ApplicationDbContext context;
+    public AccountController(ApplicationDbContext c) {
+      context = c;
+    }
+
     [HttpGet]
     public string Index()
     {
@@ -24,28 +30,24 @@ namespace thing.Controllers
     [HttpGet]
     public IEnumerable<Account> GetAccounts(bool isIncludeRelatedData = true)
     {
-      using var context = new ApplicationDbContext();
       return Account.GetAllAccounts(isIncludeRelatedData, context);
     }
 
     [HttpGet]
     public Account GetAccount(int acctId)
     {
-      using var context = new ApplicationDbContext();
       return Account.GetSingleAccount(acctId, context);
     }
 
     [HttpPost]
     public Account AddAccount(string pFirstName, string pLastName)
     {
-      using var context = new ApplicationDbContext();
       return Account.CreateAccount(pFirstName, pLastName, context);
     }
 
     [HttpPost]
     public Account AddAccountByAccount(Account a)
     {
-      using var context = new ApplicationDbContext();
       return Account.CreateAccount(a, context);
     }
 
@@ -56,8 +58,6 @@ namespace thing.Controllers
 
     [HttpDelete]
     public IActionResult DeleteAccountById(int pId) {
-      using var context = new ApplicationDbContext();
-
       try {
         Account.DeleteSingleAccount(pId, context);
       } catch (InvalidOperationException) {

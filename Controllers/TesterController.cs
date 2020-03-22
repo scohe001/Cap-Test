@@ -23,6 +23,11 @@ namespace thing.Controllers
   public class TesterController : ControllerBase
   {
 
+    private readonly ApplicationDbContext context;
+    public TesterController(ApplicationDbContext c) {
+      context = c;
+    }
+
     // GET: /Tester/
     [HttpGet]
     public string Index()
@@ -48,7 +53,6 @@ namespace thing.Controllers
     [HttpGet]
     public IEnumerable<Transaction> GetTransactions()
     {
-      using var context = new ApplicationDbContext();
       return context.Transactions
                     .Include(tran => tran.Account)
                     .Include(tran => tran.TransactionType)
@@ -58,7 +62,6 @@ namespace thing.Controllers
     [HttpGet]
     public IEnumerable<Transaction> GetTransactionsForAccountId(int acctId)
     {
-      using var context = new ApplicationDbContext();
       return context.Transactions
                     .Include(tran => tran.TransactionType)
                     .Where(tran => tran.AccountId == acctId)
@@ -68,7 +71,6 @@ namespace thing.Controllers
     [HttpGet]
     public IEnumerable<TransactionType> GetTransactionTypes()
     {
-      using var context = new ApplicationDbContext();
       return context.TransactionTypes
                     .ToArray();
     }
@@ -82,7 +84,6 @@ namespace thing.Controllers
         tran.Amount = pTran.Amount;
         tran.Date = DateTime.Now;
 
-        using var context = new ApplicationDbContext();
         var entry = context.Transactions.Add(tran);
         context.SaveChanges();
         return entry.Entity;
@@ -92,8 +93,6 @@ namespace thing.Controllers
     // By days
     [HttpGet]
     public IEnumerable<DataSet> GetTransactionDataByDays(DateTime startDate, DateTime endDate) {
-      using ApplicationDbContext context = new ApplicationDbContext();
-
       List<DataSet> dataSets = new List<DataSet>();
       foreach (TransactionType tranType in context.TransactionTypes) {
         DataSet dataSet = new DataSet
@@ -118,8 +117,6 @@ namespace thing.Controllers
 
     [HttpGet]
     public IEnumerable<DataSet> GetTransactionDataByMonths(DateTime startDate, DateTime endDate) {
-      using ApplicationDbContext context = new ApplicationDbContext();
-
       List<DataSet> dataSets = new List<DataSet>();
       foreach (TransactionType tranType in context.TransactionTypes) {
         DataSet dataSet = new DataSet
@@ -144,8 +141,6 @@ namespace thing.Controllers
 
     [HttpGet]
     public IEnumerable<DataSet> GetTransactionDataByWeeks(DateTime startDate, DateTime endDate) {
-      using ApplicationDbContext context = new ApplicationDbContext();
-
       List<DataSet> dataSets = new List<DataSet>();
       foreach (TransactionType tranType in context.TransactionTypes) {
         DataSet dataSet = new DataSet
@@ -205,7 +200,6 @@ namespace thing.Controllers
     //   dynamic thing = JsonConvert.DeserializeObject(txt);
     //   Console.WriteLine(thing[0]);
 
-    //   using var context = new ApplicationDbContext();
     //   foreach(dynamic cust in thing) {
     //     Account acct = new Account();
     //     acct.FirstName = cust.firstName;

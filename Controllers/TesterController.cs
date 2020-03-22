@@ -49,47 +49,6 @@ namespace thing.Controllers
       return HtmlEncoder.Default.Encode($"str: {str}, x: {x}");
     }
 
-
-    [HttpGet]
-    public IEnumerable<Transaction> GetTransactions()
-    {
-      return context.Transactions
-                    .Include(tran => tran.Account)
-                    .Include(tran => tran.TransactionType)
-                    .ToArray();
-    }
-
-    [HttpGet]
-    public IEnumerable<Transaction> GetTransactionsForAccountId(int acctId)
-    {
-      return context.Transactions
-                    .Include(tran => tran.TransactionType)
-                    .Where(tran => tran.AccountId == acctId)
-                    .ToArray();
-    }
-
-    [HttpGet]
-    public IEnumerable<TransactionType> GetTransactionTypes()
-    {
-      return context.TransactionTypes
-                    .ToArray();
-    }
-
-    [HttpPost]
-    public Transaction AddTransaction(Transaction pTran)
-    {
-        Transaction tran = new Transaction();
-        tran.AccountId = pTran.AccountId;
-        tran.TransactionTypeId = pTran.TransactionTypeId;
-        tran.Amount = pTran.Amount;
-        tran.Date = DateTime.Now;
-
-        var entry = context.Transactions.Add(tran);
-        context.SaveChanges();
-        return entry.Entity;
-    }
-
-
     // By days
     [HttpGet]
     public IEnumerable<DataSet> GetTransactionDataByDays(DateTime startDate, DateTime endDate) {
@@ -232,17 +191,5 @@ namespace thing.Controllers
 
     //   return Ok();
     // }
-  }
-
-  public class DataPoint {
-    // Really a string, but we're doing date so we can work with it easier
-    // public string name;
-    public DateTime name;
-    public decimal value;
-  }
-
-  public class DataSet {
-    public string name;
-    public List<DataPoint> series;
   }
 }

@@ -72,5 +72,10 @@ namespace thing.Controllers
       return Transaction.GetAveragesForWeekDays(startDate, endDate, context);
     }
 
+    [HttpGet]
+    public IEnumerable<DataPoint<string>> GetTransactionTotals(DateTime startDate, DateTime endDate) {
+      return Transaction.GetTransactionTotals(startDate, endDate, context);
+    }
+
   }
 }

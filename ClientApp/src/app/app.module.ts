@@ -12,7 +12,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, 
           MatBadgeModule, MatRippleModule, MatPaginatorModule, MatIconModule,
-          MatPaginatorIntl, MatDatepickerModule, MatRadioModule } from '@angular/material';
+          MatPaginatorIntl, MatDatepickerModule, MatRadioModule,
+          MatSidenavModule, MatToolbarModule, MatDividerModule,
+          MatListModule, MatGridListModule, } from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AlltransactiontableComponent } from './alltransactiontable/alltransactiontable.component';
@@ -49,6 +51,11 @@ import { PitestComponent } from './pitest/pitest.component';
     MatDatepickerModule,
     MatIconModule,
     MatRadioModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatListModule,
+    MatGridListModule,
     FormsModule,
     NgxChartsModule,
   ],

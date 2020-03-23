@@ -98,6 +98,18 @@ namespace thing.Models
                     .ToArray();
     }
 
+    public static IEnumerable<DataPoint<string>> GetTransactionTotals(DateTime startDate, DateTime endDate, ApplicationDbContext context) {
+      // Initialize Dict
+      Dictionary<TransactionType, decimal> tranTotals = new Dictionary<TransactionType, decimal>();
+      foreach(TransactionType tranType in context.TransactionTypes) { tranTotals[tranType] = 0; }
+
+      foreach(Transaction tran in GetTransactionsInRange(startDate, endDate, context)) {
+        tranTotals[tran.TransactionType] += tran.Amount;
+      }
+
+      return tranTotals.Select(pair => new DataPoint<string>() { name = pair.Key.Name, value = pair.Value });
+    }
+
     public static IEnumerable<DataSet<DateTime>> GetTransactionDataByDay(DateTime startDate, DateTime endDate, ApplicationDbContext context) {
       return GetTransactionData(startDate, endDate, 
         tran => tran.Date.Date,

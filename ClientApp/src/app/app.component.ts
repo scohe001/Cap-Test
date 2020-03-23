@@ -11,9 +11,16 @@ import { slideInAnimation } from './animations';
 export class AppComponent {
   title = 'ClientApp';
 
+  contructor() { }
+
   prepareRoute(outlet: RouterOutlet) {
     // console.log("Doing a thing!");
     // console.log(outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation']);
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  }
+
+  isBiggerScreen() {
+    const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    return (width < 768);
   }
 }

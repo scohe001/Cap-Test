@@ -27,21 +27,22 @@
   </mat-datepicker>
 </mat-form-field>
 
-<button mat-stroked-button color="primary" (click)="thing()">Testing</button>
+<button mat-stroked-button color="primary" (click)="refreshData()">Testing</button>
+
+<ngx-charts-advanced-pie-chart
+  [view]="view"
+  [scheme]="colorScheme"
+  [gradient]="gradient"
+  [valueFormatting]="dollarValueFormat"
+  [results]="tranTotals"
+  >
+</ngx-charts-advanced-pie-chart>
 
 <mat-radio-group aria-label="Group data by..." [(ngModel)]="moneyGraphGroupBy" (click)="groupByChanged($event)">
   <mat-radio-button value="Day">Day</mat-radio-button>
   <mat-radio-button value="Week">Week</mat-radio-button>
   <mat-radio-button value="Month">Month</mat-radio-button>
 </mat-radio-group>
-
-<ngx-charts-advanced-pie-chart
-  [view]="view"
-  [scheme]="colorScheme"
-  [results]="single"
-  [gradient]="gradient"
-  >
-</ngx-charts-advanced-pie-chart>
 
 <ngx-charts-line-chart
   [view]="view"
@@ -64,7 +65,7 @@
 <ngx-charts-bar-vertical-2d
   [view]="view"
   [scheme]="colorScheme"
-  [gradient]="'true'"
+  [gradient]="'false'"
   [xAxis]="'true'"
   [yAxis]="'true'"
   [legend]="'true'"

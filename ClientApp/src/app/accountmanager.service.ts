@@ -86,4 +86,13 @@ export class AccountmanagerService {
                                                 .set('endDate', endDate.toUTCString())
                                     }).toPromise();
   }
+
+  public async GetTransactionTotals(startDate: Date, endDate: Date) {
+    return await this.http.get<DataPoint[]>(this.url + 'Transaction/GetTransactionTotals',
+                                    { 
+                                      params: new HttpParams()
+                                                .set('startDate', startDate.toUTCString())
+                                                .set('endDate', endDate.toUTCString())
+                                    }).toPromise();
+  }
 }

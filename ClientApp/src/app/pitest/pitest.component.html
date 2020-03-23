@@ -6,9 +6,8 @@
   <mat-datepicker-toggle matSuffix [for]="dps"></mat-datepicker-toggle>
   <mat-datepicker #dps
                   startView="multi-year"
-                  (yearSelected)="chosenYearHandler($event)"
-                  (monthSelected)="chosenMonthHandler($event, dps)"
-                  (daySelected)="chosenDayHandler($event, dps)"
+                  (yearSelected)="startDateChosenYearHandler($event)"
+                  (monthSelected)="startDateChosenMonthHandler($event, dps)"
                   panelClass="example-month-picker"
                   >
   </mat-datepicker>
@@ -20,9 +19,9 @@
   <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
   <mat-datepicker #dp
                   startView="multi-year"
-                  (yearSelected)="chosenYearHandler($event)"
-                  (monthSelected)="chosenMonthHandler($event, dp)"
-                  (daySelected)="chosenDayHandler($event, dp)"
+                  (yearSelected)="endDateChosenYearHandler($event)"
+                  (monthSelected)="endDateChosenMonthHandler($event, dp)"
+                  (daySelected)="endDateChosenDayHandler($event, dp)"
                   panelClass="example-month-picker"
                   >
   </mat-datepicker>
@@ -61,6 +60,22 @@
   (deactivate)="onDeactivate($event)"
   >
 </ngx-charts-line-chart>
+
+<ngx-charts-bar-vertical-2d
+  [view]="view"
+  [scheme]="colorScheme"
+  [gradient]="'true'"
+  [xAxis]="'true'"
+  [yAxis]="'true'"
+  [legend]="'true'"
+  [showXAxisLabel]="'true'"
+  [showYAxisLabel]="'true'"
+  [xAxisLabel]="'Day'"
+  [yAxisLabel]="'Average Value'"
+  [legendTitle]="'legendTitle'"
+  [results]="weekData"
+  >
+</ngx-charts-bar-vertical-2d>
 
 <!--
 <ngx-charts-line-chart

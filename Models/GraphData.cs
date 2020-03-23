@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 namespace thing.Models
 {
-  public class DataPoint {
+  public class DataPoint<T> {
     // Really a string, but we're doing date so we can work with it easier
     // public string name;
-    public DateTime name;
+    public T name;
     public decimal value;
   }
 
-  public class DataSet {
+  public class DataSet<T> {
     public string name;
-    public List<DataPoint> series;
+    public List<DataPoint<T>> series;
   }
 }

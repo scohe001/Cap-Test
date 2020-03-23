@@ -53,7 +53,7 @@ export class AccountmanagerService {
   }
 
   public async GetTransactionDataByDay(startDate: Date, endDate: Date) {
-    return await this.http.get<DataSet[]>(this.url + 'Tester/GetTransactionDataByDays',
+    return await this.http.get<DataSet[]>(this.url + 'Transaction/GetTransactionDataByDays',
                                     { 
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
@@ -62,7 +62,7 @@ export class AccountmanagerService {
   }
   
   public async GetTransactionDataByWeek(startDate: Date, endDate: Date) {
-    return await this.http.get<DataSet[]>(this.url + 'Tester/GetTransactionDataByWeeks',
+    return await this.http.get<DataSet[]>(this.url + 'Transaction/GetTransactionDataByWeeks',
                                     { 
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
@@ -71,7 +71,15 @@ export class AccountmanagerService {
   }
 
   public async GetTransactionDataByMonth(startDate: Date, endDate: Date) {
-    return await this.http.get<DataSet[]>(this.url + 'Tester/GetTransactionDataByMonths',
+    return await this.http.get<DataSet[]>(this.url + 'Transaction/GetTransactionDataByMonths',
+                                    { 
+                                      params: new HttpParams()
+                                                .set('startDate', startDate.toUTCString())
+                                                .set('endDate', endDate.toUTCString())
+                                    }).toPromise();
+  }
+  public async GetAveragesForWeekDays(startDate: Date, endDate: Date) {
+    return await this.http.get<DataSet[]>(this.url + 'Transaction/GetAveragesForWeekDays',
                                     { 
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())

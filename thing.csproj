@@ -23,4 +23,7 @@
   <ItemGroup>
     <Content Remove="ClientApp\tsconfig.spec.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dates\" />
+  </ItemGroup>
 </Project>

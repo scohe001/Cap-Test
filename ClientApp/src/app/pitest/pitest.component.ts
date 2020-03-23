@@ -22,14 +22,22 @@ type Moment = _moment.Moment;
 // See the Moment.js docs for the meaning of these formats:
 // https://momentjs.com/docs/#/displaying/format/
 export const MY_FORMATS = {
+  // parse: {
+  //   dateInput: 'MM/DD/YYYY',
+  // },
+  // display: {
+  //   dateInput: 'MM/DD/YYYY',
+  //   monthYearLabel: 'MMM D YYYY',
+  //   dateA11yLabel: 'LL',
+  //   monthYearA11yLabel: 'MMMM Do YYYY',
   parse: {
-    dateInput: 'MM/DD/YYYY',
+    dateInput: 'MM/YYYY',
   },
   display: {
-    dateInput: 'MM/DD/YYYY',
-    monthYearLabel: 'MMM D YYYY',
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM Do YYYY',
+    monthYearA11yLabel: 'MMMM YYYY',
   },
 }
 
@@ -87,15 +95,16 @@ export class PitestComponent implements OnInit {
   moneyDataByWeek: DataSet[];
   moneyDataByMonth: DataSet[];
 
+  weekData: DataSet[];
+
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  // For testing, initialize these
+  // Initialize to a graph by month (in prod, should probably do by week and then initialize to last 3 months)
   startDate = new FormControl(moment(new Date('01/01/2014')));
   endDate = new FormControl(moment(new Date('09/10/2015')));
-
-  moneyGraphGroupBy: string = "Day";
+  moneyGraphGroupBy: string = "Month";
 
   constructor(private accountManager: AccountmanagerService,) { }
 
@@ -108,30 +117,37 @@ export class PitestComponent implements OnInit {
     await this.thing();
   }
 
-
-  chosenYearHandler(normalizedYear: Moment) {
-    // const ctrlValue = this.date.value;
-    // ctrlValue.year(normalizedYear.year());
-    // this.date.setValue(ctrlValue);
+  startDateChosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.startDate.value;
+    ctrlValue.year(normalizedYear.year());
+    this.startDate.setValue(ctrlValue);
   }
 
-  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
-    // const ctrlValue = this.date.value;
-    // ctrlValue.month(normalizedMonth.month());
-    // this.date.setValue(ctrlValue);
-    // datepicker.close();
+  startDateChosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.startDate.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.startDate.setValue(ctrlValue);
+    datepicker.close();
   }
 
-  chosenDayHandler(normalizedDay: Moment, datepicker: MatDatepicker<Moment>) {
-    // const ctrlValue = this.date.value;
-    // ctrlValue.day(normalizedDay.day());
-    // this.date.setValue(ctrlValue);
-    // datepicker.close();
+  endDateChosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.endDate.value;
+    ctrlValue.year(normalizedYear.year());
+    this.endDate.setValue(ctrlValue);
+  }
+
+  endDateChosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.endDate.value;
+    ctrlValue.month(normalizedMonth.month());
+    this.endDate.setValue(ctrlValue);
+    datepicker.close();
   }
 
   async thing() { 
     console.log("Oh. So you clicked me.");
     console.log(this.startDate.value);
+
+    this.weekData = await this.accountManager.GetAveragesForWeekDays(this.startDate.value.toDate(), this.endDate.value.toDate());
 
     // For some reason the dates don't want to convert coming over, so we have to do it manually
     this.moneyDataByDay = await this.accountManager.GetTransactionDataByDay(this.startDate.value.toDate(), this.endDate.value.toDate());

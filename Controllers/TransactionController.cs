@@ -51,5 +51,26 @@ namespace thing.Controllers
       return Transaction.CreateTransaction(pTran, context);
     }
 
+    // By days
+    [HttpGet]
+    public IEnumerable<DataSet<DateTime>> GetTransactionDataByDays(DateTime startDate, DateTime endDate) {
+      return Transaction.GetTransactionDataByDay(startDate, endDate, context);
+    }
+
+    [HttpGet]
+    public IEnumerable<DataSet<DateTime>> GetTransactionDataByMonths(DateTime startDate, DateTime endDate) {
+      return Transaction.GetTransactionDataByMonth(startDate, endDate, context);
+    }
+
+    [HttpGet]
+    public IEnumerable<DataSet<DateTime>> GetTransactionDataByWeeks(DateTime startDate, DateTime endDate) {
+      return Transaction.GetTransactionDataByWeek(startDate, endDate, context);
+    }
+
+    [HttpGet]
+    public IEnumerable<DataSet<string>> GetAveragesForWeekDays(DateTime startDate, DateTime endDate) {
+      return Transaction.GetAveragesForWeekDays(startDate, endDate, context);
+    }
+
   }
 }

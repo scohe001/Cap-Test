@@ -8,16 +8,17 @@
 
 <mat-sidenav-container>
   <!-- Sidenav -->
-  <mat-sidenav #sidenav [mode]="isBiggerScreen() ? 'over' : 'side'" [(opened)]="opened" [fixedInViewport]="true"
+  <mat-sidenav #sidenav [mode]="isBiggerScreen() ? 'over' : 'push'" [(opened)]="sideNavOpened" [fixedInViewport]="true"
     [fixedTopGap]>
+    <!-- [fixedTopGap]="'65'"> -->
     <mat-nav-list>
-      <a [routerLink]="['/']" mat-list-item>
+      <a [routerLink]="['/']" (click)="closeSideNav()" mat-list-item>
         <mat-icon>dashboard</mat-icon> Dashboard
       </a>
-      <a [routerLink]="['/accounts']" mat-list-item>
+      <a [routerLink]="['/accounts']" (click)="closeSideNav()" mat-list-item>
         <mat-icon>person</mat-icon> Accounts
       </a>
-      <a [routerLink]="['/transactions']" mat-list-item>
+      <a [routerLink]="['/transactions']" (click)="closeSideNav()" mat-list-item>
         <mat-icon>library_books</mat-icon> Transactions
       </a>
     </mat-nav-list>
@@ -34,10 +35,10 @@
     </section>
     -->
 
-    <div [@routeAnimations]="prepareRoute(outlet)" >
-      <router-outlet #outlet="outlet"></router-outlet>
-    </div>
+    <!-- Works, but not in sidenav for some reason :/ -->
+    <!-- <div [@routeAnimations]="prepareRoute(outlet)" > -->
+    <router-outlet #outlet="outlet"></router-outlet>
+    <!-- </div> -->
 
   </mat-sidenav-content>
-
 </mat-sidenav-container>

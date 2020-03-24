@@ -10,6 +10,7 @@ import { slideInAnimation } from './animations';
 })
 export class AppComponent {
   title = 'ClientApp';
+  sideNavOpened: boolean = false;
 
   contructor() { }
 
@@ -22,5 +23,9 @@ export class AppComponent {
   isBiggerScreen() {
     const width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     return (width < 768);
+  }
+
+  closeSideNav() {
+    this.sideNavOpened = false;
   }
 }

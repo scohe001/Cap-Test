@@ -9,6 +9,7 @@ import { interval, Subscription } from 'rxjs';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { TransactionmanagerService } from '../services/transactionmanager.service';
 
 @Component({
   selector: 'app-alltransactiontable',
@@ -35,7 +36,8 @@ export class AlltransactiontableComponent implements OnInit, OnDestroy, AfterVie
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(public accountManager: AccountmanagerService) { }
+  constructor(public accountManager: AccountmanagerService,
+              public transactionManager: TransactionmanagerService) { }
 
   ngOnInit() {
     this.ResetInputs();
@@ -101,7 +103,7 @@ export class AlltransactiontableComponent implements OnInit, OnDestroy, AfterVie
     console.log(this.newTransaction.TransactionType.Id);
     console.log(this.newTransaction.TransactionTypeId);
     // Do the thing!
-    await this.accountManager.AddTransaction(this.newTransaction);
+    await this.transactionManager.AddTransaction(this.newTransaction);
     this.ResetInputs();
     this.RefreshTable();
   }
@@ -122,7 +124,7 @@ export class AlltransactiontableComponent implements OnInit, OnDestroy, AfterVie
 
   private async RefreshTable() {
     this.accountList = await this.accountManager.GetAccounts();
-    this.tranList = await this.accountManager.GetTransactions();
+    this.tranList = await this.transactionManager.GetTransactions();
     // this.accountTableSource.data = this.tranList.slice(0, 20);
     this.accountTableSource.data = this.tranList;
     // console.log('Tran List:');
@@ -130,7 +132,7 @@ export class AlltransactiontableComponent implements OnInit, OnDestroy, AfterVie
   }
 
   private async RefreshDropdowns() {
-    this.transactionTypes = await this.accountManager.GetTransactionTypes();
+    this.transactionTypes = await this.transactionManager.GetTransactionTypes();
     console.log(this.transactionTypes);
   }
 

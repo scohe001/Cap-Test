@@ -4,6 +4,7 @@ import { AccountmanagerService } from '../services/accountmanager.service';
 import { Account } from '../interfaces/account';
 import { MatTableDataSource } from '@angular/material';
 import { Transaction } from '../interfaces/transaction';
+import { TransactionmanagerService } from '../services/transactionmanager.service';
 
 @Component({
   selector: 'app-singleaccount',
@@ -20,7 +21,8 @@ export class SingleaccountComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private accountManager: AccountmanagerService) { }
+    private accountManager: AccountmanagerService,
+    private transactionManager: TransactionmanagerService) { }
 
   async ngOnInit() {
     this.ResetInputs();

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AccountmanagerService } from 'src/app/services/accountmanager.service';
 import { DataSet } from 'src/app/interfaces/graphdata';
+import { TransactionmanagerService } from 'src/app/services/transactionmanager.service';
 
 @Component({
   selector: 'app-tran-history-line-graph',
@@ -17,7 +17,7 @@ export class TranHistoryLineGraphComponent implements OnInit {
   moneyDataByWeek: DataSet[];
   moneyDataByMonth: DataSet[];
 
-  constructor(private accountManager: AccountmanagerService,) { }
+  constructor(private transactionManager: TransactionmanagerService,) { }
 
   //#region INPUT dateRange
 
@@ -43,11 +43,11 @@ export class TranHistoryLineGraphComponent implements OnInit {
     if(!this.startDate || !this.endDate) { return }
 
     // For some reason the dates don't want to convert coming over, so we have to do it manually
-    this.moneyDataByDay = await this.accountManager.GetTransactionDataByDay(this.startDate, this.endDate);
+    this.moneyDataByDay = await this.transactionManager.GetTransactionDataByDay(this.startDate, this.endDate);
     this.moneyDataByDay = this.moneyDataByDay.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
-    this.moneyDataByWeek = await this.accountManager.GetTransactionDataByWeek(this.startDate, this.endDate);
+    this.moneyDataByWeek = await this.transactionManager.GetTransactionDataByWeek(this.startDate, this.endDate);
     this.moneyDataByWeek = this.moneyDataByWeek.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
-    this.moneyDataByMonth = await this.accountManager.GetTransactionDataByMonth(this.startDate, this.endDate);
+    this.moneyDataByMonth = await this.transactionManager.GetTransactionDataByMonth(this.startDate, this.endDate);
     this.moneyDataByMonth = this.moneyDataByMonth.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
   }
 

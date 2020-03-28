@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataPoint } from 'src/app/interfaces/graphdata';
-import { AccountmanagerService } from 'src/app/services/accountmanager.service';
+import { TransactionmanagerService } from 'src/app/services/transactionmanager.service';
 
 @Component({
   selector: 'app-tran-type-pie-chart',
@@ -15,7 +15,7 @@ export class TranTypePieChartComponent implements OnInit {
 
   tranTotals: DataPoint[];
 
-  constructor(private accountManager: AccountmanagerService,) { }
+  constructor(private transactionManager: TransactionmanagerService,) { }
 
   //#region INPUT dateRange
 
@@ -39,7 +39,7 @@ export class TranTypePieChartComponent implements OnInit {
   async refreshData() {
     // Looks like this happens on first launch since we're using setters. This'll prevent nasty errors
     if(!this.startDate || !this.endDate) { return }
-    this.tranTotals = await this.accountManager.GetTransactionTotals(this.startDate, this.endDate);
+    this.tranTotals = await this.transactionManager.GetTransactionTotals(this.startDate, this.endDate);
   }
 
   dollarValueFormat(val: number) : string {

@@ -17,6 +17,7 @@ import { DataSet, DataPoint } from '../interfaces/graphdata';
 // syntax. However, rollup creates a synthetic default module and we thus need to import it using
 // the `default as` syntax.
 import * as _moment from 'moment';
+import { TransactionmanagerService } from '../services/transactionmanager.service';
 
 const moment = _moment;
 type Moment = _moment.Moment;
@@ -85,7 +86,8 @@ export class PitestComponent implements OnInit {
   endDate = new FormControl(moment(new Date('09/10/2015')));
   moneyGraphGroupBy: string = "Month";
 
-  constructor(private accountManager: AccountmanagerService,) { }
+  constructor(private accountManager: AccountmanagerService,
+    private transactionManager: TransactionmanagerService) { }
 
   async ngOnInit() {
     // Populate stuff initially
@@ -119,15 +121,15 @@ export class PitestComponent implements OnInit {
   }
 
   async refreshData() { 
-    this.tranTotals = await this.accountManager.GetTransactionTotals(this.startDate.value.toDate(), this.endDate.value.toDate());
-    this.weekData = await this.accountManager.GetAveragesForWeekDays(this.startDate.value.toDate(), this.endDate.value.toDate());
+    this.tranTotals = await this.transactionManager.GetTransactionTotals(this.startDate.value.toDate(), this.endDate.value.toDate());
+    this.weekData = await this.transactionManager.GetAveragesForWeekDays(this.startDate.value.toDate(), this.endDate.value.toDate());
 
     // For some reason the dates don't want to convert coming over, so we have to do it manually
-    this.moneyDataByDay = await this.accountManager.GetTransactionDataByDay(this.startDate.value.toDate(), this.endDate.value.toDate());
+    this.moneyDataByDay = await this.transactionManager.GetTransactionDataByDay(this.startDate.value.toDate(), this.endDate.value.toDate());
     this.moneyDataByDay = this.moneyDataByDay.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
-    this.moneyDataByWeek = await this.accountManager.GetTransactionDataByWeek(this.startDate.value.toDate(), this.endDate.value.toDate());
+    this.moneyDataByWeek = await this.transactionManager.GetTransactionDataByWeek(this.startDate.value.toDate(), this.endDate.value.toDate());
     this.moneyDataByWeek = this.moneyDataByWeek.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
-    this.moneyDataByMonth = await this.accountManager.GetTransactionDataByMonth(this.startDate.value.toDate(), this.endDate.value.toDate());
+    this.moneyDataByMonth = await this.transactionManager.GetTransactionDataByMonth(this.startDate.value.toDate(), this.endDate.value.toDate());
     this.moneyDataByMonth = this.moneyDataByMonth.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
 
     this.lineData = this.moneyDataByDay;

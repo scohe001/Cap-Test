@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataSet } from 'src/app/interfaces/graphdata';
-import { AccountmanagerService } from 'src/app/services/accountmanager.service';
+import { TransactionmanagerService } from 'src/app/services/transactionmanager.service';
 
 @Component({
   selector: 'app-daily-averages',
@@ -15,7 +15,7 @@ export class DailyAveragesComponent implements OnInit {
 
   weekData: DataSet[];
 
-  constructor(private accountManager: AccountmanagerService,) { }
+  constructor(private transactionManager: TransactionmanagerService,) { }
 
   //#region INPUT dateRange
 
@@ -39,6 +39,6 @@ export class DailyAveragesComponent implements OnInit {
   async refreshData() {
     // Looks like this happens on first launch since we're using setters. This'll prevent nasty errors
     if(!this.startDate || !this.endDate) { return }
-    this.weekData = await this.accountManager.GetAveragesForWeekDays(this.startDate, this.endDate);
+    this.weekData = await this.transactionManager.GetAveragesForWeekDays(this.startDate, this.endDate);
   }
 }

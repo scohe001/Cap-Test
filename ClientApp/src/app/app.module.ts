@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsertableComponent } from './usertable/usertable.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AccountmanagerService } from './accountmanager.service'
+import { AccountmanagerService } from './services/accountmanager.service'
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';

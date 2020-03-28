@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Account } from './interfaces/account';
-import { Transaction } from './interfaces/transaction';
-import { TransactionType } from './interfaces/transactiontype';
-import { DataSet, DataPoint } from './interfaces/graphdata';
+import { Account } from '../interfaces/account';
+import { Transaction } from '../interfaces/transaction';
+import { TransactionType } from '../interfaces/transactiontype';
+import { DataSet, DataPoint } from '../interfaces/graphdata';
 
 @Injectable({
   providedIn: 'root'

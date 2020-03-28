@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AccountmanagerService } from '../accountmanager.service';
+import { AccountmanagerService } from '../services/accountmanager.service';
 import { Account } from '../interfaces/account';
 
 @Component({

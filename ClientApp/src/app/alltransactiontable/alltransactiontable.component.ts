@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit } from '@angular/core';
-import { AccountmanagerService } from '../accountmanager.service';
+import { AccountmanagerService } from '../services/accountmanager.service';
 import { TestBed } from '@angular/core/testing';
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';

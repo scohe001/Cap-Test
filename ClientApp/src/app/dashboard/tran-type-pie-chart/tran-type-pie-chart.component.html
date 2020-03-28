@@ -1,0 +1,13 @@
+<button mat-stroked-button color="primary" (click)="refreshData()">Tran Type Testing</button>
+<br><br>
+
+<!-- <div *ngIf="tranTotals"> -->
+
+<ngx-charts-advanced-pie-chart
+  [view]="view"
+  [scheme]="colorScheme"
+  [gradient]="gradient"
+  [valueFormatting]="dollarValueFormat"
+  [results]="tranTotals"
+  >
+</ngx-charts-advanced-pie-chart>

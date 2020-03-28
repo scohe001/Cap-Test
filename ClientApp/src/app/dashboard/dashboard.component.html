@@ -1,0 +1,21 @@
+<h2>Dashboard</h2>
+
+<button mat-stroked-button color="primary" (click)="thing()">Dashboard Testing</button>
+
+<app-tran-type-pie-chart
+    [startDate]="startDate"
+    [endDate]="endDate"
+    [colorScheme]="colorScheme">
+</app-tran-type-pie-chart>
+
+<app-tran-history-line-graph
+    [startDate]="startDate"
+    [endDate]="endDate"
+    [colorScheme]="colorScheme">
+</app-tran-history-line-graph>
+
+<app-daily-averages
+    [startDate]="startDate"
+    [endDate]="endDate"
+    [colorScheme]="colorScheme">
+</app-daily-averages>

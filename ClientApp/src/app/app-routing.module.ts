@@ -6,7 +6,7 @@ import { AlltransactiontableComponent } from './alltransactiontable/alltransacti
 import { SingleaccountComponent } from './singleaccount/singleaccount.component';
 import { AppComponent } from './app.component';
 import { AccountPathUpdaterComponent } from './account-path-updater/account-path-updater.component';
-import { PitestComponent } from './pitest/pitest.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: 'a/:id', redirectTo: '/account/:id', pathMatch: 'full' },
   { path: 'account/:id/:name', component: SingleaccountComponent, data: {animation: 'SingleAccount'} },
   { path: 'a/:id/:name', redirectTo: '/account/:id/:name', pathMatch: 'full' },
-  { path: '**', component: PitestComponent },
+  { path: '**', component: DashboardComponent },
 ];
 
 @NgModule({

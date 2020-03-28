@@ -1,0 +1,19 @@
+<button mat-stroked-button color="primary" (click)="refreshData()">Daily Avgs Testing</button>
+<br><br>
+
+<ngx-charts-bar-vertical-2d
+  [roundEdges]="false"
+  [view]="view"
+  [scheme]="colorScheme"
+  [gradient]="'false'"
+  [xAxis]="'true'"
+  [yAxis]="'true'"
+  [legend]="'true'"
+  [showXAxisLabel]="'true'"
+  [showYAxisLabel]="'true'"
+  [xAxisLabel]="'Day'"
+  [yAxisLabel]="'Average Value'"
+  [legendTitle]="'Legend'"
+  [results]="weekData"
+  >
+</ngx-charts-bar-vertical-2d>

@@ -1,0 +1,24 @@
+<button mat-stroked-button color="primary" (click)="refreshData()">Tran History Testing</button>
+<br><br>
+
+<mat-radio-group aria-label="Group data by..." [(ngModel)]="moneyGraphGroupBy" (click)="groupByChanged($event)">
+  <mat-radio-button value="Day">Day</mat-radio-button>
+  <mat-radio-button value="Week">Week</mat-radio-button>
+  <mat-radio-button value="Month">Month</mat-radio-button>
+</mat-radio-group>
+
+<ngx-charts-line-chart
+  [view]="view"
+  [scheme]="colorScheme"
+  [legend]="'true'"
+  [showXAxisLabel]="'true'"
+  [showYAxisLabel]="'true'"
+  [xAxis]="'true'"
+  [yAxis]="'true'"
+  [xAxisLabel]="'Month'"
+  [yAxisLabel]="'Amount ($)'"
+  [timeline]="'true'"
+  [results]="moneyGraphGroupBy === 'Day' ? moneyDataByDay : moneyGraphGroupBy === 'Week' ? moneyDataByWeek : moneyDataByMonth"
+  (select)="onSelect($event)"
+  >
+</ngx-charts-line-chart>

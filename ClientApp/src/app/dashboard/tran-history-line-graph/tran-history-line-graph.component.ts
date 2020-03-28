@@ -19,34 +19,19 @@ export class TranHistoryLineGraphComponent implements OnInit {
 
   constructor(private accountManager: AccountmanagerService,) { }
 
-  //#region INPUT startDate
-  private _startDate: Date;
+  //#region INPUT dateRange
 
-  get startDate(): Date { 
-    return this._startDate;
-  }
-  
+  private startDate: Date;
+  private endDate: Date;
+
   @Input()
-  set startDate(val: Date) {
-    this._startDate = val;
+  set dateRange(val: [Date, Date]) {
+    if(!val || val == null) { return; }
+    this.startDate = val[0];
+    this.endDate = val[1];
     this.refreshData();
   }
-  //#endregion
-
-  //#region INPUT endDate
-
-  private _endDate: Date;
-
-  get endDate(): Date { 
-    return this._endDate;
-  }
   
-  @Input()
-  set endDate(val: Date) {
-    this._endDate = val;
-    this.refreshData();
-  }
-
   //#endregion
 
   ngOnInit() {

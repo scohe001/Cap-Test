@@ -17,8 +17,7 @@ export class DashboardComponent implements OnInit {
 
   // startDate = new FormControl(moment(new Date('01/01/2014')));
   // endDate = new FormControl(moment(new Date('09/10/2015')));
-  startDate =  new Date('01/01/2014');
-  endDate = new Date('09/10/2015');
+  private dateRange: [Date, Date] = [new Date('01/01/2014'), new Date('09/10/2015')];
 
   constructor() { }
 
@@ -26,10 +25,10 @@ export class DashboardComponent implements OnInit {
   }
 
   thing() {
-    if(this.startDate > new Date('06/06/2014')) {
-      this.startDate = new Date('01/01/2014');
+    if(this.dateRange[0] > new Date('06/06/2014')) {
+      this.dateRange = [new Date('01/01/2014'), new Date('09/10/2015')];
     } else {
-      this.startDate = new Date('01/01/2015');
+      this.dateRange = [new Date('01/01/2015'), new Date('09/10/2015')];
     }
   }
 

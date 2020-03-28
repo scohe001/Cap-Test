@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataPoint } from 'src/app/interfaces/graphdata';
-import { AccountmanagerService } from 'src/app/accountmanager.service';
+import { AccountmanagerService } from 'src/app/services/accountmanager.service';
 
 @Component({
   selector: 'app-tran-type-pie-chart',

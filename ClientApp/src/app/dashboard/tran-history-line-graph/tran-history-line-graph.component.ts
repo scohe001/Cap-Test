@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AccountmanagerService } from 'src/app/accountmanager.service';
+import { AccountmanagerService } from 'src/app/services/accountmanager.service';
 import { DataSet } from 'src/app/interfaces/graphdata';
 
 @Component({

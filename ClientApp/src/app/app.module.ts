@@ -16,6 +16,7 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
           MatListModule, MatGridListModule, } from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AlltransactiontableComponent } from './alltransactiontable/alltransactiontable.component';
 import { SingleaccountComponent } from './singleaccount/singleaccount.component';
@@ -66,6 +67,7 @@ import { TranHistoryLineGraphComponent } from './dashboard/tran-history-line-gra
     MatGridListModule,
     FormsModule,
     NgxChartsModule,
+    BsDatepickerModule.forRoot(),
   ],
   providers: [
     AccountmanagerService,

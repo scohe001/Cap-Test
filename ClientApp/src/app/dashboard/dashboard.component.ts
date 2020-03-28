@@ -15,9 +15,10 @@ export class DashboardComponent implements OnInit {
     domain: ['#8CB369', '#F4A259', '#BC4B51', '#5B8E7D']
   };
 
-  // startDate = new FormControl(moment(new Date('01/01/2014')));
-  // endDate = new FormControl(moment(new Date('09/10/2015')));
+  // Initialize to some nice dates (in prod, should probably do by week and then initialize to last 3 months)
   private dateRange: [Date, Date] = [new Date('01/01/2014'), new Date('09/10/2015')];
+
+  private dateRangeVal: Date[]; // Going to be unused, but leaving it just in case
 
   constructor() { }
 
@@ -30,6 +31,11 @@ export class DashboardComponent implements OnInit {
     } else {
       this.dateRange = [new Date('01/01/2015'), new Date('09/10/2015')];
     }
+  }
+
+  dateRangeValChange(range: Date[]) {
+    if(!range || range == null || range.length < 2) { return; }
+    this.dateRange = [range[0], range[1]];
   }
 
 }

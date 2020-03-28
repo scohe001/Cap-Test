@@ -1,18 +1,39 @@
 <h2>Dashboard</h2>
 
 <button mat-stroked-button color="primary" (click)="thing()">Dashboard Testing</button>
+<br><br>
 
-<app-tran-type-pie-chart
-    [dateRange]="dateRange"
-    [colorScheme]="colorScheme">
-</app-tran-type-pie-chart>
+<h3>Select Date Range</h3>
+<div class="row">
+  <div class="col-xs-12 col-12 col-md-4 form-group">
+    <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRangeVal" (bsValueChange)="dateRangeValChange($event)">
+  </div>
+  <div class="col-xs-12 col-12 col-md-3 form-group">
+    <button class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">Date Range Picker</button>
+  </div>
+</div>
 
-<app-tran-history-line-graph
-    [dateRange]="dateRange"
-    [colorScheme]="colorScheme">
-</app-tran-history-line-graph>
+<div class="dash-content">
+  
+  <div class="row">
+    <app-tran-type-pie-chart
+        [dateRange]="dateRange"
+        [colorScheme]="colorScheme">
+    </app-tran-type-pie-chart>
+  </div>
+  
+  <div class="row">
+    <app-tran-history-line-graph
+        [dateRange]="dateRange"
+        [colorScheme]="colorScheme">
+    </app-tran-history-line-graph>
+  </div>
+  
+  <div class="row">
+    <app-daily-averages
+        [dateRange]="dateRange"
+        [colorScheme]="colorScheme">
+    </app-daily-averages>
+  </div>
 
-<app-daily-averages
-    [dateRange]="dateRange"
-    [colorScheme]="colorScheme">
-</app-daily-averages>
+</div>

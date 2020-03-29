@@ -12,6 +12,7 @@ export class AppComponent {
   title = 'ClientApp';
   sideNavOpened: boolean = true;
   sideNavExpanded: boolean = true;
+  versionNum: string = "V1.4.19";
 
   sideNavOptions: SideNavOption[] = [
       {link: '/dashboard', icon: 'dashboard', name: 'Dashboard'},

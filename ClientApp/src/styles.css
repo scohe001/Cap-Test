@@ -30,7 +30,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --sidenav-header-background: steelblue;
   --sidenav-header-hover-background: #3b6080;
   --content-backdrop: #ecf0f5;
-  --content-background: ghostwhite;
+  --content-background: #fff;
   --sidenav-expanded-width: 150px;
   --sidenav-contracted-width: 55px;
 }
@@ -39,4 +39,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: var(--content-background);
   margin: 15px;
   width: initial;
+}
+
+.footer {
+  /* position: absolute; */
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  line-height: 40px;
+  background-color: var(--content-background);
+}
+
+.footer-right {
+  text-align: right;
+  margin-bottom: 0px;
+  margin-right: 15px;
+  font-size: 10pt;
 }

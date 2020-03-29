@@ -27,6 +27,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { DailyAveragesComponent } from './dashboard/daily-averages/daily-averages.component';
 import { TranTypePieChartComponent } from './dashboard/tran-type-pie-chart/tran-type-pie-chart.component';
 import { TranHistoryLineGraphComponent } from './dashboard/tran-history-line-graph/tran-history-line-graph.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { TranHistoryLineGraphComponent } from './dashboard/tran-history-line-gra
     DailyAveragesComponent,
     TranTypePieChartComponent,
     TranHistoryLineGraphComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

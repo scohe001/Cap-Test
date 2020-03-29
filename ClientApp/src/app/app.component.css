@@ -6,18 +6,31 @@
 }
 
 .main-sidenav {
-    background-color: #222d32;
+    background-color: var(--sidenav-background);
 }
 
-.sidenav-item {
+.nav-icon {
+    margin-right: 5px;
+}
+
+.sidenav-item, .sidenav-item svg {
     color: var(--sidenav-text-color);
+    background-color: var(--sidenav-background);
 }
 
-.sidenav-item svg {
-    fill: var(--sidenav-text-color);
+.sidenav-item:hover, .sidenav-item:hover svg, .active-sidenav-item:hover, .active-sidenav-item:hover svg {
+    color: var(--sidenav-hover-text-color);
+    background-color: var(--sidenav-hover-background);
+}
+
+/* TODO: Might want to do something different for chosen item */
+.active-sidenav-item, .active-sidenav-item svg, .active-sidenav-item:focus, .active-sidenav-item:focus svg {
+    color: var(--sidenav-hover-text-color);
+    background-color: var(--sidenav-hover-background);
 }
 
 .sidenav-header {
+    color: var(--sidenav-hover-text-color);
     background-color: var(--sidenav-header-background);
 }
 
@@ -25,18 +38,31 @@
     background-color: var(--content-backdrop);
 }
 
-.main-content-expanded {
-    margin-left: var(--sidenav-expanded-width);
+
+.header-content-contracted {
+    padding-left: calc(var(--sidenav-contracted-width) - 16px);
 }
+
+.header-content-expanded {
+    padding-left: calc(var(--sidenav-expanded-width) - 16px) !important;
+} 
 
 .main-content-contracted {
     margin-left: var(--sidenav-contracted-width) !important;
 }
 
-.header-content-expanded {
-    padding-left: var(--sidenav-expanded-width) !important;
-} 
+.main-content-expanded {
+    margin-left: var(--sidenav-expanded-width);
+}
 
-.header-content-contracted {
-    padding-left: var(--sidenav-contracted-width);
+
+.nav-tool-items {
+    cursor: pointer;
+    height: 100%;
+    padding: 16px;
+    display: block;
+}
+
+.nav-tool-items-butt:hover {
+    background-color: var(--sidenav-header-hover-background);
 }

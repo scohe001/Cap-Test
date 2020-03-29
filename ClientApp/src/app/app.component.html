@@ -1,9 +1,8 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header main-toolbar">
   <div [ngClass]="sideNavExpanded ? 'header-content-expanded' : 'header-content-contracted'">
-    <!-- <div>Credit Cache</div> -->
-    <span class="nav-tool-items">
-      <mat-icon (click)="toggleSideNavSize()" class="hamburger">menu</mat-icon>
+    <span class="nav-tool-items nav-tool-items-butt" (click)="toggleSideNavSize()">
+      <mat-icon>menu</mat-icon>
     </span>
   </div>
 </mat-toolbar>
@@ -24,22 +23,27 @@
     [fixedTopGap]>
 
     <mat-toolbar class="sidenav-header">
-      <span class="sidenav-item" *ngIf="sideNavExpanded">Credit Cache</span>
-      <span class="sidenav-item" *ngIf="!sideNavExpanded">CC</span>
+      <span *ngIf="sideNavExpanded">Credit Cache</span>
+      <span *ngIf="!sideNavExpanded">CC</span>
     </mat-toolbar>
     <mat-nav-list>
       <!--TODO: Remember that this will only be for non-mobile. Once the screen size gets
                 reasonably tiny, we'll need to switch to a "push" sidenav that actually closes.
                 Essentially, this all needs to be made responsive. Bleh.
       -->
-      <a [routerLink]="['/']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon class="sidenav-item">dashboard</mat-icon> <span class="sidenav-item" *ngIf="sideNavExpanded">Dashboard</span>
-      </a>
-      <a [routerLink]="['/accounts']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon class="sidenav-item">person</mat-icon> <span class="sidenav-item" *ngIf="sideNavExpanded">Accounts</span>
-      </a>
-      <a [routerLink]="['/transactions']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon class="sidenav-item">library_books</mat-icon> <span class="sidenav-item" *ngIf="sideNavExpanded">Transactions</span>
+      <!--Nav Options-->
+      <a
+        mat-list-item
+        *ngFor="let navOption of sideNavOptions"
+        [routerLink]="[navOption['link']]"
+        (click)="closeSideNav()"
+        [routerLinkActiveOptions]="{exact: true}"
+        routerLinkActive
+        #rla="routerLinkActive" 
+        [ngClass]="rla.isActive ? 'active-sidenav-item' : 'sidenav-item'">
+
+        <mat-icon class="nav-icon"> {{navOption['icon']}} </mat-icon>
+        <span *ngIf="sideNavExpanded"> {{navOption['name']}} </span>
       </a>
     </mat-nav-list>
   </mat-sidenav>

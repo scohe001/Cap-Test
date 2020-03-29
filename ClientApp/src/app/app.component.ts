@@ -13,6 +13,14 @@ export class AppComponent {
   sideNavOpened: boolean = true;
   sideNavExpanded: boolean = true;
 
+  sideNavOptions: SideNavOption[] = [
+      {link: '/dashboard', icon: 'dashboard', name: 'Dashboard'},
+      {link: '/accounts', icon: 'person', name: 'Customers'},
+      {link: '/transactions', icon: 'library_books', name: 'Transactions'},
+      {link: '/', icon: 'settings', name: 'Preferences'},
+      {link: '/', icon: 'help', name: 'Help'},
+      ]
+
   contructor() { }
 
   prepareRoute(outlet: RouterOutlet) {
@@ -33,4 +41,10 @@ export class AppComponent {
   closeSideNav() {
     // this.sideNavOpened = false;
   }
+}
+
+class SideNavOption {
+  link: string;
+  icon: string;
+  name: string;
 }

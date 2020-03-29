@@ -7,6 +7,7 @@ import { SingleaccountComponent } from './singleaccount/singleaccount.component'
 import { AppComponent } from './app.component';
 import { AccountPathUpdaterComponent } from './account-path-updater/account-path-updater.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,9 @@ const routes: Routes = [
   { path: 'a/:id', redirectTo: '/account/:id', pathMatch: 'full' },
   { path: 'account/:id/:name', component: SingleaccountComponent, data: {animation: 'SingleAccount'} },
   { path: 'a/:id/:name', redirectTo: '/account/:id/:name', pathMatch: 'full' },
-  { path: '**', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

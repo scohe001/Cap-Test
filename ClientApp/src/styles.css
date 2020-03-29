@@ -23,12 +23,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 :root {
-  --sidenav-text-color: ghostwhite;
+  --sidenav-text-color: lightgray;
+  --sidenav-hover-text-color: ghostwhite;
+  --sidenav-background: #222d32;
+  --sidenav-hover-background: #465c66;
   --sidenav-header-background: steelblue;
+  --sidenav-header-hover-background: #3b6080;
   --content-backdrop: #ecf0f5;
   --content-background: ghostwhite;
   --sidenav-expanded-width: 150px;
-  --sidenav-contracted-width: 50px;
+  --sidenav-contracted-width: 55px;
 }
 
 .content-item {

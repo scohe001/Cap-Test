@@ -14,7 +14,7 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule,
           MatBadgeModule, MatRippleModule, MatPaginatorModule, MatIconModule,
           MatPaginatorIntl, MatDatepickerModule, MatRadioModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
-          MatListModule, MatGridListModule, } from '@angular/material';
+          MatListModule, MatGridListModule, MatCardModule,} from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -67,6 +67,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatDividerModule,
     MatListModule,
     MatGridListModule,
+    MatCardModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),

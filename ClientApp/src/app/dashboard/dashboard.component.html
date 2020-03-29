@@ -1,4 +1,4 @@
-<div class="content-item">
+<mat-card class="content-item">
 
   <h2>Dashboard</h2>
   
@@ -15,29 +15,35 @@
     </div>
   </div>
 
-</div>
+</mat-card>
 
 <div class="dash-content">
   
-  <div class="row content-item">
-    <app-tran-type-pie-chart
-        [dateRange]="dateRange"
-        [colorScheme]="colorScheme">
-    </app-tran-type-pie-chart>
-  </div>
+  <mat-card class="content-item">
+    <div class="row">
+      <app-tran-type-pie-chart
+          [dateRange]="dateRange"
+          [colorScheme]="colorScheme">
+      </app-tran-type-pie-chart>
+    </div>
+  </mat-card>
   
-  <div class="row content-item">
-    <app-tran-history-line-graph
-        [dateRange]="dateRange"
-        [colorScheme]="colorScheme">
-    </app-tran-history-line-graph>
-  </div>
+  <mat-card class="content-item">
+    <div class="row">
+      <app-tran-history-line-graph
+          [dateRange]="dateRange"
+          [colorScheme]="colorScheme">
+      </app-tran-history-line-graph>
+    </div>
+  </mat-card>
   
-  <div class="row content-item">
-    <app-daily-averages
-        [dateRange]="dateRange"
-        [colorScheme]="colorScheme">
-    </app-daily-averages>
-  </div>
+  <mat-card class="content-item">
+    <div class="row">
+      <app-daily-averages
+          [dateRange]="dateRange"
+          [colorScheme]="colorScheme">
+      </app-daily-averages>
+    </div>
+  </mat-card>
 
 </div>

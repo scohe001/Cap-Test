@@ -1,4 +1,18 @@
-import { trigger, transition, style, query, animateChild, group, animate } from '@angular/animations';
+import { trigger, transition, style, state, query, animateChild, group, animate } from '@angular/animations';
+
+export const sideNavAnimation =
+  trigger('sideNavAnimation', [
+    state('expanded', style({
+      width: 'var(--sidenav-expanded-width)',
+    })),
+    state('contracted', style({
+      width: 'var(--sidenav-contracted-width)',
+    })),
+    transition('expanded <=> contracted', [
+      // Make things nice and snappy with the bezier
+      animate('300ms cubic-bezier(0.680, -0.550, 0.265, 1.550)')
+    ]),
+  ]);
 
 export const slideInAnimation =
   trigger('routeAnimations', [

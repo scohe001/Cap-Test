@@ -1,53 +1,51 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header main-toolbar">
-  <div class="header-content">
+  <div [ngClass]="sideNavExpanded ? 'header-content-expanded' : 'header-content-contracted'">
     <!-- <div>Credit Cache</div> -->
     <span class="nav-tool-items">
-      <mat-icon (click)="sidenav.toggle()" class="hamburger">menu</mat-icon>
+      <mat-icon (click)="toggleSideNavSize()" class="hamburger">menu</mat-icon>
     </span>
   </div>
 </mat-toolbar>
 
+<!-- Sidenav -->
 <mat-sidenav-container>
-  <!-- Sidenav -->
   <!--
   <mat-sidenav #sidenav [mode]="isBiggerScreen() ? 'over' : 'push'" [(opened)]="sideNavOpened" [fixedInViewport]="true"
     [fixedTopGap]>
   -->
-  <mat-sidenav #sidenav [mode]="'side'" [(opened)]="sideNavOpened" [fixedInViewport]="true" class="main-sidenav"
+  <mat-sidenav
+    #sidenav
+    [mode]="'side'"
+    [(opened)]="sideNavOpened"
+    [fixedInViewport]="true"
+    class="main-sidenav"
+    [@sideNavAnimation]="sideNavExpanded ? 'expanded' : 'contracted'"
     [fixedTopGap]>
-    <mat-toolbar>
-      <span>Credit Cache</span>
+
+    <mat-toolbar class="sidenav-header">
+      <span class="sidenav-item" *ngIf="sideNavExpanded">Credit Cache</span>
+      <span class="sidenav-item" *ngIf="!sideNavExpanded">CC</span>
     </mat-toolbar>
-    <!-- [fixedTopGap]="'65'"> -->
     <mat-nav-list>
-      <!--TODO: Sitck the span's with NgIf's that trigger if we're showing the "big" sidenav
-                  and do something similar with the mat-toolbar above this (display CC instead
-                  of the full "Credit Cache" if we're "small" version). Lastly, shrink the size
-                  of the sidenav to fit the new just icons stuff and animate it (see rpi).
+      <!--TODO: Remember that this will only be for non-mobile. Once the screen size gets
+                reasonably tiny, we'll need to switch to a "push" sidenav that actually closes.
+                Essentially, this all needs to be made responsive. Bleh.
       -->
       <a [routerLink]="['/']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon class="sidenav-item">dashboard</mat-icon> <span class="sidenav-item">Dashboard</span>
+        <mat-icon class="sidenav-item">dashboard</mat-icon> <span class="sidenav-item" *ngIf="sideNavExpanded">Dashboard</span>
       </a>
       <a [routerLink]="['/accounts']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon class="sidenav-item">person</mat-icon> <span class="sidenav-item">Accounts</span>
+        <mat-icon class="sidenav-item">person</mat-icon> <span class="sidenav-item" *ngIf="sideNavExpanded">Accounts</span>
       </a>
       <a [routerLink]="['/transactions']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon class="sidenav-item">library_books</mat-icon> <span class="sidenav-item">Transactions</span>
+        <mat-icon class="sidenav-item">library_books</mat-icon> <span class="sidenav-item" *ngIf="sideNavExpanded">Transactions</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
   <!-- Main content -->
-  <mat-sidenav-content>
-
-    <!--
-    Applying the mat-tyography class adds styles for native elements.
-    <section class="mat-typography title-group">
-      <h1>Heading Goes Here</h1>
-      <mat-divider></mat-divider>
-    </section>
-    -->
+  <mat-sidenav-content [ngClass]="sideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
 
     <!-- Works, but not in sidenav for some reason :/ -->
     <!-- <div [@routeAnimations]="prepareRoute(outlet)" > -->
@@ -55,4 +53,5 @@
     <!-- </div> -->
 
   </mat-sidenav-content>
+
 </mat-sidenav-container>

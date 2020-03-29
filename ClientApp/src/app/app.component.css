@@ -1,5 +1,8 @@
 .header-content {
-    padding-left: 150px;
+}
+
+.main-toolbar {
+    background-color: var(--sidenav-header-background);
 }
 
 .main-sidenav {
@@ -7,9 +10,33 @@
 }
 
 .sidenav-item {
-    color: ghostwhite;
+    color: var(--sidenav-text-color);
 }
 
 .sidenav-item svg {
-    fill: ghostwhite;
+    fill: var(--sidenav-text-color);
+}
+
+.sidenav-header {
+    background-color: var(--sidenav-header-background);
+}
+
+.main-content {
+    background-color: var(--content-backdrop);
+}
+
+.main-content-expanded {
+    margin-left: var(--sidenav-expanded-width);
+}
+
+.main-content-contracted {
+    margin-left: var(--sidenav-contracted-width) !important;
+}
+
+.header-content-expanded {
+    padding-left: var(--sidenav-expanded-width) !important;
+} 
+
+.header-content-contracted {
+    padding-left: var(--sidenav-contracted-width);
 }

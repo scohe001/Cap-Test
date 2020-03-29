@@ -10,7 +10,7 @@ import { slideInAnimation } from './animations';
 })
 export class AppComponent {
   title = 'ClientApp';
-  sideNavOpened: boolean = false;
+  sideNavOpened: boolean = true;
 
   contructor() { }
 
@@ -26,6 +26,6 @@ export class AppComponent {
   }
 
   closeSideNav() {
-    this.sideNavOpened = false;
+    // this.sideNavOpened = false;
   }
 }

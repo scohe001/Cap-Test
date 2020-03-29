@@ -1,25 +1,39 @@
 <!-- Toolbar -->
-<mat-toolbar color="primary" class="header">
-  <div>Credit Cache</div>
-  <span class="nav-tool-items">
-    <mat-icon (click)="sidenav.toggle()" class="hamburger">menu</mat-icon>
-  </span>
+<mat-toolbar color="primary" class="header main-toolbar">
+  <div class="header-content">
+    <!-- <div>Credit Cache</div> -->
+    <span class="nav-tool-items">
+      <mat-icon (click)="sidenav.toggle()" class="hamburger">menu</mat-icon>
+    </span>
+  </div>
 </mat-toolbar>
 
 <mat-sidenav-container>
   <!-- Sidenav -->
+  <!--
   <mat-sidenav #sidenav [mode]="isBiggerScreen() ? 'over' : 'push'" [(opened)]="sideNavOpened" [fixedInViewport]="true"
     [fixedTopGap]>
+  -->
+  <mat-sidenav #sidenav [mode]="'side'" [(opened)]="sideNavOpened" [fixedInViewport]="true" class="main-sidenav"
+    [fixedTopGap]>
+    <mat-toolbar>
+      <span>Credit Cache</span>
+    </mat-toolbar>
     <!-- [fixedTopGap]="'65'"> -->
     <mat-nav-list>
+      <!--TODO: Sitck the span's with NgIf's that trigger if we're showing the "big" sidenav
+                  and do something similar with the mat-toolbar above this (display CC instead
+                  of the full "Credit Cache" if we're "small" version). Lastly, shrink the size
+                  of the sidenav to fit the new just icons stuff and animate it (see rpi).
+      -->
       <a [routerLink]="['/']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon>dashboard</mat-icon> Dashboard
+        <mat-icon class="sidenav-item">dashboard</mat-icon> <span class="sidenav-item">Dashboard</span>
       </a>
       <a [routerLink]="['/accounts']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon>person</mat-icon> Accounts
+        <mat-icon class="sidenav-item">person</mat-icon> <span class="sidenav-item">Accounts</span>
       </a>
       <a [routerLink]="['/transactions']" (click)="closeSideNav()" mat-list-item>
-        <mat-icon>library_books</mat-icon> Transactions
+        <mat-icon class="sidenav-item">library_books</mat-icon> <span class="sidenav-item">Transactions</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>

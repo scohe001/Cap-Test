@@ -1,0 +1,15 @@
+.header-content {
+    padding-left: 150px;
+}
+
+.main-sidenav {
+    background-color: #222d32;
+}
+
+.sidenav-item {
+    color: ghostwhite;
+}
+
+.sidenav-item svg {
+    fill: ghostwhite;
+}

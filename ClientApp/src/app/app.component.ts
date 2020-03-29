@@ -17,6 +17,7 @@ export class AppComponent {
       {link: '/dashboard', icon: 'dashboard', name: 'Dashboard'},
       {link: '/accounts', icon: 'person', name: 'Customers'},
       {link: '/transactions', icon: 'library_books', name: 'Transactions'},
+      {link: '/', icon: 'cloud_download', name: 'Download'},
       {link: '/', icon: 'settings', name: 'Preferences'},
       {link: '/', icon: 'help', name: 'Help'},
       ]

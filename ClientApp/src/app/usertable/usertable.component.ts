@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener } from '@angular/core';
 import { AccountmanagerService } from '../services/accountmanager.service';
-import { TestBed } from '@angular/core/testing';
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionType } from '../interfaces/transactiontype';
@@ -10,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { ResponsiveService } from '../services/responsive.service';
 
 @Component({
   selector: 'app-usertable',
@@ -44,7 +44,8 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(public accountManager: AccountmanagerService,
-              private router: Router) { }
+              private router: Router,
+              private responsiveManager: ResponsiveService) { }
 
   ngOnInit() {
     this.ResetInputs();
@@ -58,6 +59,19 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
       return acct[sortHeader].toLowerCase(); // Ignore case on the sorting
     };
     this.accountTableSource.sort = this.sort;
+
+    this.responsiveManager.onResize$.subscribe((newWidth: number) => {
+      console.log(newWidth);
+      // if(newWidth < 275) {
+      if(newWidth < 525) {
+        this.displayedColumns = ['FirstName', 'LastName'];
+      // } else if(newWidth < 400) {
+      } else if(newWidth < 650) {
+        this.displayedColumns = ['FirstName', 'LastName', 'Actions'];
+      } else {
+        this.displayedColumns = ['FirstName', 'LastName', 'PhoneNumber', 'Actions'];
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -70,6 +84,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   async thing() {
+    window.dispatchEvent(new Event('resize'));
     console.log('Account List:');
     console.log(this.accountList);
     console.log('Inner Width:');

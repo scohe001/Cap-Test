@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DailyAveragesComponent } from './daily-averages/daily-averages.component';
+import { ResponsiveService } from '../services/responsive.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,17 +21,22 @@ export class DashboardComponent implements OnInit {
 
   private dateRangeVal: Date[]; // Going to be unused, but leaving it just in case
 
-  constructor() { }
+  constructor(private responsiveManager: ResponsiveService) { }
 
   ngOnInit() {
+    this.responsiveManager.onResize$.subscribe((newWidth: number) => {
+      console.log("Resized!", newWidth);
+    });
   }
 
   thing() {
-    if(this.dateRange[0] > new Date('06/06/2014')) {
-      this.dateRange = [new Date('01/01/2014'), new Date('09/10/2015')];
-    } else {
-      this.dateRange = [new Date('01/01/2015'), new Date('09/10/2015')];
-    }
+    // console.log(this.responsiveManager.Width);
+
+    // if(this.dateRange[0] > new Date('06/06/2014')) {
+    //   this.dateRange = [new Date('01/01/2014'), new Date('09/10/2015')];
+    // } else {
+    //   this.dateRange = [new Date('01/01/2015'), new Date('09/10/2015')];
+    // }
   }
 
   dateRangeValChange(range: Date[]) {

@@ -1,6 +1,6 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header main-toolbar">
-  <div [ngClass]="sideNavExpanded ? 'header-content-expanded' : 'header-content-contracted'">
+  <div [ngClass]="responsiveManager.isSideNavExpanded ? 'header-content-expanded' : 'header-content-contracted'">
     <span class="nav-tool-items nav-tool-items-butt" (click)="toggleSideNavSize()">
       <mat-icon>menu</mat-icon>
     </span>
@@ -19,12 +19,12 @@
     [(opened)]="sideNavOpened"
     [fixedInViewport]="true"
     class="main-sidenav"
-    [@sideNavAnimation]="sideNavExpanded ? 'expanded' : 'contracted'"
+    [@sideNavAnimation]="responsiveManager.isSideNavExpanded ? 'expanded' : 'contracted'"
     [fixedTopGap]>
 
     <mat-toolbar class="sidenav-header">
-      <span *ngIf="sideNavExpanded">Credit Cache</span>
-      <span *ngIf="!sideNavExpanded">CC</span>
+      <span *ngIf="responsiveManager.isSideNavExpanded">Credit Cache</span>
+      <span *ngIf="!responsiveManager.isSideNavExpanded">CC</span>
     </mat-toolbar>
     <mat-nav-list>
       <!--TODO: Remember that this will only be for non-mobile. Once the screen size gets
@@ -43,13 +43,13 @@
         [ngClass]="rla.isActive ? 'active-sidenav-item' : 'sidenav-item'">
 
         <mat-icon class="nav-icon"> {{navOption['icon']}} </mat-icon>
-        <span *ngIf="sideNavExpanded"> {{navOption['name']}} </span>
+        <span *ngIf="responsiveManager.isSideNavExpanded"> {{navOption['name']}} </span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
 
   <!-- Main content -->
-  <mat-sidenav-content [ngClass]="sideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
+  <mat-sidenav-content [ngClass]="responsiveManager.isSideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
 
     <!-- Works, but not in sidenav for some reason :/ -->
     <!-- <div [@routeAnimations]="prepareRoute(outlet)" > -->

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation, sideNavAnimation } from './animations';
+import { ResponsiveService } from './services/responsive.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,10 @@ import { slideInAnimation, sideNavAnimation } from './animations';
   styleUrls: ['./app.component.css'],
   animations: [slideInAnimation, sideNavAnimation],
 })
-export class AppComponent {
+export class AppComponent implements AfterViewChecked {
   title = 'ClientApp';
   sideNavOpened: boolean = true;
-  sideNavExpanded: boolean = true;
+  // sideNavExpanded: boolean = true;
   versionNum: string = "V1.4.19";
 
   sideNavOptions: SideNavOption[] = [
@@ -23,11 +24,26 @@ export class AppComponent {
       {link: '/', icon: 'help', name: 'Help'},
       ]
 
-  contructor() { }
+  constructor(private cdRef: ChangeDetectorRef,
+              private responsiveManager: ResponsiveService) { }
+
+  private sendResizeOnce: boolean = false;
+  ngAfterViewChecked() {
+    // Send out an initial resize event after everything comes up so the
+    //   Responsive service will catch it and alert everyone
+    if(!this.sendResizeOnce) {
+      // Super hacky, but we only want to run this code once and we need 
+      //    to wait a sec for everything to be up...
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'));
+        this.cdRef.detectChanges();
+        this.sendResizeOnce = true;
+      }
+      );
+    }
+  }
 
   prepareRoute(outlet: RouterOutlet) {
-    // console.log("Doing a thing!");
-    // console.log(outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation']);
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
@@ -37,7 +53,8 @@ export class AppComponent {
   }
 
   toggleSideNavSize() {
-    this.sideNavExpanded = !this.sideNavExpanded;
+    // this.sideNavExpanded = !this.sideNavExpanded;
+    this.responsiveManager.isSideNavExpanded = !this.responsiveManager.isSideNavExpanded;
   }
 
   closeSideNav() {

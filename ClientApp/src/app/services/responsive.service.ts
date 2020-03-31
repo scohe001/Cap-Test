@@ -39,6 +39,6 @@ export class ResponsiveService implements OnDestroy{
 
     this.onResize$ = fromEventPattern<Event>(createResizeEventListener, () =>
       removeResizeEventListener()
-    ).pipe(map((event: Event, indx: number) => event.target.innerWidth)).pipe(takeUntil(this._destroy$));
+    ).pipe(map((event: Event, indx: number) => (event.target as Window).innerWidth)).pipe(takeUntil(this._destroy$));
   }
 }

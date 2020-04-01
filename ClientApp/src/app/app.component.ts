@@ -52,11 +52,6 @@ export class AppComponent implements AfterViewChecked {
     return (width < 768);
   }
 
-  toggleSideNavSize() {
-    // this.sideNavExpanded = !this.sideNavExpanded;
-    this.responsiveManager.isSideNavExpanded = !this.responsiveManager.isSideNavExpanded;
-  }
-
   closeSideNav() {
     // this.sideNavOpened = false;
   }

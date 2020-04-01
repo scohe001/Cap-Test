@@ -37,7 +37,7 @@
 
 
 .header-content-contracted {
-    padding-left: calc(var(--sidenav-contracted-width) - 16px);
+    padding-left: calc(var(--sidenav-contracted-width) - 16px) !important;
 }
 
 .header-content-expanded {
@@ -49,7 +49,7 @@
 }
 
 .main-content-expanded {
-    margin-left: var(--sidenav-expanded-width);
+    margin-left: var(--sidenav-expanded-width) !important;
 }
 
 

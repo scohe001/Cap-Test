@@ -1,7 +1,7 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header main-toolbar">
   <div [ngClass]="responsiveManager.isSideNavExpanded ? 'header-content-expanded' : 'header-content-contracted'">
-    <span class="nav-tool-items nav-tool-items-butt" (click)="toggleSideNavSize()">
+    <span class="nav-tool-items nav-tool-items-butt" (click)="responsiveManager.toggleSideNavSize()">
       <mat-icon>menu</mat-icon>
     </span>
   </div>

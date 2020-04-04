@@ -39,10 +39,13 @@
         *ngFor="let navOption of sideNavOptions"
         [routerLink]="[navOption['link']]"
         (click)="closeSideNav()"
-        [routerLinkActiveOptions]="{exact: true}"
+        [routerLinkActiveOptions]="{exact: false}"
         routerLinkActive
         #rla="routerLinkActive" 
-        [ngClass]="rla.isActive ? 'active-sidenav-item' : 'sidenav-item'">
+        [ngClass]="rla.isActive && navOption['link'] !== '/' ? 'active-sidenav-item' : 'sidenav-item'">
+        <!-- A little extra logic here^^^ so our test/examples won't seem active (since we have matching exact to false for register).
+              Honestly a better way to do this may be to add a bool to "SideNavOption" for whether we want exact matching. That way
+              we can configure this on an item by item basis and not need the wonky if.-->
 
         <mat-icon class="nav-icon"> {{navOption['icon']}} </mat-icon>
         <span *ngIf="responsiveManager.isSideNavExpanded"> {{navOption['name']}} </span>

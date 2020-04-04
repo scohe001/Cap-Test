@@ -56,6 +56,18 @@
     display: inline-block;
 }
 
+.icon-but {
+    border: 0px;
+}
+
+.icon-but:hover {
+  background-color: lightgrey;
+}
+
+.icon-but:active {
+  background-color: slategrey;
+}
+
   /*
             <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
             <span class="phone-col"> | {{acct.PhoneNumber}}</span>

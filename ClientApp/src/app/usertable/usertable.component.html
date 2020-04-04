@@ -6,15 +6,19 @@
   matRipple
   [matRippleUnbounded]=true
   [matRippleRadius]="'10'"
-  [matRippleColor]="'pink'">
+  [matRippleColor]="'pink'"
+  class="content-item">
 
-  <mat-form-field>
+  <!--
+  <mat-form-field class="content-item">
+  -->
+  <mat-form-field class="content-item">
     <mat-label>Filter</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Bob">
   </mat-form-field>
 
   <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
-  <table mat-table [dataSource]="accountTableSource" matSort class="mat-elevation-z8" [hidden]="!accountList">
+  <table mat-table [dataSource]="accountTableSource" matSort class="mat-elevation-z8 content-item" [hidden]="!accountList">
 
       <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
@@ -37,10 +41,20 @@
       <ng-container matColumnDef="Actions">
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element" class="my-cell" (click)="$event.stopPropagation()">
-          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;">
+        <!-- Honestly don't really need an edit button since they can just click the row...
+          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;" matTooltip="View/Edit Customer {{element.FirstName}} {{element.LastName}}">
             <mat-icon aria-hidden="false" aria-label="Edit!">edit</mat-icon>
           </button>
-          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;">
+        -->
+          <button
+            mat-icon-button class="my-butt highlight"
+            (mouseenter)="buttonMousedOver = true;"
+            (mouseleave)="buttonMousedOver = false;"
+            matTooltip="Begin Transaction for {{element.FirstName}} {{element.LastName}}"
+            routerLink="/transaction-register/{{element.Id}}">
+            <mat-icon aria-hidden="false" aria-label="Transact!">credit_card</mat-icon>
+          </button>
+          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;" matTooltip="Delete {{element.FirstName}} {{element.LastName}}">
             <mat-icon aria-hidden="false" aria-label="Delete!">delete</mat-icon>
           </button>
         </td>

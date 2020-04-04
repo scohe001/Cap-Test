@@ -2,7 +2,7 @@
 <br><br>
 <p>Got an id of {{id}}</p>
 
-<button mat-stroked-button color="primary" (click)="thing()">Testing</button>
+<button matTooltip="Testing. 1, 2, 3." mat-stroked-button color="primary" (click)="thing()">Testing</button>
 
 <form class="example-form">
     <mat-form-field class="example-full-width">
@@ -12,12 +12,13 @@
              required
              [matAutocomplete]="auto"
              [formControl]="acctCtrl"
+             #acctAutoComplete="matAutocompleteTrigger"
              >
              <!--
              [(ngModel)]="selectedAccount">
              -->
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="acctToString">
-        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct">
+        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct" (click)="acctCtrl.disable()">
         <!--
         <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct.FirstName + ' ' + acct.LastName">
         -->
@@ -32,11 +33,34 @@
             </div>
         </mat-option>
       </mat-autocomplete>
+      <!--
+    <a *ngIf="isAccount(this.acctCtrl.value)" [routerLink]="'/a/' + this.acctCtrl.value.Id">
+        (click)="clearSelection(); acctAutoComplete.openPanel()">
+        [routerLink]="'/a/' + this.acctCtrl.value.Id"
+    -->
+    <button mat-icon-button
+        *ngIf="isAccount(this.acctCtrl.value)"
+        mat-stroked-button
+        matSuffix
+        matTooltip="Clear Selection"
+        color="primary"
+        class="icon-but"
+        (click)="clearSelection()">
+        <mat-icon aria-hidden="false" aria-label="Clear Selection">clear</mat-icon>
+    </button>
+    <button mat-icon-button
+        *ngIf="isAccount(this.acctCtrl.value)"
+        (click)="openAccount()"
+        mat-stroked-button
+        matSuffix
+        matTooltip="View Account in New Tab"
+        color="primary"
+        class="icon-but">
+        <mat-icon aria-hidden="false" aria-label="View Account">launch</mat-icon>
+    </button>
+
     </mat-form-field>
 
-    <a *ngIf="isAccount(this.acctCtrl.value)" [routerLink]="'/a/' + this.acctCtrl.value.Id">
-        <button mat-stroked-button color="primary" class="my-but">View Account History</button>
-    </a>
 
     <br><br>
   

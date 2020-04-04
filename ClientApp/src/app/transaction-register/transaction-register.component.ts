@@ -64,6 +64,16 @@ export class TransactionRegisterComponent implements OnInit {
     console.log(this.acctCtrl.value)
   }
 
+  private clearSelection() {
+    this.acctCtrl.enable();
+    // Hacky again to give the field time to enable. This way when we update the val, it'll open the panel
+    setTimeout(() => this.acctCtrl.setValue(""));
+  }
+
+  private openAccount() {
+    window.open('/a/' + this.acctCtrl.value.Id, '_blank');
+  }
+
   public acctToString(acct: Account): string {
     if(!acct) return '';
     return acct.FirstName + ' ' + acct.LastName + (acct.PhoneNumber && acct.PhoneNumber.length > 0 ? (' (' + acct.PhoneNumber + ')') : '');

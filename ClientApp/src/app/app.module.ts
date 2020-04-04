@@ -15,7 +15,7 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule,
           MatPaginatorIntl, MatDatepickerModule, MatRadioModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
           MatListModule, MatGridListModule, MatCardModule, 
-          MatFormFieldModule, MatAutocompleteModule,} from '@angular/material';
+          MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,} from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -75,6 +75,7 @@ import { TransactionRegisterComponent } from './transaction-register/transaction
     MatCardModule,
     MatFormFieldModule,
     MatAutocompleteModule,
+    MatTooltipModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),

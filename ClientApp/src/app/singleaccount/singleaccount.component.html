@@ -7,15 +7,11 @@
 <!-- TODO: Now that we can get here from the TransactionRegister, back shouldn't always go to /accounts 
             Going to need to be clever here (maybe get passed something in the url?)
 -->
-<a routerLink="/accounts">
-    <button mat-stroked-button color="primary" class="my-but">Back</button>
-</a>
+<button mat-stroked-button color="primary" class="my-but" routerLink="/accounts">Back</button>
 
 <button mat-stroked-button color="primary" class="my-but" (click)="thing()">Test!</button>
 
-<a *ngIf="account" routerLink="/transaction-register/{{account.Id}}">
-    <button mat-stroked-button color="primary" class="my-but">Make Transaction With This Account!</button><br><br>
-</a>
+<button *ngIf="account" routerLink="/transaction-register/{{account.Id}}" mat-stroked-button color="primary" class="my-but">Make Transaction With This Account!</button><br><br>
 
 <div
   matRipple

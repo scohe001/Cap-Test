@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AccountPathUpdaterComponent } from './account-path-updater/account-path-updater.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { HelpComponent } from './help/help.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'account/:id/:name', component: SingleaccountComponent, data: {animation: 'SingleAccount'} },
   { path: 'a/:id/:name', redirectTo: '/account/:id/:name', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'help', component: HelpComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];

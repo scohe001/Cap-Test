@@ -15,10 +15,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-attachment:fixed;
 }
 
-.main-app {
-  width: 75%;
+.main-app-large-screen {
+  width: 1200px;
   margin: auto;
+}
 
+.main-app-small-screen {
+  width: 100%;
+  margin: auto;
 }
 
 :root {

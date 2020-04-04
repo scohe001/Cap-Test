@@ -19,3 +19,10 @@ if (environment.production) {
 
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
+
+  /*
+    Useful links for ideas:
+      - https://www.primefaces.org/mirage-ng/#/
+          Left sidebar is pretty cool. Also like the top bar (also check out how they do it for mobile)
+      - 
+  */

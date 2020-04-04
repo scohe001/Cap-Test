@@ -33,8 +33,18 @@
 
 .main-content {
     background-color: var(--content-backdrop);
+    /*
+     - This is the right way to make content look like it extends to the bottom of the screen regardless.
+        However there are two current issues:
+        1. There'll need to be some magic with width since 100% breaks things
+        2. The footer sticks where the content ends, so need to make it sticky when content is less than 100%.
+            Going to take some more magic
+    *//*
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    */
 }
-
 
 .header-content-contracted {
     padding-left: calc(var(--sidenav-contracted-width) - 16px) !important;

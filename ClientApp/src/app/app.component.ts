@@ -21,7 +21,7 @@ export class AppComponent implements AfterViewChecked {
       {link: '/transactions', icon: 'library_books', name: 'Transactions'},
       {link: '/', icon: 'cloud_download', name: 'Download'},
       {link: '/', icon: 'settings', name: 'Preferences'},
-      {link: '/', icon: 'help', name: 'Help'},
+      {link: '/help', icon: 'help', name: 'Help'},
       ]
 
   constructor(private cdRef: ChangeDetectorRef,

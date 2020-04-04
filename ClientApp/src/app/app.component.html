@@ -20,7 +20,9 @@
     [fixedInViewport]="true"
     class="main-sidenav"
     [@sideNavAnimation]="responsiveManager.isSideNavExpanded ? 'expanded' : 'contracted'"
-    [fixedTopGap]>
+    [fixedTopGap]="'0'"
+    [fixedBottomGap]="'0'"
+    >
 
     <mat-toolbar class="sidenav-header">
       <span *ngIf="responsiveManager.isSideNavExpanded">Credit Cache</span>
@@ -56,9 +58,9 @@
     <router-outlet #outlet="outlet"></router-outlet>
     <!-- </div> -->
 
-  <footer class="footer">
-    <p class="footer-right"> Credit Cache {{versionNum}} </p>
-  </footer>
+    <footer class="footer">
+      <p class="footer-right"> Credit Cache {{versionNum}} </p>
+    </footer>
 
   </mat-sidenav-content>
 

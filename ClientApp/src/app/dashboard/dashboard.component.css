@@ -1,3 +1,18 @@
 .card-title {
     color: slategrey;
 }
+
+.date-input {
+    width: 88%;
+    margin-right: 2%;
+}
+
+.refresh-btn {
+    width: 10%;
+}
+
+.date-selection {
+    /* 0px on bottom since the mat-card already gives us plenty */
+    padding: 20px 20px 0px 20px;
+    width: 100%;
+}

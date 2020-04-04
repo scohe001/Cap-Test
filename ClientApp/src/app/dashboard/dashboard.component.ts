@@ -27,6 +27,9 @@ export class DashboardComponent implements OnInit {
     this.responsiveManager.onResize$.subscribe((newWidth: number) => {
       console.log("Resized!", newWidth);
     });
+
+    // Initialize it this way so that the val will show in the date range input
+    this.dateRangeVal = this.dateRange;
   }
 
   thing() {
@@ -40,8 +43,12 @@ export class DashboardComponent implements OnInit {
   }
 
   dateRangeValChange(range: Date[]) {
-    if(!range || range == null || range.length < 2) { return; }
-    this.dateRange = [range[0], range[1]];
+    console.log("Date range changed to: ", range);
+  }
+
+  refresh() {
+    if(!this.dateRangeVal || this.dateRangeVal == null || this.dateRangeVal.length < 2) { return; }
+    this.dateRange = [this.dateRangeVal[0], this.dateRangeVal[1]];
   }
 
 }

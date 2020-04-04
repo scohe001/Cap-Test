@@ -19,17 +19,11 @@
              -->
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="acctToString">
         <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct" (click)="acctCtrl.disable()">
-        <!--
-        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct.FirstName + ' ' + acct.LastName">
-        -->
             <div class="acct-row">
               <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
               <!-- Stick an invisible character in here in case phone number is empty-->
               <span class="phone-col"> &zwnj; {{acct.PhoneNumber}} </span>
               <span class="total-col"> $5.00 </span>
-              <!--
-              <span class="phone-col" *ngIf="acct.PhoneNumber && acct.PhoneNumber.length > 0"> | {{acct.PhoneNumber}}</span>
-              -->
             </div>
         </mat-option>
       </mat-autocomplete>

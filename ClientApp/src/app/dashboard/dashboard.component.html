@@ -1,16 +1,12 @@
 <h1>Dashboard</h1>
 
 <mat-card class="content-item">
-  <button mat-stroked-button color="primary" (click)="thing()">Dashboard Testing</button>
-  <br><br>
-  
-  <h3>Select Date Range</h3>
-  <div class="row">
-    <div class="col-xs-12 col-12 col-md-4 form-group">
-      <input class="form-control" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRangeVal" (bsValueChange)="dateRangeValChange($event)">
-    </div>
-    <div class="col-xs-12 col-12 col-md-3 form-group">
-      <button class="btn btn-success" (click)="drp.toggle()" [attr.aria-expanded]="drp.isOpen" type="button">Date Range Picker</button>
+  <h6 class="card-title">Date Range Selection</h6>
+  <mat-divider></mat-divider>
+  <div class="row date-selection">
+    <input class="date-input" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRangeVal" (bsValueChange)="dateRangeValChange($event)" [bsConfig]="{ showWeekNumbers:false }">
+    <div class="refresh-btn">
+      <button mat-stroked-button matSuffix color="primary" class="btn my-but" (click)="refresh()">Refresh Data</button>
     </div>
   </div>
 

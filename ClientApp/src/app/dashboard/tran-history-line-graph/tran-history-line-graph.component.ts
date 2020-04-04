@@ -11,7 +11,12 @@ export class TranHistoryLineGraphComponent implements OnInit {
   @Input() colorScheme: any;
 
   view: any[] = [1000, 500];
-  moneyGraphGroupBy: string = "Month";
+
+  readonly GROUP_BY_MONTH: string = "Month";
+  readonly GROUP_BY_WEEK: string = "Week";
+  readonly GROUP_BY_DAY: string = "Day";
+
+  moneyGraphGroupBy: string = this.GROUP_BY_MONTH;
 
   moneyDataByDay: DataSet[];
   moneyDataByWeek: DataSet[];
@@ -29,12 +34,15 @@ export class TranHistoryLineGraphComponent implements OnInit {
     if(!val || val == null) { return; }
     this.startDate = val[0];
     this.endDate = val[1];
+
+    this.updateGroupBy();
     this.refreshData();
   }
   
   //#endregion
 
   ngOnInit() {
+    this.updateGroupBy();
     this.refreshData();
   }
 
@@ -55,6 +63,17 @@ export class TranHistoryLineGraphComponent implements OnInit {
     console.log("Group By");
     console.log(this.moneyGraphGroupBy);
     console.log(event);
+  }
+
+  updateGroupBy() {
+    let daysDiff: number = (this.endDate.getTime() - this.startDate.getTime()) / (1000 * 60 * 60 * 24);
+
+    if(this.moneyGraphGroupBy === this.GROUP_BY_MONTH && daysDiff < 60) {
+      this.moneyGraphGroupBy = this.GROUP_BY_WEEK;
+    }
+    if(this.moneyGraphGroupBy === this.GROUP_BY_WEEK && daysDiff < 14) {
+      this.moneyGraphGroupBy = this.GROUP_BY_DAY;
+    }
   }
 
   onSelect(data): void {

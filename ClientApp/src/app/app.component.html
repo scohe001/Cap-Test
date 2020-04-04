@@ -58,8 +58,13 @@
 
     <!-- Works, but not in sidenav for some reason :/ -->
     <!-- <div [@routeAnimations]="prepareRoute(outlet)" > -->
-    <router-outlet #outlet="outlet"></router-outlet>
+    <div class="router-content">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
     <!-- </div> -->
+
+    <!-- This'll make sure the screen extends to the bottom -->
+    <div class="space-taker"></div>
 
     <footer class="footer">
       <p class="footer-right"> Credit Cache {{versionNum}} </p>

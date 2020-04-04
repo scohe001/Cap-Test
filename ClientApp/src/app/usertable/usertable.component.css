@@ -31,9 +31,25 @@ table {
 }
 
 .highlight:hover {
-  background-color: lightgrey;
+  background-color: lightgrey !important;
 }
 
 .highlight:active {
   background-color: slategrey;
+}
+
+.mat-row:nth-child(even){
+  background-color:white;
+}
+
+.mat-row:nth-child(odd){
+  background-color:whitesmoke;
+}
+
+.acct-table {
+  outline: 1px solid lightgrey;
+}
+
+.acct-table-container {
+  padding: 10px;
 }

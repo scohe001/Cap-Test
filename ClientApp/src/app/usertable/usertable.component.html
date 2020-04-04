@@ -17,52 +17,54 @@
     <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Bob">
   </mat-form-field>
 
-  <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
-  <table mat-table [dataSource]="accountTableSource" matSort class="mat-elevation-z8 content-item" [hidden]="!accountList">
+  <div class="acct-table-container">
+    <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
+    <table mat-table [dataSource]="accountTableSource" matSort class="acct-table" [hidden]="!accountList">
 
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+        
+        <ng-container matColumnDef="FirstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> First </th>
+          <td mat-cell *matCellDef="let element" class="my-cell"> {{element.FirstName}} </td>
+        </ng-container>
       
-      <ng-container matColumnDef="FirstName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> First </th>
-        <td mat-cell *matCellDef="let element" class="my-cell"> {{element.FirstName}} </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="LastName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last </th>
-        <td mat-cell *matCellDef="let element" class="my-cell"> {{element.LastName}} </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="PhoneNumber">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
-        <td mat-cell *matCellDef="let element" class="my-cell"> {{element.PhoneNumber}} </td>
-      </ng-container>
+        <ng-container matColumnDef="LastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last </th>
+          <td mat-cell *matCellDef="let element" class="my-cell"> {{element.LastName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="PhoneNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+          <td mat-cell *matCellDef="let element" class="my-cell"> {{element.PhoneNumber}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="Actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element" class="my-cell" (click)="$event.stopPropagation()">
-        <!-- Honestly don't really need an edit button since they can just click the row...
-          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;" matTooltip="View/Edit Customer {{element.FirstName}} {{element.LastName}}">
-            <mat-icon aria-hidden="false" aria-label="Edit!">edit</mat-icon>
-          </button>
-        -->
-          <button
-            mat-icon-button class="my-butt highlight"
-            (mouseenter)="buttonMousedOver = true;"
-            (mouseleave)="buttonMousedOver = false;"
-            matTooltip="Begin Transaction for {{element.FirstName}} {{element.LastName}}"
-            routerLink="/transaction-register/{{element.Id}}">
-            <mat-icon aria-hidden="false" aria-label="Transact!">credit_card</mat-icon>
-          </button>
-          <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;" matTooltip="Delete {{element.FirstName}} {{element.LastName}}">
-            <mat-icon aria-hidden="false" aria-label="Delete!">delete</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="Actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element" class="my-cell" (click)="$event.stopPropagation()">
+          <!-- Honestly don't really need an edit button since they can just click the row...
+            <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;" matTooltip="View/Edit Customer {{element.FirstName}} {{element.LastName}}">
+              <mat-icon aria-hidden="false" aria-label="Edit!">edit</mat-icon>
+            </button>
+          -->
+            <button
+              mat-icon-button class="my-butt highlight"
+              (mouseenter)="buttonMousedOver = true;"
+              (mouseleave)="buttonMousedOver = false;"
+              matTooltip="Begin Transaction for {{element.FirstName}} {{element.LastName}}"
+              routerLink="/transaction-register/{{element.Id}}">
+              <mat-icon aria-hidden="false" aria-label="Transact!">credit_card</mat-icon>
+            </button>
+            <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;" matTooltip="Delete {{element.FirstName}} {{element.LastName}}">
+              <mat-icon aria-hidden="false" aria-label="Delete!">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': !buttonMousedOver}" class="my-row" (click)="AccountClick(row)"></tr>
-  </table><br>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': !buttonMousedOver}" class="my-row" (click)="AccountClick(row)"></tr>
+    </table><br>
+  </div>
   <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[20]" showFirstLastButtons></mat-paginator>
 </div>
 

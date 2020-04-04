@@ -1,9 +1,8 @@
-<p>transaction-register works!</p>
-<br><br>
-<p>Got an id of {{id}}</p>
+<h1>Register</h1>
 
 <button matTooltip="Testing. 1, 2, 3." mat-stroked-button color="primary" (click)="thing()">Testing</button>
 
+<mat-card class="content-item">
 <form class="example-form">
     <mat-form-field class="example-full-width">
       <input matInput
@@ -12,6 +11,7 @@
              required
              [matAutocomplete]="auto"
              [formControl]="acctCtrl"
+             (keydown.enter)="acctCtrl.disable()"
              #acctAutoComplete="matAutocompleteTrigger"
              >
              <!--
@@ -66,3 +66,4 @@
   
     <br>
 </form>
+</mat-card>

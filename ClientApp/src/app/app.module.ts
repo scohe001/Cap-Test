@@ -23,7 +23,6 @@ import { AlltransactiontableComponent } from './alltransactiontable/alltransacti
 import { SingleaccountComponent } from './singleaccount/singleaccount.component';
 import { CustomPaginatorComponent } from './custom-paginator/custom-paginator.component';
 import { AccountPathUpdaterComponent } from './account-path-updater/account-path-updater.component';
-import { PitestComponent } from './pitest/pitest.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DailyAveragesComponent } from './dashboard/daily-averages/daily-averages.component';
 import { TranTypePieChartComponent } from './dashboard/tran-type-pie-chart/tran-type-pie-chart.component';
@@ -41,7 +40,6 @@ import { TransactionRegisterComponent } from './transaction-register/transaction
     SingleaccountComponent,
     CustomPaginatorComponent,
     AccountPathUpdaterComponent,
-    PitestComponent,
     DashboardComponent,
     DailyAveragesComponent,
     TranTypePieChartComponent,

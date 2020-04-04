@@ -27,8 +27,13 @@
 }
 
 .sidenav-header {
+    cursor: pointer;
     color: var(--sidenav-hover-text-color);
     background-color: var(--sidenav-header-background);
+}
+
+.sidenav-header:hover {
+    background-color: var(--sidenav-header-hover-background);
 }
 
 .main-content {
@@ -61,7 +66,6 @@
 .main-content-expanded {
     margin-left: var(--sidenav-expanded-width) !important;
 }
-
 
 .nav-tool-items {
     cursor: pointer;

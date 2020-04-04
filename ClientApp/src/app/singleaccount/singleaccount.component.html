@@ -1,12 +1,21 @@
 <h1 id="tableLabel">Single Account View</h1>
 
 <p *ngIf="!account"><em>Loading...</em></p>
+<!-- TODO: Wrap the Phone Number in its own ngIf so we don't just get empty parens-->
 <h2 *ngIf="account"> {{account.FirstName}} {{account.LastName}} ({{account.PhoneNumber}})</h2>
 
+<!-- TODO: Now that we can get here from the TransactionRegister, back shouldn't always go to /accounts 
+            Going to need to be clever here (maybe get passed something in the url?)
+-->
 <a routerLink="/accounts">
-    <button mat-stroked-button color="primary" class="my-but">Back</button><br><br>
+    <button mat-stroked-button color="primary" class="my-but">Back</button>
 </a>
-<button mat-stroked-button color="primary" class="my-but" (click)="thing()">Test!</button><br><br>
+
+<button mat-stroked-button color="primary" class="my-but" (click)="thing()">Test!</button>
+
+<a *ngIf="account" routerLink="/transaction-register/{{account.Id}}">
+    <button mat-stroked-button color="primary" class="my-but">Make Transaction With This Account!</button><br><br>
+</a>
 
 <div
   matRipple

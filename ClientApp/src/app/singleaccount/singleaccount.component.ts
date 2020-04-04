@@ -34,6 +34,7 @@ export class SingleaccountComponent implements OnInit {
   }
 
   private async RefreshTable() {
+    // TODO: add some validation around the id from route. Make sure it's actually a good id (a positive integer)
     let id = this.route.snapshot.paramMap.get('id');
     this.account = await this.accountManager.GetAccount(id);
     this.transactionTableSource.data = this.account.Transactions;

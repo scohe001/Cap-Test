@@ -14,7 +14,8 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule,
           MatBadgeModule, MatRippleModule, MatPaginatorModule, MatIconModule,
           MatPaginatorIntl, MatDatepickerModule, MatRadioModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
-          MatListModule, MatGridListModule, MatCardModule,} from '@angular/material';
+          MatListModule, MatGridListModule, MatCardModule, 
+          MatFormFieldModule, MatAutocompleteModule,} from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -29,6 +30,7 @@ import { TranTypePieChartComponent } from './dashboard/tran-type-pie-chart/tran-
 import { TranHistoryLineGraphComponent } from './dashboard/tran-history-line-graph/tran-history-line-graph.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
+import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
 
 
 @NgModule({
@@ -46,6 +48,7 @@ import { HelpComponent } from './help/help.component';
     TranHistoryLineGraphComponent,
     NotFoundComponent,
     HelpComponent,
+    TransactionRegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,8 @@ import { HelpComponent } from './help/help.component';
     MatListModule,
     MatGridListModule,
     MatCardModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),

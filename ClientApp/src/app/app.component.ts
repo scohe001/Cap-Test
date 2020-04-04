@@ -18,6 +18,7 @@ export class AppComponent implements AfterViewChecked {
   sideNavOptions: SideNavOption[] = [
       {link: '/dashboard', icon: 'dashboard', name: 'Dashboard'},
       {link: '/accounts', icon: 'person', name: 'Customers'},
+      {link: '/transaction-register', icon: 'credit_card', name: 'Register'},
       {link: '/transactions', icon: 'library_books', name: 'Transactions'},
       {link: '/', icon: 'cloud_download', name: 'Download'},
       {link: '/', icon: 'settings', name: 'Preferences'},

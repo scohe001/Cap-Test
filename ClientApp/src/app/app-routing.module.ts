@@ -9,6 +9,7 @@ import { AccountPathUpdaterComponent } from './account-path-updater/account-path
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
+import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'a/:id', redirectTo: '/account/:id', pathMatch: 'full' },
   { path: 'account/:id/:name', component: SingleaccountComponent, data: {animation: 'SingleAccount'} },
   { path: 'a/:id/:name', redirectTo: '/account/:id/:name', pathMatch: 'full' },
+  { path: 'transaction-register', component: TransactionRegisterComponent },
+  { path: 'transaction-register/:id', component: TransactionRegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'help', component: HelpComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

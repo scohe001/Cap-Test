@@ -59,7 +59,7 @@ namespace thing.Models
     #region Gets
 
     public static IEnumerable<Account> GetAllAccounts(bool isIncludeRelatedData, ApplicationDbContext context) {
-      if (!isIncludeRelatedData) { return context.Accounts.ToArray(); }
+      if (!isIncludeRelatedData) { return context.Accounts.OrderBy(acct => acct.FirstName.ToLower() + acct.LastName.ToLower()).ToArray(); }
 
       return context.Accounts
                     .Include(acct => acct.Transactions)

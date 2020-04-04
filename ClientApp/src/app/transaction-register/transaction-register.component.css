@@ -1,0 +1,63 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  
+  .example-option-img {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
+  [dir='rtl'] .example-option-img {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+
+.name-col {
+    width: 45%;
+    border-bottom: 1px solid black;
+    border-right: 1px dashed black;
+    /*
+    outline: .5px dashed black;
+    padding-bottom: -5%;
+    */
+    /* padding: .2em .4em; */
+}
+
+.phone-col {
+    width: 35%;
+    border-right: 1px dashed black;
+    border-bottom: 1px solid black;
+    padding-left: 10px;
+    /*
+    outline: .5px dashed black;
+    padding: .2em .4em;
+    */
+
+}
+
+.total-col {
+    width: 20%;
+    border-bottom: 1px solid black;
+    padding-left: 10px;
+    /*
+    border: 1px solid black;
+    outline: .5px dashed black;
+    padding: .2em .4em;
+    */
+}
+
+.acct-row span {
+    display: inline-block;
+}
+
+  /*
+            <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
+            <span class="phone-col"> | {{acct.PhoneNumber}}</span>
+            <span class="total-col"> | $5.00</span>
+            */

@@ -19,6 +19,8 @@
 <div class="dash-content">
   
   <mat-card class="content-item">
+    <h6 class="card-title">Totals by Transaction</h6>
+    <mat-divider></mat-divider>
     <div class="row">
       <app-tran-type-pie-chart
           [dateRange]="dateRange"
@@ -28,6 +30,8 @@
   </mat-card>
   
   <mat-card class="content-item">
+    <h6 class="card-title">Total Transaction Amount History</h6>
+    <mat-divider></mat-divider>
     <div class="row">
       <app-tran-history-line-graph
           [dateRange]="dateRange"
@@ -37,6 +41,8 @@
   </mat-card>
   
   <mat-card class="content-item">
+    <h6 class="card-title">Totals by Weekday</h6>
+    <mat-divider></mat-divider>
     <div class="row">
       <app-daily-averages
           [dateRange]="dateRange"

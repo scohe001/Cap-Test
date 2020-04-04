@@ -2,7 +2,7 @@
 
 <p *ngIf="!accountList"><em>Loading...</em></p>
 
-<div
+<mat-card
   matRipple
   [matRippleUnbounded]=true
   [matRippleRadius]="'10'"
@@ -66,6 +66,6 @@
     </table><br>
   </div>
   <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[20]" showFirstLastButtons></mat-paginator>
-</div>
+</mat-card>
 
 <button mat-stroked-button color="primary" (click)="thing()">Testing</button>

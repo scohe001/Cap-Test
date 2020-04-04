@@ -1,11 +1,11 @@
-<button mat-stroked-button color="primary" (click)="refreshData()">Tran History Testing</button>
-<br><br>
-
-<mat-radio-group aria-label="Group data by..." [(ngModel)]="moneyGraphGroupBy" (click)="groupByChanged($event)">
-  <mat-radio-button value="Day">Day</mat-radio-button>
-  <mat-radio-button value="Week">Week</mat-radio-button>
-  <mat-radio-button value="Month">Month</mat-radio-button>
-</mat-radio-group>
+<div class="group-by-options">
+  <span>Show data point for each: </span>
+  <mat-radio-group aria-label="Group data by..." [(ngModel)]="moneyGraphGroupBy" (click)="groupByChanged($event)">
+    <mat-radio-button value="Day" class="radio-btn">Day</mat-radio-button>
+    <mat-radio-button value="Week" class="radio-btn">Week</mat-radio-button>
+    <mat-radio-button value="Month" class="radio-btn">Month</mat-radio-button>
+  </mat-radio-group>
+</div>
 
 <ngx-charts-line-chart
   [view]="view"

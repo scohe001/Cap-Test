@@ -10,7 +10,7 @@ import { TransactionmanagerService } from 'src/app/services/transactionmanager.s
 export class TranTypePieChartComponent implements OnInit {
   @Input() colorScheme: any;
   
-  view: any[] = [1000, 500];
+  view: any[] = [1000, 300];
   gradient: boolean = true;
 
   tranTotals: DataPoint[];

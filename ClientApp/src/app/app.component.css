@@ -1,5 +1,6 @@
 .main-toolbar {
     background-color: var(--sidenav-header-background);
+    height: var(--header-height);
 }
 
 .main-sidenav {
@@ -30,6 +31,7 @@
     cursor: pointer;
     color: var(--sidenav-hover-text-color);
     background-color: var(--sidenav-header-background);
+    height: var(--header-height);
 }
 
 .sidenav-header:hover {
@@ -61,8 +63,8 @@
 
 .nav-tool-items {
     cursor: pointer;
-    height: 100%;
-    padding: 16px;
+    height: var(--header-height);
+    padding: calc(var(--header-height) / 4);
     display: block;
 }
 

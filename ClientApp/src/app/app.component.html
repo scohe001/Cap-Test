@@ -1,6 +1,6 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header main-toolbar">
-  <div [ngClass]="responsiveManager.isSideNavExpanded ? 'header-content-expanded' : 'header-content-contracted'">
+  <div [ngClass]="!responsiveManager.isSideNavOpened ? 'header-content-closed' : (responsiveManager.isSideNavExpanded ? 'header-content-expanded' : 'header-content-contracted')">
     <span class="nav-tool-items nav-tool-items-butt" (click)="toggleClicked()">
       <mat-icon>menu</mat-icon>
     </span>

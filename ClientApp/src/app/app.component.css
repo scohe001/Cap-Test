@@ -53,6 +53,10 @@
     padding-left: calc(var(--sidenav-expanded-width) - 16px) !important;
 } 
 
+.header-content-closed {
+    margin-left: -16px !important;
+} 
+
 .main-content-contracted {
     margin-left: var(--sidenav-contracted-width) !important;
 }

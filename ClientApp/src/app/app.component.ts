@@ -28,28 +28,28 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   constructor(private cdRef: ChangeDetectorRef,
               private responsiveManager: ResponsiveService,
-              private commonManager: CommonService) { }
+              private commonManager: CommonService) {
+
+    // Setup initial
+    if(window.innerWidth < this.smallestSize) {
+        this.responsiveManager.setSideNavOpen(false);
+        this.responsiveManager.setSideNavExpanded(true);
+    }
+  }
 
   private readonly smallestSize: number = 768;
   async ngOnInit() {
     this.versionNum = await this.commonManager.GetVersionString()
 
-    if(window.innerWidth < this.smallestSize) {
-        this.responsiveManager.setSideNavExpanded(true);
-        this.responsiveManager.setSideNavOpen(false);
-    }
-
-    this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
+    this.responsiveManager.onResizeActual$.subscribe((vals: [number, number]) => {
       // Just got too small...
-      if(vals[0] > this.smallestSize && vals[1] <= this.smallestSize) {
-        console.log("Switching big -> small");
-        this.responsiveManager.setSideNavExpanded(true);
+      if(vals[1] <= this.smallestSize) {
         this.responsiveManager.setSideNavOpen(false);
-      }
-      if(vals[0] <= this.smallestSize && vals[1] > this.smallestSize) {
-        console.log("Switching small -> big");
         this.responsiveManager.setSideNavExpanded(true);
+      }
+      if(vals[1] > this.smallestSize) {
         this.responsiveManager.setSideNavOpen(true);
+        this.responsiveManager.setSideNavExpanded(true);
       }
     });
   }

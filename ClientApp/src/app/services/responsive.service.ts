@@ -12,7 +12,7 @@ export class ResponsiveService implements OnDestroy{
   public isSideNavExpanded = true;
   public isSideNavOpened = true;
   public onResize$: Observable<[number, number]>;
-  // public onResizeActual$: Observable<[number, number]>;
+  public onResizeActual$: Observable<[number, number]>;
 
   private _destroy$ = new Subject();
   private innerWidth: number = null;
@@ -28,7 +28,7 @@ export class ResponsiveService implements OnDestroy{
     this.createOnResizeObservable(renderer);
 
     // Subscribe ourselves so we can keep a private width for ppl to access just in case
-    this.onResize$.subscribe((vals: [number, number]) => {
+    this.onResizeActual$.subscribe((vals: [number, number]) => {
       this.oldInnerWidth = this.innerWidth;
       this.innerWidth = vals[1];
     });
@@ -82,12 +82,17 @@ export class ResponsiveService implements OnDestroy{
       removeResizeEventListener = renderer.listen("window", "resize", handler);
     };
 
-    this.onResize$ = fromEventPattern<Event>(createResizeEventListener, () =>
+    this.onResizeActual$ = fromEventPattern<Event>(createResizeEventListener, () =>
       removeResizeEventListener()
     ).pipe(map((event: Event, indx: number) => (event.target as Window).innerWidth))
-     .pipe(map((actualWidth: number, indx: number) => actualWidth - this.getSideNavSize()))
      .pipe(map((newWidth: number, indx: number) => (newWidth === this.innerWidth) ? tuple(this.oldInnerWidth, newWidth) : tuple(this.innerWidth, newWidth)))
+
+    this.onResize$ = this.onResizeActual$
+     .pipe(map((actualWidths: [number, number], indx: number) => tuple(actualWidths[0] - this.getSideNavSize(), actualWidths[1] - this.getSideNavSize())))
      .pipe(takeUntil(this._destroy$));
+
+    this.onResizeActual$ = this.onResizeActual$.pipe(takeUntil(this._destroy$));
+    this.onResize$ = this.onResize$.pipe(takeUntil(this._destroy$));
   }
 }
 

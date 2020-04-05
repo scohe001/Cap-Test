@@ -1,0 +1,44 @@
+.account-selection-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+  
+.full-width {
+  width: 100%;
+}
+
+.name-col {
+    width: 45%;
+    border-bottom: 1px solid black;
+    border-right: 1px dashed black;
+}
+
+.phone-col {
+    width: 35%;
+    border-right: 1px dashed black;
+    border-bottom: 1px solid black;
+    padding-left: 10px;
+}
+
+.total-col {
+    width: 20%;
+    border-bottom: 1px solid black;
+    padding-left: 10px;
+}
+
+.acct-row span {
+    display: inline-block;
+}
+
+.icon-but {
+    border: 0px;
+}
+
+.icon-but:hover {
+  background-color: lightgrey;
+}
+
+.icon-but:active {
+  background-color: slategrey;
+}

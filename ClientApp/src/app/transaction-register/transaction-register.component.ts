@@ -17,11 +17,6 @@ import { TransactionType } from '../interfaces/transactiontype';
 })
 export class TransactionRegisterComponent implements OnInit {
 
-  acctCtrl = new FormControl();
-  filteredAccounts: Observable<Account[]>;
-
-  accountList: Account[] = null;
-  displayedColumns: string[] = ['FirstName', 'LastName', 'PhoneNumber'];
   selectedAccount: Account = null;
 
   constructor(
@@ -30,71 +25,35 @@ export class TransactionRegisterComponent implements OnInit {
     private accountManager: AccountmanagerService,
     private transactionManager: TransactionmanagerService) { }
 
-  private id: string;
-  async ngOnInit() {
-    await this.setupAccountDropdown();
 
+  private id: string;
+  private passedId: string = null;
+  private passedAccount: Account = null;
+
+  async ngOnInit() {
     // Will be null if they haven't come here from an account
     // Setup acct selection if we have an account
     this.id = this.route.snapshot.paramMap.get('id');
-    if(this.id != null) {
-      this.acctCtrl.setValue(await this.accountManager.GetAccount(this.id))
-      this.acctCtrl.disable();
+    if(this.id != null && !(await this.checkAndUpdateId(this.id))) {
+      // If checkAndUpdateId returned false, we got a bad Id, so reroute
+      this.router.navigate(['/transaction-register']);
     }
   } 
 
-  private async setupAccountDropdown() {
-    this.accountList = await this.accountManager.GetAccounts(false);
-    console.log(this.accountList);
+  private async checkAndUpdateId(id: string) {
+    if(! (/^([0-9]+)$/.test(id)) ) { return false; }
+    let acct: Account = await this.accountManager.GetAccount(id);
+    if(acct === null) { return false; }
+    this.passedAccount = acct;
+    return true;
+  }
 
-    this.filteredAccounts = this.acctCtrl.valueChanges
-      .pipe(
-        map(searchVal => searchVal ? this._filterAccounts(searchVal) : this.accountList.slice())
-      );
-    // this.acctCtrl.valueChanges.subscribe(val => console.log("GOT: ", val));
-
-    // Hacky way to have dropdown popup on click (need to wait for accounts to have been gotten)
-    setTimeout(() => this.acctCtrl.setValue(""));
-
+  private acctSelectionChanged(newAcct: Account) {
+    console.log("New selection is: ", newAcct);
+    this.selectedAccount = newAcct;
   }
 
   public thing() {
-    console.log(this.acctCtrl.value)
-  }
-
-  private clearSelection() {
-    this.acctCtrl.enable();
-    // Hacky again to give the field time to enable. This way when we update the val, it'll open the panel
-    setTimeout(() => this.acctCtrl.setValue(""));
-  }
-
-  private openAccount() {
-    window.open('/a/' + this.acctCtrl.value.Id, '_blank');
-  }
-
-  public acctToString(acct: Account): string {
-    if(!acct) return '';
-    return acct.FirstName + ' ' + acct.LastName + (acct.PhoneNumber && acct.PhoneNumber.length > 0 ? (' (' + acct.PhoneNumber + ')') : '');
-  }
-
-  isAccount(obj: any): obj is Account {
-    return obj && obj != null && typeof obj.Id === "number" && typeof obj.FirstName === "string" && typeof obj.LastName === "string";
-  }
-
-  private _filterAccounts(searchVal: any): Account[] {
-    if(!searchVal) { return this.accountList; }
-    if(this.isAccount(searchVal)) { 
-      console.log("It's an account!", searchVal);
-      return [this.accountList.find( acct => acct.Id === (<Account>searchVal).Id )]
-    }
-
-    const filterVal = (<string>searchVal).toLowerCase();
-
-    let filtered: Account[] = this.accountList.filter(acct => 
-      acct.FirstName.toLowerCase().includes(filterVal)
-      || acct.LastName.toLowerCase().includes(filterVal)
-      || (acct.PhoneNumber && acct.PhoneNumber.toLowerCase().includes(filterVal))
-    );
-    return filtered;
+    // console.log(this.acctCtrl.value)
   }
 }

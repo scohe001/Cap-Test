@@ -29,6 +29,7 @@ import { TranHistoryLineGraphComponent } from './dashboard/tran-history-line-gra
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
 import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
+import { AccountSelectionComponent } from './transaction-register/account-selection/account-selection.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { TransactionRegisterComponent } from './transaction-register/transaction
     HelpComponent,
     TransactionRegisterComponent,
     AreYouSureDeleteDialog,
+    AccountSelectionComponent,
   ],
   imports: [
     BrowserModule,

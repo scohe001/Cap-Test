@@ -8,16 +8,6 @@
     width: 100%;
   }
   
-  .example-option-img {
-    vertical-align: middle;
-    margin-right: 8px;
-  }
-  
-  [dir='rtl'] .example-option-img {
-    margin-right: 0;
-    margin-left: 8px;
-  }
-
 .name-col {
     width: 45%;
     border-bottom: 1px solid black;

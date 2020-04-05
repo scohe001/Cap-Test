@@ -1,0 +1,46 @@
+<form class="account-selection-form">
+    <mat-form-field class="full-width">
+      <input matInput
+             placeholder="Account"
+             aria-label="Account"
+             required
+             [matAutocomplete]="auto"
+             [formControl]="acctCtrl"
+             (keydown.enter)="acctCtrl.disable()"
+             #acctAutoComplete="matAutocompleteTrigger"
+             >
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="acctToString">
+        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct" (click)="acctCtrl.disable()">
+            <div class="acct-row">
+              <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
+              <!-- TODO: Slap an ngIf on the phone call so we don't display it if screen is too small (might need to do something with the css for the other columns so they expand out)-->
+              <!-- Stick an invisible character in here in case phone number is empty-->
+              <span class="phone-col"> &zwnj; {{acct.PhoneNumber}} </span>
+              <!-- TODO: Give this a real value once we update the way things work -->
+              <span class="total-col"> $5.00 </span>
+            </div>
+        </mat-option>
+      </mat-autocomplete>
+
+      <button mat-icon-button
+          *ngIf="isAccount(this.acctCtrl.value)"
+          mat-stroked-button
+          matSuffix
+          matTooltip="Clear Selection"
+          color="primary"
+          class="icon-but"
+          (click)="clearSelection()">
+          <mat-icon aria-hidden="false" aria-label="Clear Selection">clear</mat-icon>
+      </button>
+      <button mat-icon-button
+          *ngIf="isAccount(this.acctCtrl.value)"
+          (click)="openAccount()"
+          mat-stroked-button
+          matSuffix
+          matTooltip="View Account in New Tab"
+          color="primary"
+          class="icon-but">
+          <mat-icon aria-hidden="false" aria-label="View Account">launch</mat-icon>
+      </button>
+    </mat-form-field>
+</form>

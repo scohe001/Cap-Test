@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener, ChangeDetectorRef, ViewRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener, ChangeDetectorRef, ViewRef, Inject } from '@angular/core';
 import { AccountmanagerService } from '../services/accountmanager.service';
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ResponsiveService } from '../services/responsive.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-usertable',
@@ -40,6 +41,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(public accountManager: AccountmanagerService,
               private cdRef: ChangeDetectorRef,
               private router: Router,
+              private dialog: MatDialog,
               private responsiveManager: ResponsiveService) { }
 
   ngOnInit() {
@@ -119,11 +121,29 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['a/' + acct.Id + '/' + acct.FirstName + acct.LastName]);
   }
 
+  private DeleteClicked(acct: Account) {
+    console.log("Delete clicked for", acct);
+    this.dialog.open(AreYouSureDeleteDialog, {
+      data: acct
+    });
+  }
+
   private MouseIn() {
     console.log("In!");
   }
 
   private MouseOut() {
     console.log("Out!");
+  }
+}
+
+@Component({
+  selector: 'are-you-sure-delete-dialog',
+  templateUrl: 'are-you-sure-delete-dialog.html',
+})
+export class AreYouSureDeleteDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) private acct: Account) {}
+  private deleteAcct() {
+    console.log("Deleted!");
   }
 }

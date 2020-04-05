@@ -1,13 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { UsertableComponent } from './usertable/usertable.component';
 import { HttpClientModule } from '@angular/common/http';
-import { AccountmanagerService } from './services/accountmanager.service'
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, 
@@ -15,10 +9,15 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule,
           MatPaginatorIntl, MatDatepickerModule, MatRadioModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
           MatListModule, MatGridListModule, MatCardModule, 
-          MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,} from '@angular/material';
+          MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,
+          MatDialogModule,} from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { UsertableComponent, AreYouSureDeleteDialog } from './usertable/usertable.component';
+import { AccountmanagerService } from './services/accountmanager.service'
 import { AlltransactiontableComponent } from './alltransactiontable/alltransactiontable.component';
 import { SingleaccountComponent } from './singleaccount/singleaccount.component';
 import { CustomPaginatorComponent } from './custom-paginator/custom-paginator.component';
@@ -47,6 +46,7 @@ import { TransactionRegisterComponent } from './transaction-register/transaction
     NotFoundComponent,
     HelpComponent,
     TransactionRegisterComponent,
+    AreYouSureDeleteDialog,
   ],
   imports: [
     BrowserModule,
@@ -74,6 +74,7 @@ import { TransactionRegisterComponent } from './transaction-register/transaction
     MatFormFieldModule,
     MatAutocompleteModule,
     MatTooltipModule,
+    MatDialogModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),
@@ -82,6 +83,7 @@ import { TransactionRegisterComponent } from './transaction-register/transaction
     AccountmanagerService,
     { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AreYouSureDeleteDialog],
 })
 export class AppModule { }

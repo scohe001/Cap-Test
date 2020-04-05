@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Delete {{acct.FirstName}} {{acct.LastName}}?</h2>
+<mat-dialog-content>
+<p><b>This action is not reversable</b></p>
+<p>Are you sure you want to delete {{acct.FirstName}} {{acct.LastName}}?</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <!-- Add cdkFocusInitial to the button for initial focus -->
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="warn" [mat-dialog-close]="true" (click)="deleteAcct()">DELETE</button>
+</mat-dialog-actions>

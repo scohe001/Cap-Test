@@ -61,6 +61,10 @@
     margin-left: var(--sidenav-expanded-width) !important;
 }
 
+.main-content-full {
+    margin-left: 0px !important;
+}
+
 .nav-tool-items {
     cursor: pointer;
     height: var(--header-height);

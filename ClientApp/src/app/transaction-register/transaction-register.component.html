@@ -22,6 +22,7 @@
             <div class="acct-row">
               <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
               <!-- Stick an invisible character in here in case phone number is empty-->
+              <!-- TODO: Slap an ngIf on the phone call so we don't display it if screen is too small (might need to do something with the css for the other columns so they expand out)-->
               <span class="phone-col"> &zwnj; {{acct.PhoneNumber}} </span>
               <span class="total-col"> $5.00 </span>
             </div>

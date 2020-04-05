@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, HostListener, ChangeDetectorRef, ViewRef } from '@angular/core';
 import { AccountmanagerService } from '../services/accountmanager.service';
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
@@ -37,20 +37,15 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  private innerWidth: any;
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.RefreshWindowSize();
-  }
-
   constructor(public accountManager: AccountmanagerService,
+              private cdRef: ChangeDetectorRef,
               private router: Router,
               private responsiveManager: ResponsiveService) { }
 
   ngOnInit() {
     this.ResetInputs();
     this.RefreshTable();
-    this.RefreshWindowSize();
+    this.RefreshWindowSize([null, window.innerWidth]);
 
     this.badgeSubscription = interval(1000).subscribe(val => this.badgeNum = (this.badgeNum + 30) % 31);
     this.accountTableSource.paginator = this.paginator;
@@ -60,18 +55,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.accountTableSource.sort = this.sort;
 
-    this.responsiveManager.onResize$.subscribe((newWidth: number) => {
-      console.log(newWidth);
-      // if(newWidth < 275) {
-      if(newWidth < 525) {
-        this.displayedColumns = ['FirstName', 'LastName'];
-      // } else if(newWidth < 400) {
-      } else if(newWidth < 650) {
-        this.displayedColumns = ['FirstName', 'LastName', 'Actions'];
-      } else {
-        this.displayedColumns = ['FirstName', 'LastName', 'PhoneNumber', 'Actions'];
-      }
-    });
+    this.responsiveManager.onResize$.subscribe(this.RefreshWindowSize);
   }
 
   ngAfterViewInit() {
@@ -87,8 +71,6 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     window.dispatchEvent(new Event('resize'));
     console.log('Account List:');
     console.log(this.accountList);
-    console.log('Inner Width:');
-    console.log(this.innerWidth);
   }
 
   private async save() {
@@ -113,14 +95,16 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     // console.log(this.accountList.slice(0, 10));
   }
 
-  private RefreshWindowSize() {
-    this.innerWidth = window.innerWidth;
-    if(this.innerWidth < 275) {
-      this.displayedColumns = ['FirstName', 'LastName'];
-    } else if(this.innerWidth < 400) {
+  // Super bizarre, but need to do it this way since it's being called as a callback
+  private RefreshWindowSize = (vals: [number, number]) => {
+    console.log("User table resizing...", this.displayedColumns, vals, this.cdRef);
+    if(vals[1] < 525) {
       this.displayedColumns = ['FirstName', 'LastName', 'Actions'];
     } else {
       this.displayedColumns = ['FirstName', 'LastName', 'PhoneNumber', 'Actions'];
+    }
+    if (this.cdRef && !(this.cdRef as ViewRef).destroyed) {
+      this.cdRef.detectChanges();
     }
   }
 

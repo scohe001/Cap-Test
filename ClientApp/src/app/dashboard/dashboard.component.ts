@@ -24,8 +24,7 @@ export class DashboardComponent implements OnInit {
   constructor(private responsiveManager: ResponsiveService) { }
 
   ngOnInit() {
-    this.responsiveManager.onResize$.subscribe((newWidth: number) => {
-      console.log("Resized!", newWidth);
+    this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
     });
 
     // Initialize it this way so that the val will show in the date range input
@@ -33,13 +32,6 @@ export class DashboardComponent implements OnInit {
   }
 
   thing() {
-    // console.log(this.responsiveManager.Width);
-
-    // if(this.dateRange[0] > new Date('06/06/2014')) {
-    //   this.dateRange = [new Date('01/01/2014'), new Date('09/10/2015')];
-    // } else {
-    //   this.dateRange = [new Date('01/01/2015'), new Date('09/10/2015')];
-    // }
   }
 
   dateRangeValChange(range: Date[]) {

@@ -1,7 +1,7 @@
 <!-- Toolbar -->
 <mat-toolbar color="primary" class="header main-toolbar">
   <div [ngClass]="responsiveManager.isSideNavExpanded ? 'header-content-expanded' : 'header-content-contracted'">
-    <span class="nav-tool-items nav-tool-items-butt" (click)="responsiveManager.toggleSideNavSize()">
+    <span class="nav-tool-items nav-tool-items-butt" (click)="toggleClicked()">
       <mat-icon>menu</mat-icon>
     </span>
   </div>
@@ -15,8 +15,8 @@
   -->
   <mat-sidenav
     #sidenav
-    [mode]="'side'"
-    [(opened)]="sideNavOpened"
+    [mode]="isBiggerScreen() ? 'side' : 'push'"
+    [(opened)]="responsiveManager.isSideNavOpened"
     [fixedInViewport]="true"
     class="main-sidenav"
     [@sideNavAnimation]="responsiveManager.isSideNavExpanded ? 'expanded' : 'contracted'"
@@ -54,7 +54,7 @@
   </mat-sidenav>
 
   <!-- Main content -->
-  <mat-sidenav-content [ngClass]="responsiveManager.isSideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
+  <mat-sidenav-content [ngClass]="!responsiveManager.isSideNavOpened ? 'main-content-full' : responsiveManager.isSideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
 
     <!-- Works, but not in sidenav for some reason :/ -->
     <!-- <div [@routeAnimations]="prepareRoute(outlet)" > -->

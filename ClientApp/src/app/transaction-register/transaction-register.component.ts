@@ -41,8 +41,6 @@ export class TransactionRegisterComponent implements OnInit {
       this.acctCtrl.setValue(await this.accountManager.GetAccount(this.id))
       this.acctCtrl.disable();
     }
-    console.log(this.id);
-
   } 
 
   private async setupAccountDropdown() {

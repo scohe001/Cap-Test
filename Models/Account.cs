@@ -26,6 +26,8 @@ namespace thing.Models
     public string PhoneNumber { get; set; }
     public string Notes { get; set; }
 
+    public decimal Total { get; set; }
+
     [InverseProperty("Account")]
     public List<Transaction> Transactions { get; set; }
 

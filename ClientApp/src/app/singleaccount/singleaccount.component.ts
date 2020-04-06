@@ -24,8 +24,11 @@ export class SingleaccountComponent implements OnInit {
     private accountManager: AccountmanagerService,
     private transactionManager: TransactionmanagerService) { }
 
+  // TODO: Add option for "Account Adjustment" and then give option for Misc or Reversal
+  //  Reversal allows to choose a past transaction to reverse (but disallows it if it'd put resale or return balance below 0)
+  //  Misc allows free reign. Enter an adjustment amount for Resale and for Return (also disallow either balance going below 0)
+  //  Both require a "reason" text field
   async ngOnInit() {
-    this.ResetInputs();
     this.RefreshTable();
   }
 
@@ -39,10 +42,4 @@ export class SingleaccountComponent implements OnInit {
     this.account = await this.accountManager.GetAccount(id);
     this.transactionTableSource.data = this.account.Transactions;
   }
-
-  ResetInputs() {
-    this.newTransaction = {Id: undefined, Date: undefined, AccountId: undefined,
-                            Account: undefined, Amount: 0, TransactionTypeId: undefined, TransactionType: undefined};
-  }
-
 }

@@ -26,9 +26,14 @@ namespace thing.Models
 
     public decimal Amount { get; set; }
 
+    public decimal NewTotal { get; set; }
+
     public int TransactionTypeId { get; set; }
     [ForeignKey("TransactionTypeId")]
     public TransactionType TransactionType { get; set; }
+
+    [InverseProperty("Transaction")]
+    public List<TransactionDistribution> TransactionDistributions { get; set; }
     #endregion
 
     #region Static Methods

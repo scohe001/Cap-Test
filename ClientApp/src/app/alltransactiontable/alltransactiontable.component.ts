@@ -117,9 +117,9 @@ export class AlltransactiontableComponent implements OnInit, OnDestroy, AfterVie
   }
 
   private ResetInputs() {
-    this.newAccount = {Id: undefined, FirstName: '', LastName: '', PhoneNumber: null, Notes: null, Transactions: undefined};
+    this.newAccount = {Id: undefined, FirstName: '', LastName: '', PhoneNumber: null, Notes: null, Total: null, Transactions: undefined};
     this.newTransaction = {Id: undefined, Date: undefined, AccountId: undefined,
-                            Account: undefined, Amount: 0, TransactionTypeId: undefined, TransactionType: undefined};
+                            Account: undefined, Amount: 0, NewTotal: null, TransactionTypeId: undefined, TransactionType: undefined};
   }
 
   private async RefreshTable() {

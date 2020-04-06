@@ -12,6 +12,8 @@ namespace thing.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
+        public DbSet<TransactionDistribution> TransactionDistributions { get; set; }
+        public DbSet<RevenueCode> RevenueCodes { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

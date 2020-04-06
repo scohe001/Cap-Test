@@ -1,0 +1,11 @@
+SELECT ROUND(SUM(t.Amount),2) [Actual Total], a.Total, a.Id, a.FirstName, a.LastName FROM Accounts a
+JOIN Transactions t ON t.AccountId = a.Id
+-- WHERE a.LastName = 'Prajzner'
+GROUP BY t.AccountId --, t.Amount
+HAVING ROUND(SUM(t.Amount),2) != a.Total
+
+/*
+SELECT a.Id, a.Total, t.* FROM Accounts a
+JOIN Transactions t ON t.AccountId = a.Id
+WHERE a.Id = '504'
+*/

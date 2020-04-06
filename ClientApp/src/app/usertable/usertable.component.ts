@@ -83,9 +83,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private ResetInputs() {
-    this.newAccount = {Id: undefined, FirstName: '', LastName: '', PhoneNumber: null, Notes: null, Transactions: undefined};
-    this.newTransaction = {Id: undefined, Date: undefined, AccountId: undefined,
-                            Account: undefined, Amount: 0, TransactionTypeId: undefined, TransactionType: undefined};
+    this.newAccount = {Id: undefined, FirstName: '', LastName: '', PhoneNumber: null, Notes: null, Total: null, Transactions: undefined};
   }
 
   private async RefreshTable() {
@@ -101,9 +99,9 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   private RefreshWindowSize = (vals: [number, number]) => {
     console.log("User table resizing...", this.displayedColumns, vals, this.cdRef);
     if(vals[1] < 525) {
-      this.displayedColumns = ['FirstName', 'LastName', 'Actions'];
+      this.displayedColumns = ['FirstName', 'LastName', 'Total', 'Actions'];
     } else {
-      this.displayedColumns = ['FirstName', 'LastName', 'PhoneNumber', 'Actions'];
+      this.displayedColumns = ['FirstName', 'LastName', 'PhoneNumber', 'Total', 'Actions'];
     }
     if (this.cdRef && !(this.cdRef as ViewRef).destroyed) {
       this.cdRef.detectChanges();

@@ -7,6 +7,7 @@ export interface Transaction {
   AccountId: number;
   Account: Account;
   Amount: number;
+  NewTotal: number;
   TransactionTypeId: number;
   TransactionType: TransactionType;
 }

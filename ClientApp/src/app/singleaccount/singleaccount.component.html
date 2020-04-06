@@ -1,8 +1,7 @@
 <h1 id="tableLabel">Single Account View</h1>
 
 <p *ngIf="!account"><em>Loading...</em></p>
-<!-- TODO: Wrap the Phone Number in its own ngIf so we don't just get empty parens-->
-<h2 *ngIf="account"> {{account.FirstName}} {{account.LastName}} ({{account.PhoneNumber}})</h2>
+<h2 *ngIf="account"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h2>
 
 <!-- TODO: Now that we can get here from the TransactionRegister, back shouldn't always go to /accounts 
             Going to need to be clever here (maybe get passed something in the url?)
@@ -19,6 +18,7 @@
   [matRippleRadius]="'10'"
   [matRippleColor]="'pink'">
 
+  <!-- TODO: Reorganize these to look more like ATH. Maybe add some links? -->
   <table mat-table [dataSource]="transactionTableSource" matSort class="mat-elevation-z8">
 
       <ng-container matColumnDef="Amount">
@@ -38,7 +38,7 @@
 
       <ng-container matColumnDef="Total">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Running Total </th>
-        <td mat-cell *matCellDef="let element"> $5.00 </td>
+        <td mat-cell *matCellDef="let element"> {{element.NewTotal | currency}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

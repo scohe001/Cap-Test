@@ -53,7 +53,7 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.accountTableSource.paginator = this.paginator;
 
     this.accountTableSource.sortingDataAccessor = (acct: Account, sortHeader: string) => {
-      return acct[sortHeader].toLowerCase(); // Ignore case on the sorting
+      return sortHeader !== "Total" ? acct[sortHeader].toLowerCase() : acct[sortHeader]; // Ignore case on the sorting
     };
     this.accountTableSource.sort = this.sort;
 

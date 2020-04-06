@@ -16,8 +16,7 @@
               <!-- TODO: Slap an ngIf on the phone call so we don't display it if screen is too small (might need to do something with the css for the other columns so they expand out)-->
               <!-- Stick an invisible character in here in case phone number is empty-->
               <span class="phone-col"> &zwnj; {{acct.PhoneNumber}} </span>
-              <!-- TODO: Give this a real value once we update the way things work -->
-              <span class="total-col"> $5.00 </span>
+              <span class="total-col"> {{acct.Total | currency}} </span>
             </div>
         </mat-option>
       </mat-autocomplete>

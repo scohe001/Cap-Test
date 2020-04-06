@@ -106,10 +106,10 @@ namespace thing.Models
     public static IEnumerable<DataPoint<string>> GetTransactionTotals(DateTime startDate, DateTime endDate, ApplicationDbContext context) {
       // Initialize Dict
       Dictionary<TransactionType, decimal> tranTotals = new Dictionary<TransactionType, decimal>();
-      foreach(TransactionType tranType in context.TransactionTypes) { tranTotals[tranType] = 0; }
+      foreach(TransactionType tranType in context.TransactionTypes.Where(tt => !tt.IsSystemType)) { tranTotals[tranType] = 0; }
 
       foreach(Transaction tran in GetTransactionsInRange(startDate, endDate, context)) {
-        tranTotals[tran.TransactionType] += tran.Amount;
+        tranTotals[tran.TransactionType] += Math.Abs(tran.Amount);
       }
 
       return tranTotals.Select(pair => new DataPoint<string>() { name = pair.Key.Name, value = pair.Value });
@@ -142,12 +142,12 @@ namespace thing.Models
     public static IEnumerable<DataSet<string>> GetAveragesForWeekDays(DateTime startDate, DateTime endDate, ApplicationDbContext context) {
       // Setup dictionary and initialize lists
       Dictionary<TransactionType, List<decimal>> dayTotals = new Dictionary<TransactionType, List<decimal>>();
-      foreach(TransactionType tranType in context.TransactionTypes) {
+      foreach(TransactionType tranType in context.TransactionTypes.Where(tt => !tt.IsSystemType)) {
         dayTotals[tranType] = new List<decimal>( new decimal[7] );
       }
 
       foreach(Transaction tran in GetTransactionsInRange(startDate, endDate, context)) {
-        dayTotals[tran.TransactionType][(int)tran.Date.DayOfWeek] += tran.Amount;
+        dayTotals[tran.TransactionType][(int)tran.Date.DayOfWeek] += Math.Abs(tran.Amount);
       }
 
       List<DataSet<string>> dataSets = new List<DataSet<string>>();
@@ -172,14 +172,14 @@ namespace thing.Models
 
     public static IQueryable<Transaction> GetTransactionsInRange(DateTime startDate, DateTime endDate, ApplicationDbContext context) {
       return context.Transactions
-          .Where(tran => tran.Date >= startDate && tran.Date <= endDate)
+          .Where(tran => tran.Date >= startDate && tran.Date <= endDate && !tran.TransactionType.IsSystemType)
           .OrderBy(tran => tran.Date);
     }
 
     private static IEnumerable<DataSet<DateTime>> GetTransactionData<T>(DateTime startDate, DateTime endDate, Func<Transaction, T> groupByFunc, Func<DateTime, DateTime> incrementDateFunc, Func<DateTime, DateTime> dateNameFunc, ApplicationDbContext context) {
       List<DataSet<DateTime>> dataSets = new List<DataSet<DateTime>>();
       IQueryable<Transaction> transInDateRange = GetTransactionsInRange(startDate, endDate, context);
-      foreach (TransactionType tranType in context.TransactionTypes) {
+      foreach (TransactionType tranType in context.TransactionTypes.Where(tt => !tt.IsSystemType)) {
         DataSet<DateTime> dataSet = new DataSet<DateTime>
         {
           name = tranType.Name,
@@ -194,7 +194,7 @@ namespace thing.Models
         dataSet.series = transInDateRange
             .Where(tran => tran.TransactionType.Equals(tranType))
             .GroupBy(groupByFunc)
-            .Select(trans => new DataPoint<DateTime>() { name = dateNameFunc(trans.FirstOrDefault().Date).Date, value = trans.Sum(tran => tran.Amount) })
+            .Select(trans => new DataPoint<DateTime>() { name = dateNameFunc(trans.FirstOrDefault().Date).Date, value = trans.Sum(tran => Math.Abs(tran.Amount)) })
             .ToList();
 
         for (var day = startDate.Date; day.Date <= endDate.Date; day = incrementDateFunc(day)) { 

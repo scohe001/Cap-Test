@@ -108,7 +108,7 @@ export class AlltransactiontableComponent implements OnInit, OnDestroy, AfterVie
     this.RefreshTable();
   }
 
-  private async save() {
+  public async save() {
     this.newAccount.FirstName = 'Tom';
     this.newAccount.LastName = 'Hudson';
     await this.accountManager.AddAccount(this.newAccount);
@@ -136,7 +136,7 @@ export class AlltransactiontableComponent implements OnInit, OnDestroy, AfterVie
     console.log(this.transactionTypes);
   }
 
-  private applyFilter(event: Event) {
+  public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.accountTableSource.filter = filterValue.trim().toLowerCase();
   }

@@ -17,9 +17,9 @@ export class DashboardComponent implements OnInit {
   };
 
   // Initialize to some nice dates (in prod, should probably do by week and then initialize to last 3 months)
-  private dateRange: [Date, Date] = [new Date('01/01/2014'), new Date('09/10/2015')];
+  public dateRange: [Date, Date] = [new Date('01/01/2014'), new Date('09/10/2015')];
 
-  private dateRangeVal: Date[]; // Going to be unused, but leaving it just in case
+  public dateRangeVal: Date[]; // Going to be unused, but leaving it just in case
 
   constructor(private responsiveManager: ResponsiveService) { }
 

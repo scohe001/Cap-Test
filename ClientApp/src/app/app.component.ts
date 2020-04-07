@@ -27,7 +27,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
       ]
 
   constructor(private cdRef: ChangeDetectorRef,
-              private responsiveManager: ResponsiveService,
+              public responsiveManager: ResponsiveService,
               private commonManager: CommonService) {
 
     // Setup initial
@@ -45,11 +45,11 @@ export class AppComponent implements AfterViewChecked, OnInit {
       // Just got too small...
       if(vals[1] <= this.smallestSize) {
         this.responsiveManager.setSideNavOpen(false);
-        this.responsiveManager.setSideNavExpanded(true);
+        // this.responsiveManager.setSideNavExpanded(true);
       }
       if(vals[1] > this.smallestSize) {
         this.responsiveManager.setSideNavOpen(true);
-        this.responsiveManager.setSideNavExpanded(true);
+        // this.responsiveManager.setSideNavExpanded(true);
       }
     });
   }

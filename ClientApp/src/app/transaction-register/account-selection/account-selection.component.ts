@@ -55,13 +55,13 @@ export class AccountSelectionComponent implements OnInit {
     }
   }
 
-  private clearSelection() {
+  public clearSelection() {
     this.acctCtrl.enable();
     // Hacky again to give the field time to enable or view to setup.
     setTimeout(() => this.acctCtrl.setValue(""));
   }
 
-  private openAccount() {
+  public openAccount() {
     window.open('/a/' + this.acctCtrl.value.Id, '_blank');
   }
 

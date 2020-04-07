@@ -108,18 +108,18 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private applyFilter(event: Event) {
+  public applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.accountTableSource.filter = filterValue.trim().toLowerCase();
   }
 
-  private AccountClick(acct: Account) {
+  public AccountClick(acct: Account) {
     console.log(acct);
     console.log("Navigating to: " + 'a/' + acct.Id + '/' + acct.FirstName + acct.LastName);
     this.router.navigate(['a/' + acct.Id + '/' + acct.FirstName + acct.LastName]);
   }
 
-  private DeleteClicked(acct: Account) {
+  public DeleteClicked(acct: Account) {
     console.log("Delete clicked for", acct);
     this.dialog.open(AreYouSureDeleteDialog, {
       data: acct
@@ -140,8 +140,8 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   templateUrl: 'are-you-sure-delete-dialog.html',
 })
 export class AreYouSureDeleteDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) private acct: Account) {}
-  private deleteAcct() {
+  constructor(@Inject(MAT_DIALOG_DATA) public acct: Account) {}
+  public deleteAcct() {
     console.log("Deleted!");
   }
 }

@@ -1,28 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountmanagerService } from '../services/accountmanager.service';
 import { Account } from '../interfaces/account';
 import { MatTableDataSource } from '@angular/material';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionmanagerService } from '../services/transactionmanager.service';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-singleaccount',
   templateUrl: './singleaccount.component.html',
-  styleUrls: ['./singleaccount.component.css']
+  styleUrls: ['./singleaccount.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', visibility: 'visible' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class SingleaccountComponent implements OnInit {
 
   account: Account;
   newTransaction: Transaction;
-  transactionTableSource: MatTableDataSource<Transaction> = new MatTableDataSource<Transaction>();
+  transactionTableSource: MatTableDataSource<TranData> = new MatTableDataSource<TranData>();
   displayedColumns: string[] = ['Amount', 'Type', 'Date', 'Total'];
+
+  // For detail expansion
+  isExpansionDetailRow = (i: number, row: TranData) => row.detailRow;
+  expandedId: number;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private accountManager: AccountmanagerService,
-    private transactionManager: TransactionmanagerService) { }
+    private transactionManager: TransactionmanagerService,
+    private cdRef: ChangeDetectorRef,) { }
 
   // TODO: Add option for "Account Adjustment" and then give option for Misc or Reversal
   //  Reversal allows to choose a past transaction to reverse (but disallows it if it'd put resale or return balance below 0)
@@ -37,9 +50,16 @@ export class SingleaccountComponent implements OnInit {
   }
 
   private async RefreshTable() {
-    // TODO: add some validation around the id from route. Make sure it's actually a good id (a positive integer)
+    // TODO: add some validation around the id from route. Make sure it's actually a good id (a positive integer) (see register for a good example)
     let id = this.route.snapshot.paramMap.get('id');
     this.account = await this.accountManager.GetAccount(id);
-    this.transactionTableSource.data = this.account.Transactions;
+    // Duplicate each row. One is main, one is hidden detail
+    this.transactionTableSource.data = this.account.Transactions.map(tran => [{ detailRow: false, tran: tran }, { detailRow: true, tran: tran }]).flat();
+    console.log(this.transactionTableSource.data);
   }
+}
+
+interface TranData {
+  tran: Transaction;
+  detailRow: boolean;
 }

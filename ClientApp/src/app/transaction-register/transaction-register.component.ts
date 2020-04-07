@@ -28,7 +28,7 @@ export class TransactionRegisterComponent implements OnInit {
 
   private id: string;
   private passedId: string = null;
-  private passedAccount: Account = null;
+  public passedAccount: Account = null;
 
   async ngOnInit() {
     // Will be null if they haven't come here from an account
@@ -48,7 +48,7 @@ export class TransactionRegisterComponent implements OnInit {
     return true;
   }
 
-  private acctSelectionChanged(newAcct: Account) {
+  public acctSelectionChanged(newAcct: Account) {
     console.log("New selection is: ", newAcct);
     this.selectedAccount = newAcct;
   }

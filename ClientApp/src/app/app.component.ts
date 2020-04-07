@@ -65,8 +65,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
         window.dispatchEvent(new Event('resize'));
         this.cdRef.detectChanges();
         this.sendResizeOnce = true;
-      }
-      );
+      });
     }
   }
 

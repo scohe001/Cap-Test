@@ -71,3 +71,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 {
   background-color: var(--sidenav-header-background) !important; 
 }
+
+.cc-table {
+  outline: 1px solid lightgrey;
+}

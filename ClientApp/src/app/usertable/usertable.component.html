@@ -1,6 +1,7 @@
 <h1 id="tableLabel">Accounts</h1>
 
-<p *ngIf="!accountList"><em>Loading...</em></p>
+
+<button mat-stroked-button color="primary" class="my-but" (click)="thing()">Test!</button>
 
 <mat-card
   matRipple
@@ -9,17 +10,19 @@
   [matRippleColor]="'pink'"
   class="content-item">
 
+  <p *ngIf="!accountList"><em>Loading...</em></p>
+
   <!--
   <mat-form-field class="content-item">
   -->
   <mat-form-field class="content-item">
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Bob">
+    <input [(ngModel)]="filterVal" matInput (keyup)="applyFilter()" placeholder="Ex. Bob">
   </mat-form-field>
 
   <div class="acct-table-container">
     <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
-    <table mat-table [dataSource]="accountTableSource" matSort class="acct-table" [hidden]="!accountList">
+    <table mat-table [dataSource]="accountTableSource" matSort class="cc-table" [hidden]="!accountList">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -46,7 +49,7 @@
 
         <ng-container matColumnDef="Actions">
           <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let element" class="my-cell" (click)="$event.stopPropagation()">
+          <td mat-cell *matCellDef="let element" class="my-cell">
           <!-- Honestly don't really need an edit button since they can just click the row...
             <button mat-icon-button class="my-butt highlight" (mouseenter)="buttonMousedOver = true;" (mouseleave)="buttonMousedOver = false;" matTooltip="View/Edit Customer {{element.FirstName}} {{element.LastName}}">
               <mat-icon aria-hidden="false" aria-label="Edit!">edit</mat-icon>
@@ -54,6 +57,7 @@
           -->
             <button
               mat-icon-button
+              (click)="$event.stopPropagation()"
               class="my-butt highlight"
               (mouseenter)="buttonMousedOver = true;"
               (mouseleave)="buttonMousedOver = false;"
@@ -63,6 +67,7 @@
             </button>
             <button
               mat-icon-button
+              (click)="$event.stopPropagation()"
               class="my-butt highlight"
               (mouseenter)="buttonMousedOver = true;"
               (mouseleave)="buttonMousedOver = false;"
@@ -74,8 +79,8 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': !buttonMousedOver}" class="my-row" (click)="AccountClick(row)"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': !buttonMousedOver}" class="my-row cc-table-row" (click)="AccountClick(row)"></tr>
     </table><br>
   </div>
-  <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [hidePageSize]="true" [pageSizeOptions]="[20]" (page)="paginatorChangedPage()" showFirstLastButtons></mat-paginator>
 </mat-card>

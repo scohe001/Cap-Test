@@ -30,9 +30,12 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   accountControl: FormControl =  new FormControl('', Validators.required);
   amountControl: FormControl = new FormControl('', Validators.required);
 
+  filterVal: string = "";
+  readonly FILTER_VAL_STORAGE_TAG: string = "ACCOUNT_SEARCH_FILTER_VAL";
+  readonly PAGINATOR_PAGE_STORAGE_TAG: string = "ACCOUNT_SEARCH_PAGINATOR_PAGE";
+
   accountTableSource: MatTableDataSource<Account> = new MatTableDataSource<Account>();
   badgeSubscription: Subscription;
-  badgeNum: number = 0;
   buttonMousedOver: boolean = false;
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -42,14 +45,13 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
               private cdRef: ChangeDetectorRef,
               private router: Router,
               private dialog: MatDialog,
-              private responsiveManager: ResponsiveService) { }
+              private responsiveManager: ResponsiveService,) { }
 
   ngOnInit() {
     this.ResetInputs();
     this.RefreshTable();
     this.RefreshWindowSize([null, window.innerWidth]);
 
-    this.badgeSubscription = interval(1000).subscribe(val => this.badgeNum = (this.badgeNum + 30) % 31);
     this.accountTableSource.paginator = this.paginator;
 
     this.accountTableSource.sortingDataAccessor = (acct: Account, sortHeader: string) => {
@@ -58,6 +60,20 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     this.accountTableSource.sort = this.sort;
 
     this.responsiveManager.onResize$.subscribe(this.RefreshWindowSize);
+
+    let lastFilterVal: string = localStorage.getItem(this.FILTER_VAL_STORAGE_TAG);
+    if(lastFilterVal && lastFilterVal != null) {
+      this.filterVal = lastFilterVal;
+      this.applyFilter();
+    }
+
+    // Have to wait for table to come all the way up to update paginator
+    setTimeout(() => {
+      let lastPaginatorPage: string = localStorage.getItem(this.PAGINATOR_PAGE_STORAGE_TAG);
+      if(lastPaginatorPage && lastPaginatorPage != null && /^([0-9]+)$/.test(lastPaginatorPage)) {
+        this.setPaginatorPage(Number(lastPaginatorPage));
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -66,13 +82,25 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    this.badgeSubscription.unsubscribe();
   }
 
   async thing() {
-    window.dispatchEvent(new Event('resize'));
-    console.log('Account List:');
-    console.log(this.accountList);
+    // window.dispatchEvent(new Event('resize'));
+    // console.log('Account List:');
+    // console.log(this.accountList);
+    // console.log("Seeing val of: ", this.paginatorVal);
+  }
+
+  // This is suuuuuper hacky because of a known Angular bug. See here for more: https://github.com/angular/components/issues/8417
+  private setPaginatorPage(pageNum: number) {
+      let currentPage = this.paginator.pageIndex;
+      this.paginator.pageIndex = pageNum;
+      this.accountTableSource.paginator.page.emit({
+        length: this.paginator.getNumberOfPages(),
+        pageIndex: pageNum,
+        pageSize: this.paginator.pageSize,
+        previousPageIndex: currentPage 
+      });
   }
 
   private async save() {
@@ -108,9 +136,15 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.accountTableSource.filter = filterValue.trim().toLowerCase();
+  public paginatorChangedPage() {
+    localStorage.setItem(this.PAGINATOR_PAGE_STORAGE_TAG, this.paginator.pageIndex.toString());
+  }
+
+  public applyFilter() {
+    if(this.filterVal == null) { this.filterVal = "" }
+    console.log("Applying filter! With: ", this.filterVal);
+    localStorage.setItem(this.FILTER_VAL_STORAGE_TAG, this.filterVal);
+    this.accountTableSource.filter = this.filterVal.trim().toLowerCase();
   }
 
   public AccountClick(acct: Account) {

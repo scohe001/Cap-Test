@@ -23,7 +23,7 @@ export class SingleaccountComponent implements OnInit {
 
   account: Account;
   transactionTableSource: MatTableDataSource<TranData> = new MatTableDataSource<TranData>();
-  displayedColumns: string[] = ['Amount', 'Type', 'Date', 'Total'];
+  displayedColumns: string[] = ['Date', 'Type', 'Amount', 'Total'];
 
   // For detail expansion
   isExpansionDetailRow = (i: number, row: TranData) => row.detailRow;
@@ -69,7 +69,7 @@ export class SingleaccountComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('id');
     this.account = await this.accountManager.GetAccount(id);
     // Duplicate each row. One is main, one is hidden detail
-    this.transactionTableSource.data = this.account.Transactions.map(tran => [{ detailRow: false, tran: tran }, { detailRow: true, tran: tran }]).flat();
+    this.transactionTableSource.data = this.account.Transactions.sort((tranA, tranB) => (tranA.Date < tranB.Date) ? 1 : -1).map(tran => [{ detailRow: false, tran: tran }, { detailRow: true, tran: tran }]).flat();
     console.log(this.transactionTableSource.data);
   }
 }

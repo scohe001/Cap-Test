@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AccountmanagerService } from '../services/accountmanager.service';
 import { Account } from '../interfaces/account';
 import { MatTableDataSource } from '@angular/material';
-import { Transaction } from '../interfaces/transaction';
+import { Transaction, TransactionDistribution, RevenueCode_TypeDef } from '../interfaces/transaction';
 import { TransactionmanagerService } from '../services/transactionmanager.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
@@ -22,7 +22,6 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 export class SingleaccountComponent implements OnInit {
 
   account: Account;
-  newTransaction: Transaction;
   transactionTableSource: MatTableDataSource<TranData> = new MatTableDataSource<TranData>();
   displayedColumns: string[] = ['Amount', 'Type', 'Date', 'Total'];
 
@@ -47,6 +46,22 @@ export class SingleaccountComponent implements OnInit {
 
   thing() {
     console.log(this.account);
+  }
+
+  private getDistForTran(tran: Transaction, revCodeId: RevenueCode_TypeDef) {
+    let dist: TransactionDistribution = tran.TransactionDistributions.find(tranDist => tranDist.RevenueCodeId === revCodeId)
+    if(!dist || dist == null) {
+      return 0;
+    }
+    return dist.Amount;
+  }
+
+  public getResaleDist(tran: Transaction) {
+    return this.getDistForTran(tran, RevenueCode_TypeDef.RESALE_ID);
+  }
+
+  public getReturnDist(tran: Transaction) {
+    return this.getDistForTran(tran, RevenueCode_TypeDef.RETURN_ID);
   }
 
   private async RefreshTable() {

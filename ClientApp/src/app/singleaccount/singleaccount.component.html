@@ -41,17 +41,20 @@
         <mat-cell *matCellDef="let element"> {{element.tran.NewTotal | currency}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Detail">
-        <mat-header-cell *matHeaderCellDef> Detail </mat-header-cell>
-        <mat-cell *matCellDef="let element"> I cost {{element.tran.NewTotal | currency}} </mat-cell>
+      <ng-container matColumnDef="ResaleDistLabel">
+        <mat-cell *matCellDef="let element"> Resale Distribution: </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Detail2">
-        <mat-cell *matCellDef="let element"> Hi! I'm a second detail </mat-cell>
+      <ng-container matColumnDef="ResaleDistVal">
+        <mat-cell *matCellDef="let element"> {{getResaleDist(element.tran) | currency}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="Detail3">
-        <mat-cell *matCellDef="let element"> Another? </mat-cell>
+      <ng-container matColumnDef="ReturnDistLabel">
+        <mat-cell *matCellDef="let element"> Return Distribution: </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ReturnDistVal">
+        <mat-cell *matCellDef="let element"> {{getReturnDist(element.tran) | currency}} </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
@@ -60,7 +63,7 @@
         [class.expanded]="expandedId === row.tran.Id"
         (click)="expandedId = (expandedId === row.tran.Id) ? null : row.tran.Id"></mat-row>
 
-      <mat-row *matRowDef="let row; columns: ['Detail', 'Detail2', 'Detail3']; when: isExpansionDetailRow"
+      <mat-row *matRowDef="let row; columns: ['ResaleDistLabel', 'ResaleDistVal', 'ReturnDistLabel', 'ReturnDistVal']; when: isExpansionDetailRow"
         [@detailExpand]="row.tran.Id === expandedId ? 'expanded' : 'collapsed'"
         style="overflow: hidden"
         class="detail-row"></mat-row>

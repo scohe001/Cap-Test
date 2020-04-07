@@ -66,6 +66,9 @@ namespace thing.Models
       return context.Accounts
                     .Include(acct => acct.Transactions)
                         .ThenInclude(tran => tran.TransactionType)
+                    .Include(acct => acct.Transactions)
+                        .ThenInclude(tran => tran.TransactionDistributions)
+                            .ThenInclude(tranDist => tranDist.RevenueCode)
                     .ToArray();
     }
 
@@ -73,6 +76,9 @@ namespace thing.Models
       return context.Accounts
                     .Include(acct => acct.Transactions)
                         .ThenInclude(tran => tran.TransactionType)
+                    .Include(acct => acct.Transactions)
+                        .ThenInclude(tran => tran.TransactionDistributions)
+                            .ThenInclude(tranDist => tranDist.RevenueCode)
                     .Where(acct => acct.Id == acctId)
                     .FirstOrDefault();
     }

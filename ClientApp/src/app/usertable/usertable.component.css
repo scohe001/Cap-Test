@@ -8,6 +8,10 @@ table {
   width: 100%;
 }
 
+.icon-but {
+    border: 0px;
+}
+
 /*
 .my-row:hover {
 

@@ -136,6 +136,13 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  public clearSelection() {
+    this.setPaginatorPage(0);
+    this.paginatorChangedPage();
+    this.filterVal = "";
+    this.applyFilter();
+  }
+
   public paginatorChangedPage() {
     localStorage.setItem(this.PAGINATOR_PAGE_STORAGE_TAG, this.paginator.pageIndex.toString());
   }

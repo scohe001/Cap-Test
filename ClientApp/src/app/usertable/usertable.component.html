@@ -18,6 +18,17 @@
   <mat-form-field class="content-item">
     <mat-label>Filter</mat-label>
     <input [(ngModel)]="filterVal" matInput (keyup)="applyFilter()" placeholder="Ex. Bob">
+
+    <button mat-icon-button
+        *ngIf="filterVal && filterVal != null && filterVal.length > 0"
+        mat-stroked-button
+        matSuffix
+        matTooltip="Clear Selection"
+        color="primary"
+        class="icon-but"
+        (click)="clearSelection()">
+        <mat-icon aria-hidden="false" aria-label="Clear Selection">clear</mat-icon>
+    </button>
   </mat-form-field>
 
   <div class="acct-table-container">

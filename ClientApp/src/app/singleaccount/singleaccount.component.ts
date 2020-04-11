@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material';
 import { Transaction, TransactionDistribution, RevenueCode_TypeDef } from '../interfaces/transaction';
 import { TransactionmanagerService } from '../services/transactionmanager.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-singleaccount',
@@ -34,6 +35,7 @@ export class SingleaccountComponent implements OnInit {
     private router: Router,
     private accountManager: AccountmanagerService,
     private transactionManager: TransactionmanagerService,
+    private commonManager: CommonService,
     private cdRef: ChangeDetectorRef,) { }
 
   // TODO: Add option for "Account Adjustment" and then give option for Misc or Reversal
@@ -65,12 +67,21 @@ export class SingleaccountComponent implements OnInit {
   }
 
   private async RefreshTable() {
-    // TODO: add some validation around the id from route. Make sure it's actually a good id (a positive integer) (see register for a good example)
-    let id = this.route.snapshot.paramMap.get('id');
-    this.account = await this.accountManager.GetAccount(id);
+    // Try to grab account from route. If it's bad, go back to account search
+    this.account = await this.GetAccountFromRoute();
+    if(!this.account) {
+      this.router.navigate(['/accounts']);
+      return;
+    }
+
     // Duplicate each row. One is main, one is hidden detail
     this.transactionTableSource.data = this.account.Transactions.sort((tranA, tranB) => (tranA.Date < tranB.Date) ? 1 : -1).map(tran => [{ detailRow: false, tran: tran }, { detailRow: true, tran: tran }]).flat();
     console.log(this.transactionTableSource.data);
+  }
+
+  private async GetAccountFromRoute() {
+    let id = this.route.snapshot.paramMap.get('id');
+    return await this.accountManager.GetAccount(id);
   }
 }
 

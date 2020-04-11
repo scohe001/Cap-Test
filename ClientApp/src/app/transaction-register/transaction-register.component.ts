@@ -9,6 +9,7 @@ import { TransactionmanagerService } from '../services/transactionmanager.servic
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionType } from '../interfaces/transactiontype';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'app-transaction-register',
@@ -23,7 +24,8 @@ export class TransactionRegisterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private accountManager: AccountmanagerService,
-    private transactionManager: TransactionmanagerService) { }
+    private transactionManager: TransactionmanagerService,
+    private commonManager: CommonService) { }
 
 
   private id: string;
@@ -41,11 +43,8 @@ export class TransactionRegisterComponent implements OnInit {
   } 
 
   private async checkAndUpdateId(id: string) {
-    if(! (/^([0-9]+)$/.test(id)) ) { return false; }
-    let acct: Account = await this.accountManager.GetAccount(id);
-    if(acct === null) { return false; }
-    this.passedAccount = acct;
-    return true;
+    this.passedAccount = await this.accountManager.GetAccount(id);
+    return this.passedAccount;
   }
 
   public acctSelectionChanged(newAcct: Account) {

@@ -9,12 +9,14 @@ export class CommonService {
 
   constructor(private http: HttpClient) { } // , @Inject('SERVER_URL') serverUrl: string) {
 
-  public async AddAccount(acct: Account) {
-  }
-
   public async GetVersionString() {
     return (await this.http.get<VersionObj>(this.url + 'Common/GetVersionString').toPromise()).Version;
   }
+
+  public IsGoodIdFormat(id: string): boolean {
+    return id && (/^([0-9]+)$/.test(id));
+  }
+
 }
 
 export interface VersionObj {

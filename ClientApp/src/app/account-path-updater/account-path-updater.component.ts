@@ -20,6 +20,12 @@ export class AccountPathUpdaterComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('id');
     let account: Account = await this.accountManager.GetAccount(id);
 
+    // If it's a bad account, go back to account search
+    if(!account) {
+      this.router.navigate(['/accounts']);
+      return;
+    } 
+
     // Add full name to the end of the link
     this.router.navigate([account.FirstName + account.LastName], {
      relativeTo: this.route,

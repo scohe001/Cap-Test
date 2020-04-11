@@ -4,6 +4,7 @@ import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionType } from '../interfaces/transactiontype';
 import { DataSet, DataPoint } from '../interfaces/graphdata';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { DataSet, DataPoint } from '../interfaces/graphdata';
 export class AccountmanagerService {
   private url: string = 'https://localhost:5001/';
 
-  constructor(private http: HttpClient) { } // , @Inject('SERVER_URL') serverUrl: string) {
+  constructor(private http: HttpClient,
+              private commonManager: CommonService) { } // , @Inject('SERVER_URL') serverUrl: string) {
 
   public async AddAccount(acct: Account) {
     // this.http.post<Account>(this.url + 'Tester/AddAccountByAccount', acct).subscribe(result => {
@@ -29,6 +31,11 @@ export class AccountmanagerService {
   }
 
   public async GetAccount(acctId: string) {
+    if(!this.commonManager.IsGoodIdFormat(acctId)) { return null; }
+    return this.GetAccountFromDb(acctId);
+  }
+
+  private async GetAccountFromDb(acctId: string) {
     return await this.http.get<Account>(this.url + 'Account/GetAccount',
                                     { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
   }

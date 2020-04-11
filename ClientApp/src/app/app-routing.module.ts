@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
 import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
+import { DownloadDashboardComponent } from './download-dashboard/download-dashboard.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'transaction-register', component: TransactionRegisterComponent },
   { path: 'transaction-register/:id', component: TransactionRegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
+  { path: 'download', component: DownloadDashboardComponent },
   { path: 'help', component: HelpComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },

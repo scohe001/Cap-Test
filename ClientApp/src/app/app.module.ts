@@ -30,6 +30,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
 import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
 import { AccountSelectionComponent } from './transaction-register/account-selection/account-selection.component';
+import { DownloadDashboardComponent } from './download-dashboard/download-dashboard.component';
 
 
 @NgModule({
@@ -49,9 +50,11 @@ import { AccountSelectionComponent } from './transaction-register/account-select
     TransactionRegisterComponent,
     AreYouSureDeleteDialog,
     AccountSelectionComponent,
+    DownloadDashboardComponent,
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    // BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,

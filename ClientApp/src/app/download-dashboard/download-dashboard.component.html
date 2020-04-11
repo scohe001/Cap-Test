@@ -1,0 +1,38 @@
+<h1>Download Dashboard</h1>
+
+
+<mat-card class="content-item">
+    <span>Eventually this'll be a place where users can download a csv
+        dump of transactions over a certain period.<br> But for now,
+        it'll be my playground for testing form groups...</span>
+</mat-card>
+
+<mat-card class="content-item">
+    <h4>Some form test...</h4>
+
+    <form [formGroup]="tranForm" (ngSubmit)="onSubmit()">
+  
+        <!--
+        <div>
+          <label>
+            Transaction Type:
+            <input type="text" formControlName="tranType" required>
+          </label>
+        </div>
+    -->
+
+        <mat-radio-group aria-label="Transaction Type" class="tran-type-group" *ngIf="tranTypes" formControlName="tranType"> <!-- (click)="tranTypeSelected()"> -->
+            <mat-radio-button value="1" *ngFor="let tt of tranTypes" [value]="tt"> {{tt.Name}} </mat-radio-button>
+        </mat-radio-group>
+      
+        <div>
+          <label>
+            Transaction Amount:
+            <input type="number" formControlName="tranAmount">
+          </label>
+        </div>
+      
+        <button mat-stroked-button type="submit" [disabled]="!tranForm.valid">Submit</button>
+      </form>
+      <button mat-stroked-button (click)="thing()">Test</button>
+</mat-card>

@@ -58,6 +58,15 @@
   background-color: slategrey;
 }
 
+/* TODO: Really need to get theme working for us instead of this hackiness */
+::ng-deep .mat-step-header .mat-step-icon-selected {
+    background-color: var(--sidenav-header-background);
+ }
+
+::ng-deep .mat-step-header .mat-step-icon-state-edit {
+    background-color: var(--sidenav-header-background);
+}
+
   /*
             <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
             <span class="phone-col"> | {{acct.PhoneNumber}}</span>

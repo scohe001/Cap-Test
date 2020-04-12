@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
@@ -8,8 +8,9 @@ import { AccountmanagerService } from '../services/accountmanager.service';
 import { TransactionmanagerService } from '../services/transactionmanager.service';
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
-import { TransactionType } from '../interfaces/transactiontype';
+import { TransactionType, TranType_TypeDef } from '../interfaces/transactiontype';
 import { CommonService } from '../services/common.service';
+import { MatStepper } from '@angular/material';
 
 @Component({
   selector: 'app-transaction-register',
@@ -18,7 +19,6 @@ import { CommonService } from '../services/common.service';
 })
 export class TransactionRegisterComponent implements OnInit {
 
-  selectedAccount: Account = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,17 +28,19 @@ export class TransactionRegisterComponent implements OnInit {
     private commonManager: CommonService,
     private fb: FormBuilder,) { }
 
-  public passedAccount: Account = null;
+  @ViewChild('stepper',  {static: false}) private tranStepper: MatStepper;
 
-  tranTypes: TransactionType[];
+  selectedAccount: Account = null;
 
   tranForm: FormGroup = this.fb.group({
     tranAcctForm: this.fb.group({
-      tranAccount: ['', Validators.required]
+        tranAccount: ['', Validators.required],
     }),
-    tranType: ['', Validators.required],
-    tranAmount: [-1, Validators.min(0)],
-  })
+    tranDetailsForm: this.fb.group({
+      tranType: ['', Validators.required],
+      tranAmount: ['$15.00', Validators.min(0.01)],
+    }),
+  });
 
   async ngOnInit() {
     // Make sure we know if account selection changes
@@ -48,14 +50,20 @@ export class TransactionRegisterComponent implements OnInit {
   public acctSelectionChanged = (newAcctSelection: any) => {
     if(!newAcctSelection) {
       //empty selection...maybe do something special?
+      this.tranStepper.selectedIndex = 0; // Move to Account selection step
+      this.selectedAccount = null;
       console.log("Empty acct selection!");
       return;
     }
 
     // If it's not an account, we don't really care...
-    if(!this.accountManager.isObjectAnAccount(newAcctSelection)) { return; }
+    if(!this.accountManager.isObjectAnAccount(newAcctSelection)) { 
+      this.selectedAccount = null;
+      return;
+    }
 
     // New Account selected!
+    setTimeout(() => this.tranStepper.selectedIndex = 1); // Move to next step
     let newAcct: Account = newAcctSelection as Account;
     console.log("New selection is: ", newAcct);
     this.selectedAccount = newAcct;
@@ -63,5 +71,10 @@ export class TransactionRegisterComponent implements OnInit {
 
   public thing() {
     console.log(this.tranForm.get('tranAcctForm').get('tranAccount').value);
+  }
+
+  public onSubmit() {
+    // Raw val includes disabled controls (like in the case of a cash out)
+    console.log("Submitted!", this.tranForm.getRawValue());
   }
 }

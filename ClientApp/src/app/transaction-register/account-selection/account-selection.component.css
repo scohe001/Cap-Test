@@ -10,20 +10,20 @@
 
 .name-col {
     width: 45%;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
     border-right: 1px dashed black;
 }
 
 .phone-col {
     width: 35%;
+    border-bottom: 2px solid black;
     border-right: 1px dashed black;
-    border-bottom: 1px solid black;
     padding-left: 10px;
 }
 
 .total-col {
     width: 20%;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid black;
     padding-left: 10px;
 }
 

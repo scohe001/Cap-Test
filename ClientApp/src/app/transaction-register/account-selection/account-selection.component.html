@@ -6,11 +6,10 @@
              required
              [matAutocomplete]="auto"
              formControlName="tranAccount"
-             (keydown.enter)="acctCtrl.disable()"
              #acctAutoComplete="matAutocompleteTrigger"
              >
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="acctToString">
-        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct" (click)="acctCtrl.disable()">
+        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct">
             <div class="acct-row">
               <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
               <!-- TODO: Slap an ngIf on the phone call so we don't display it if screen is too small (might need to do something with the css for the other columns so they expand out)-->

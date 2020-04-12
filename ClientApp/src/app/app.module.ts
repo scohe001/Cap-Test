@@ -11,7 +11,7 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
           MatListModule, MatGridListModule, MatCardModule, 
           MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,
-          MatDialogModule,} from '@angular/material';
+          MatDialogModule, MatStepperModule,} from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -32,6 +32,7 @@ import { HelpComponent } from './help/help.component';
 import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
 import { AccountSelectionComponent } from './transaction-register/account-selection/account-selection.component';
 import { DownloadDashboardComponent } from './download-dashboard/download-dashboard.component';
+import { TransactionDetailsInputComponent } from './transaction-register/transaction-details-input/transaction-details-input.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { DownloadDashboardComponent } from './download-dashboard/download-dashbo
     AreYouSureDeleteDialog,
     AccountSelectionComponent,
     DownloadDashboardComponent,
+    TransactionDetailsInputComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -81,6 +83,7 @@ import { DownloadDashboardComponent } from './download-dashboard/download-dashbo
     MatAutocompleteModule,
     MatTooltipModule,
     MatDialogModule,
+    MatStepperModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),

@@ -2,8 +2,44 @@
 
 <button matTooltip="Testing. 1, 2, 3." mat-stroked-button color="primary" (click)="thing()">Testing</button>
 
-<mat-card class="content-item">
-    <app-account-selection [formGroup]="tranForm.get('tranAcctForm')"></app-account-selection>
-</mat-card>
-
 <!-- TODO: Give them a date picker here. Disallow choosing a date on or prior to last transaction in the ath-->
+<mat-card class="content-item">
+    <form [formGroup]="tranForm" (ngSubmit)="onSubmit()">
+    <mat-vertical-stepper [linear]="true" #stepper>
+
+        <mat-step [stepControl]="tranForm.get('tranAcctForm')">
+            <ng-template matStepLabel>Select Account 
+                <span *ngIf="selectedAccount">
+                    ({{selectedAccount.FirstName}} {{selectedAccount.LastName}})
+                </span>
+            </ng-template>
+
+            <div>
+                <app-account-selection [formGroup]="tranForm.get('tranAcctForm')"></app-account-selection>
+            </div>
+        </mat-step>
+
+        <mat-step [stepControl]="tranForm.get('tranDetailsForm')">
+          <ng-template matStepLabel>Enter Transaction Details</ng-template>
+            <div>
+                <app-transaction-details-input [formGroup]="tranForm.get('tranDetailsForm')"></app-transaction-details-input>
+            </div>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+          <ng-template matStepLabel>Review</ng-template>
+          <p>You are now done.</p>
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+            <button mat-button type="submit" [disabled]="!tranForm.valid">Submit</button>
+          </div>
+        </mat-step>
+
+    </mat-vertical-stepper>
+    </form>
+</mat-card>

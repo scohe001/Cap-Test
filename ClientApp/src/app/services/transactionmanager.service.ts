@@ -4,6 +4,7 @@ import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionType } from '../interfaces/transactiontype';
 import { DataSet, DataPoint } from '../interfaces/graphdata';
+import { HttpStatusCodeResponse } from './common.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class TransactionmanagerService {
   }
 
   public async AddTransaction(tran: Transaction) {
-    return await this.http.post<Transaction>(this.url + 'Transaction/AddTransaction', tran).toPromise();
+    return await this.http.post<HttpStatusCodeResponse>(this.url + 'Transaction/AddTransaction', tran).toPromise();
   }
 
   public async GetTransactionsForAccountId(acctId: number) {

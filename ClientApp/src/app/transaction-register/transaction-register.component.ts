@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
@@ -9,8 +9,8 @@ import { TransactionmanagerService } from '../services/transactionmanager.servic
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionType, TranType_TypeDef } from '../interfaces/transactiontype';
-import { CommonService } from '../services/common.service';
-import { MatStepper } from '@angular/material';
+import { CommonService, HttpStatusCodeResponse } from '../services/common.service';
+import { MatStepper, MatSnackBar, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-transaction-register',
@@ -26,7 +26,9 @@ export class TransactionRegisterComponent implements OnInit {
     private accountManager: AccountmanagerService,
     private transactionManager: TransactionmanagerService,
     private commonManager: CommonService,
-    private fb: FormBuilder,) { }
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private snackBarManager: MatSnackBar,) { }
 
   @ViewChild('stepper',  {static: false}) private tranStepper: MatStepper;
 
@@ -39,6 +41,7 @@ export class TransactionRegisterComponent implements OnInit {
     tranDetailsForm: this.fb.group({
       tranType: ['', Validators.required],
       tranAmount: ['$15.00', Validators.min(0.01)],
+      tranDate: [new Date(), Validators.required],
     }),
   });
 
@@ -70,7 +73,7 @@ export class TransactionRegisterComponent implements OnInit {
   }
 
   public thing() {
-    console.log(this.tranForm.get('tranAcctForm').get('tranAccount').value);
+    console.log("Raw form val is: ", this.tranForm.getRawValue());
   }
 
   private currencyToNumber(currency: string) {
@@ -78,24 +81,42 @@ export class TransactionRegisterComponent implements OnInit {
   }
 
 
-  public onSubmit() {
-    // Raw val includes disabled controls (like in the case of a cash out)
-    console.log("Submitted!", this.tranForm.getRawValue());
-
+  public async onSubmit() {
     let newTransaction: Transaction = {
-      Date: new Date(), // TODO: Pull this from a control yet to be made
+      Date: this.tranForm.get('tranDetailsForm').get('tranDate').value,
       AccountId: this.tranForm.get('tranAcctForm').get('tranAccount').value.Id,
       Amount: this.currencyToNumber(this.tranForm.get('tranDetailsForm').get('tranAmount').value),
       TransactionTypeId: this.tranForm.get('tranDetailsForm').get('tranType').value.Id, 
       Id: undefined, NewTotal: undefined, Account: undefined, TransactionType: undefined, TransactionDistributions: undefined
     }
 
+    // Raw val includes disabled controls (like in the case of a cash out)
+    console.log("Submitted!", this.tranForm.getRawValue());
     console.log("Adding tran: ", newTransaction);
 
-    let result = this.transactionManager.AddTransaction(newTransaction);
-    console.log("Got back result...", result);
+    let result: HttpStatusCodeResponse = await this.transactionManager.AddTransaction(newTransaction);
 
-    // TODO: Maybe popup some "Success!" message box for 2 seconds before redirecting to account?
-    this.router.navigate(['/a/', newTransaction.AccountId]);
+    if(result.StatusCode === 200) { // Okay!
+      this.snackBarManager.open(`Success! Redirecting to ${this.tranForm.get('tranAcctForm').get('tranAccount').value.FirstName}'s account page in 3 seconds...`, "Dismiss", {
+        duration: 3000,
+      });
+      // Wait 3 seconds and then redirect...
+      setTimeout(() => this.router.navigate(['/a/', newTransaction.AccountId]), 3000);
+    } else {
+      console.log(`Error #${result.StatusCode}: ${result.StatusDescription}`);
+
+      this.dialog.open(TranPostingErrorDialog, {
+        data: result
+      });
+    }
   }
+}
+
+@Component({
+  selector: 'tran-posting-error',
+  templateUrl: './tran-posting-error.html',
+  styleUrls: ['./transaction-register.component.css'],
+})
+export class TranPostingErrorDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public result: HttpStatusCodeResponse) {}
 }

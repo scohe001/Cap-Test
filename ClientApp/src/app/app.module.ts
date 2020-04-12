@@ -11,7 +11,8 @@ import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
           MatListModule, MatGridListModule, MatCardModule, 
           MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,
-          MatDialogModule, MatStepperModule,} from '@angular/material';
+          MatDialogModule, MatStepperModule, MatNativeDateModule,
+          MatSnackBarModule,} from '@angular/material';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -29,7 +30,7 @@ import { TranTypePieChartComponent } from './dashboard/tran-type-pie-chart/tran-
 import { TranHistoryLineGraphComponent } from './dashboard/tran-history-line-graph/tran-history-line-graph.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
-import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
+import { TransactionRegisterComponent, TranPostingErrorDialog } from './transaction-register/transaction-register.component';
 import { AccountSelectionComponent } from './transaction-register/account-selection/account-selection.component';
 import { DownloadDashboardComponent } from './download-dashboard/download-dashboard.component';
 import { TransactionDetailsInputComponent } from './transaction-register/transaction-details-input/transaction-details-input.component';
@@ -54,6 +55,7 @@ import { TransactionDetailsInputComponent } from './transaction-register/transac
     AccountSelectionComponent,
     DownloadDashboardComponent,
     TransactionDetailsInputComponent,
+    TranPostingErrorDialog,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -84,6 +86,8 @@ import { TransactionDetailsInputComponent } from './transaction-register/transac
     MatTooltipModule,
     MatDialogModule,
     MatStepperModule,
+    MatNativeDateModule,
+    MatSnackBarModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),
@@ -94,6 +98,6 @@ import { TransactionDetailsInputComponent } from './transaction-register/transac
     CurrencyPipe,
   ],
   bootstrap: [AppComponent],
-  entryComponents: [AreYouSureDeleteDialog],
+  entryComponents: [AreYouSureDeleteDialog, TranPostingErrorDialog],
 })
 export class AppModule { }

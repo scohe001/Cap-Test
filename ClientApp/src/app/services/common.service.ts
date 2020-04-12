@@ -22,3 +22,8 @@ export class CommonService {
 export interface VersionObj {
   Version: string;
 }
+
+export interface HttpStatusCodeResponse  {
+  StatusCode: number;
+  StatusDescription: string;
+}

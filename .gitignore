@@ -456,5 +456,5 @@ testem.log
 .DS_Store
 Thumbs.db
 *.swp
-*.db-shm
+*shm
 *.db-wal

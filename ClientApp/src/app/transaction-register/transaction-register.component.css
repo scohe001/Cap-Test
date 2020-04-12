@@ -2,21 +2,16 @@
     min-width: 150px;
     max-width: 500px;
     width: 100%;
-  }
+}
   
-  .example-full-width {
-    width: 100%;
-  }
-  
+.example-full-width {
+  width: 100%;
+}
+
 .name-col {
     width: 45%;
     border-bottom: 1px solid black;
     border-right: 1px dashed black;
-    /*
-    outline: .5px dashed black;
-    padding-bottom: -5%;
-    */
-    /* padding: .2em .4em; */
 }
 
 .phone-col {
@@ -24,22 +19,12 @@
     border-right: 1px dashed black;
     border-bottom: 1px solid black;
     padding-left: 10px;
-    /*
-    outline: .5px dashed black;
-    padding: .2em .4em;
-    */
-
 }
 
 .total-col {
     width: 20%;
     border-bottom: 1px solid black;
     padding-left: 10px;
-    /*
-    border: 1px solid black;
-    outline: .5px dashed black;
-    padding: .2em .4em;
-    */
 }
 
 .acct-row span {
@@ -58,6 +43,14 @@
   background-color: slategrey;
 }
 
+.error-header {
+  color: #BC4B51;
+}
+
+:host ::ng-deep .mat-vertical-content {
+  padding-bottom: 3px !important;
+}
+
 /* TODO: Really need to get theme working for us instead of this hackiness */
 ::ng-deep .mat-step-header .mat-step-icon-selected {
     background-color: var(--sidenav-header-background);
@@ -66,9 +59,3 @@
 ::ng-deep .mat-step-header .mat-step-icon-state-edit {
     background-color: var(--sidenav-header-background);
 }
-
-  /*
-            <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
-            <span class="phone-col"> | {{acct.PhoneNumber}}</span>
-            <span class="total-col"> | $5.00</span>
-            */

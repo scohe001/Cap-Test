@@ -50,7 +50,7 @@ namespace thing.Models
 
       // New tran can't be before the most recent tran on the account
       Transaction mostRecentTran = account.Transactions.OrderByDescending(tran => tran.Date).FirstOrDefault();
-      if(mostRecentTran != null && mostRecentTran.Date > pTran.Date) { return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Transaction Date must not be before the most recent transaction on the Account"); }
+      if(mostRecentTran != null && mostRecentTran.Date > pTran.Date) { return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Transaction Date must not be before the most recent transaction on the Account."); }
 
       // TODO: Setup some kind of Guid key for the acct and check here if it matches
       //        (if check fails, return 409 Conflict status code, since someone else has made a tran in the meantime...)
@@ -70,13 +70,22 @@ namespace thing.Models
           tranHandler = CreatePurchase;
           break;
         case TransactionType.CASHOUT_ID:
+          if(currentResaleTotal <= 0) { 
+            return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Cannot cashout an account with a 0 balance in resales--nothing to cashout.");
+          }
           tranHandler = CreateCashout;
           break;
         default:
-          return new HttpNotFoundResult("Could not find TransactionType with Id: " + pTran.TransactionTypeId.ToString()); // Bad transaction type Id!
+          return new HttpNotFoundResult($"Could not find TransactionType with Id: {pTran.TransactionTypeId}."); // Bad transaction type Id!
       }
 
+      if(pTran.Amount + currentResaleTotal + currentReturnTotal < 0) { 
+        return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Transaction results in an Account balance less than $0.00.");
+      }
       tranHandler(pTran.Amount, currentResaleTotal, currentReturnTotal, pTran.AccountId, pTran.Date, context);
+
+      // Update total amount on the Account itself
+      account.Total = pTran.Amount + currentResaleTotal + currentReturnTotal;
       context.SaveChanges();
 
       return new HttpStatusCodeResult(HttpStatusCode.OK);

@@ -30,10 +30,11 @@
         <div>
           <label>
             Transaction Amount: $
+            <!-- type="number" -->
             <input
                 matInput
-                type="number"
-                formControlName="tranAmount">
+                formControlName="tranAmount"
+                (focusout)="validateAmountField()">
           </label>
         </div>
       

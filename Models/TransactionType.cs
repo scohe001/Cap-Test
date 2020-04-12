@@ -23,12 +23,12 @@ namespace thing.Models
 
     #region Typedef
 
-    static public int RESALE_ID => 1;
-    static public int RETURN_ID => 2;
-    static public int PURCHASE_ID => 3;
-    static public int CASHOUT_ID => 4;
-    static public int CASHOUT_DEDUCTION_ID => 5;
-    static public int CREDIT_EXPIRATION_ID => 6;
+    public const int RESALE_ID = 1;
+    public const int RETURN_ID = 2;
+    public const int PURCHASE_ID = 3;
+    public const int CASHOUT_ID = 4;
+    public const int CASHOUT_DEDUCTION_ID = 5;
+    public const int CREDIT_EXPIRATION_ID = 6;
 
     #endregion
   }

@@ -5,7 +5,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using System.Web.Mvc;
 using thing.Data;
+using System.Net;
 
 using thing.Dates;
 
@@ -40,18 +44,42 @@ namespace thing.Models
 
     #region Creates
 
-    public static Transaction CreateTransaction(Transaction pTran, ApplicationDbContext context) { 
-      Transaction tran = new Transaction
-      {
-        AccountId = pTran.AccountId,
-        TransactionTypeId = pTran.TransactionTypeId,
-        Amount = pTran.Amount,
-        Date = DateTime.Now
-      };
+    public static HttpStatusCodeResult CreateTransaction(Transaction pTran, ApplicationDbContext context) {
+      Account account = Account.GetSingleAccount(pTran.AccountId, context);
+      if(account == null) { return new HttpNotFoundResult("Could not find account with Id: " + pTran.AccountId.ToString()); } // Bad Id passed
 
-      var entry = context.Transactions.Add(tran);
+      // New tran can't be before the most recent tran on the account
+      Transaction mostRecentTran = account.Transactions.OrderByDescending(tran => tran.Date).FirstOrDefault();
+      if(mostRecentTran != null && mostRecentTran.Date > pTran.Date) { return new HttpStatusCodeResult(HttpStatusCode.Forbidden, "Transaction Date must not be before the most recent transaction on the Account"); }
+
+      // TODO: Setup some kind of Guid key for the acct and check here if it matches
+      //        (if check fails, return 409 Conflict status code, since someone else has made a tran in the meantime...)
+
+      decimal currentResaleTotal = account.Transactions.Sum(tran => tran.TransactionDistributions.Where(tranDist => tranDist.RevenueCodeId == RevenueCode.RESALE_ID).Sum(tranDist => tranDist.Amount));
+      decimal currentReturnTotal = account.Transactions.Sum(tran => tran.TransactionDistributions.Where(tranDist => tranDist.RevenueCodeId == RevenueCode.RETURN_ID).Sum(tranDist => tranDist.Amount));
+
+      TransactionDelegate tranHandler = null;
+      switch(pTran.TransactionTypeId) {
+        case TransactionType.RESALE_ID:
+          tranHandler = CreateResale;
+          break;
+        case TransactionType.RETURN_ID:
+          tranHandler = CreateReturn;
+          break;
+        case TransactionType.PURCHASE_ID:
+          tranHandler = CreatePurchase;
+          break;
+        case TransactionType.CASHOUT_ID:
+          tranHandler = CreateCashout;
+          break;
+        default:
+          return new HttpNotFoundResult("Could not find TransactionType with Id: " + pTran.TransactionTypeId.ToString()); // Bad transaction type Id!
+      }
+
+      tranHandler(pTran.Amount, currentResaleTotal, currentReturnTotal, pTran.AccountId, pTran.Date, context);
       context.SaveChanges();
-      return entry.Entity;
+
+      return new HttpStatusCodeResult(HttpStatusCode.OK);
     }
 
     #endregion
@@ -170,6 +198,8 @@ namespace thing.Models
 
     #region Helpers
 
+    #region Helpers for analytics
+
     public static IQueryable<Transaction> GetTransactionsInRange(DateTime startDate, DateTime endDate, ApplicationDbContext context) {
       return context.Transactions
           .Where(tran => tran.Date >= startDate && tran.Date <= endDate && !tran.TransactionType.IsSystemType)
@@ -207,6 +237,166 @@ namespace thing.Models
       }
       return dataSets;
     }
+
+    #endregion
+
+    #region Helpers for creates
+
+    private delegate void TransactionDelegate(decimal val, decimal resaleTotal, decimal returnTotal, int acctId, DateTime date, ApplicationDbContext context);
+
+    private static void CreateCashout(decimal _, decimal resaleTotal, decimal returnTotal, int acctId, DateTime date, ApplicationDbContext context) {
+      decimal val = -resaleTotal;
+
+      decimal baseVal = Math.Round(val * .8M, 2);
+      decimal discountVal = val - baseVal;
+      Transaction baseT = new Transaction
+      {
+        AccountId = acctId,
+        Amount = baseVal,
+        Date = date,
+        NewTotal = returnTotal - discountVal,
+        TransactionTypeId = TransactionType.CASHOUT_ID
+      };
+      baseT = context.Add(baseT).Entity;
+      context.SaveChanges();
+
+      TransactionDistribution baseTD = new TransactionDistribution
+      {
+        AccountId = acctId,
+        Amount = baseVal,
+        NewAccountRevenueTotal = -discountVal,
+        TransactionId = baseT.Id,
+        RevenueCodeId = RevenueCode.RESALE_ID
+      };
+      context.Add(baseTD);
+
+      Transaction discountT = new Transaction
+      {
+        AccountId = acctId,
+        Amount = discountVal,
+        Date = date,
+        NewTotal = returnTotal,
+        TransactionTypeId = TransactionType.CASHOUT_DEDUCTION_ID
+      };
+      discountT = context.Add(discountT).Entity;
+      context.SaveChanges();
+
+      TransactionDistribution discountTD = new TransactionDistribution
+      {
+        AccountId = acctId,
+        Amount = discountVal,
+        NewAccountRevenueTotal = 0M,
+        TransactionId = discountT.Id,
+        RevenueCodeId = RevenueCode.RESALE_ID
+      };
+      context.Add(discountTD);
+      context.SaveChanges();
+    }
+
+    // resaleTotal/returnTotal are BEFORE val
+    private static void CreatePurchase(decimal val, decimal resaleTotal, decimal returnTotal, int acctId, DateTime date, ApplicationDbContext context) {
+      Transaction t = new Transaction
+      {
+        AccountId = acctId,
+        Amount = val,
+        Date = date,
+        NewTotal = val + resaleTotal + returnTotal,
+        TransactionTypeId = TransactionType.PURCHASE_ID
+      };
+      t = context.Add(t).Entity;
+      context.SaveChanges();
+
+      if(returnTotal + val < 0) {
+        if (returnTotal > 0)
+        {
+          TransactionDistribution td = new TransactionDistribution
+          {
+            AccountId = acctId,
+            Amount = -returnTotal,
+            NewAccountRevenueTotal = 0,
+            TransactionId = t.Id,
+            RevenueCodeId = RevenueCode.RETURN_ID
+          };
+          context.Add(td);
+        }
+
+        resaleTotal += returnTotal + val;
+
+        TransactionDistribution resaleTD = new TransactionDistribution
+        {
+          AccountId = acctId,
+          Amount = returnTotal + val,
+          NewAccountRevenueTotal = resaleTotal + returnTotal + val,
+          TransactionId = t.Id,
+          RevenueCodeId = RevenueCode.RESALE_ID
+        };
+        context.Add(resaleTD);
+      }
+      else { 
+        TransactionDistribution td = new TransactionDistribution
+        {
+          AccountId = acctId,
+          Amount = val,
+          NewAccountRevenueTotal = returnTotal + val,
+          TransactionId = t.Id,
+          RevenueCodeId = RevenueCode.RETURN_ID
+        };
+        context.Add(td);
+      }
+      context.SaveChanges();
+    }
+
+    // resaleTotal is AFTER val
+    private static void CreateResale(decimal val, decimal resaleTotal, decimal returnTotal, int acctId, DateTime date, ApplicationDbContext context) { 
+      Transaction t = new Transaction
+      {
+        AccountId = acctId,
+        Amount = val,
+        Date = date,
+        NewTotal = val + resaleTotal + returnTotal,
+        TransactionTypeId = TransactionType.RESALE_ID
+      };
+      t = context.Add(t).Entity;
+      context.SaveChanges();
+
+      TransactionDistribution td = new TransactionDistribution
+      {
+        AccountId = acctId,
+        Amount = val,
+        NewAccountRevenueTotal = resaleTotal + val,
+        TransactionId = t.Id,
+        RevenueCodeId = RevenueCode.RESALE_ID
+      };
+      context.Add(td);
+      context.SaveChanges();
+    }
+
+    // returnTotal is AFTER val
+    private static void CreateReturn(decimal val, decimal resaleTotal, decimal returnTotal, int acctId, DateTime date, ApplicationDbContext context) { 
+      Transaction t = new Transaction
+      {
+        AccountId = acctId,
+        Amount = val,
+        Date = date,
+        NewTotal = val + resaleTotal + returnTotal,
+        TransactionTypeId = TransactionType.RETURN_ID
+      };
+      t = context.Add(t).Entity;
+      context.SaveChanges();
+
+      TransactionDistribution td = new TransactionDistribution
+      {
+        AccountId = acctId,
+        Amount = val,
+        NewAccountRevenueTotal = returnTotal + val,
+        TransactionId = t.Id,
+        RevenueCodeId = RevenueCode.RETURN_ID
+      };
+      context.Add(td);
+      context.SaveChanges();
+    }
+
+    #endregion
 
     #endregion
   }

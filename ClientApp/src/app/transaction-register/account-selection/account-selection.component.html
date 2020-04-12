@@ -19,6 +19,9 @@
             </div>
         </mat-option>
       </mat-autocomplete>
+      <mat-error *ngIf="acctCtrl.hasError('required')">
+        Account is <strong>required</strong> before continuing
+      </mat-error>
 
       <button mat-icon-button
           *ngIf="accountManager.isObjectAnAccount(this.acctCtrl.value)"

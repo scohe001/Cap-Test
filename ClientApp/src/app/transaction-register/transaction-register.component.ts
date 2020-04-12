@@ -73,8 +73,29 @@ export class TransactionRegisterComponent implements OnInit {
     console.log(this.tranForm.get('tranAcctForm').get('tranAccount').value);
   }
 
+  private currencyToNumber(currency: string) {
+    return Number(currency.replace(/[^0-9.-]+/g,""));
+  }
+
+
   public onSubmit() {
     // Raw val includes disabled controls (like in the case of a cash out)
     console.log("Submitted!", this.tranForm.getRawValue());
+
+    let newTransaction: Transaction = {
+      Date: new Date(), // TODO: Pull this from a control yet to be made
+      AccountId: this.tranForm.get('tranAcctForm').get('tranAccount').value.Id,
+      Amount: this.currencyToNumber(this.tranForm.get('tranDetailsForm').get('tranAmount').value),
+      TransactionTypeId: this.tranForm.get('tranDetailsForm').get('tranType').value.Id, 
+      Id: undefined, NewTotal: undefined, Account: undefined, TransactionType: undefined, TransactionDistributions: undefined
+    }
+
+    console.log("Adding tran: ", newTransaction);
+
+    let result = this.transactionManager.AddTransaction(newTransaction);
+    console.log("Got back result...", result);
+
+    // TODO: Maybe popup some "Success!" message box for 2 seconds before redirecting to account?
+    this.router.navigate(['/a/', newTransaction.AccountId]);
   }
 }

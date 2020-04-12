@@ -26,8 +26,8 @@ namespace thing.Models
 
     #region Typedef
 
-    public static int RESALE_ID = 1;
-    public static int RETURN_ID = 2;
+    public const int RESALE_ID = 1;
+    public const int RETURN_ID = 2;
 
     #endregion
   }

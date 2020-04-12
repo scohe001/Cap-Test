@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using HttpStatusCodeResult = System.Web.Mvc.HttpStatusCodeResult;
 
 using thing.Data;
 using thing.Models;
@@ -46,12 +47,13 @@ namespace thing.Controllers
     }
 
     [HttpPost]
-    public Transaction AddTransaction(Transaction pTran)
+    public HttpStatusCodeResult AddTransaction(Transaction pTran)
     {
       return Transaction.CreateTransaction(pTran, context);
     }
 
-    // By days
+    #region Gets for analytics
+
     [HttpGet]
     public IEnumerable<DataSet<DateTime>> GetTransactionDataByDays(DateTime startDate, DateTime endDate) {
       return Transaction.GetTransactionDataByDay(startDate, endDate, context);
@@ -76,6 +78,8 @@ namespace thing.Controllers
     public IEnumerable<DataPoint<string>> GetTransactionTotals(DateTime startDate, DateTime endDate) {
       return Transaction.GetTransactionTotals(startDate, endDate, context);
     }
+
+    #endregion
 
   }
 }

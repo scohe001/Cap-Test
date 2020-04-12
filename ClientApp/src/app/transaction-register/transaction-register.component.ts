@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {FormControl} from '@angular/forms';
+import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith, filter} from 'rxjs/operators';
 
@@ -25,34 +25,43 @@ export class TransactionRegisterComponent implements OnInit {
     private router: Router,
     private accountManager: AccountmanagerService,
     private transactionManager: TransactionmanagerService,
-    private commonManager: CommonService) { }
+    private commonManager: CommonService,
+    private fb: FormBuilder,) { }
 
-
-  private id: string;
-  private passedId: string = null;
   public passedAccount: Account = null;
 
+  tranTypes: TransactionType[];
+
+  tranForm: FormGroup = this.fb.group({
+    tranAcctForm: this.fb.group({
+      tranAccount: ['', Validators.required]
+    }),
+    tranType: ['', Validators.required],
+    tranAmount: [-1, Validators.min(0)],
+  })
+
   async ngOnInit() {
-    // Will be null if they haven't come here from an account
-    // Setup acct selection if we have an account
-    this.id = this.route.snapshot.paramMap.get('id');
-    if(this.id != null && !(await this.checkAndUpdateId(this.id))) {
-      // If checkAndUpdateId returned false, we got a bad Id, so reroute
-      this.router.navigate(['/transaction-register']);
-    }
+    // Make sure we know if account selection changes
+    this.tranForm.get('tranAcctForm').get('tranAccount').valueChanges.subscribe(this.acctSelectionChanged);
   } 
 
-  private async checkAndUpdateId(id: string) {
-    this.passedAccount = await this.accountManager.GetAccount(id);
-    return this.passedAccount;
-  }
+  public acctSelectionChanged = (newAcctSelection: any) => {
+    if(!newAcctSelection) {
+      //empty selection...maybe do something special?
+      console.log("Empty acct selection!");
+      return;
+    }
 
-  public acctSelectionChanged(newAcct: Account) {
+    // If it's not an account, we don't really care...
+    if(!this.accountManager.isObjectAnAccount(newAcctSelection)) { return; }
+
+    // New Account selected!
+    let newAcct: Account = newAcctSelection as Account;
     console.log("New selection is: ", newAcct);
     this.selectedAccount = newAcct;
   }
 
   public thing() {
-    // console.log(this.acctCtrl.value)
+    console.log(this.tranForm.get('tranAcctForm').get('tranAccount').value);
   }
 }

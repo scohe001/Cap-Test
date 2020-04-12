@@ -3,7 +3,7 @@
 <button matTooltip="Testing. 1, 2, 3." mat-stroked-button color="primary" (click)="thing()">Testing</button>
 
 <mat-card class="content-item">
-    <app-account-selection (accountSelectionChanged)="acctSelectionChanged($event)" [selectAccount]="passedAccount"></app-account-selection>
+    <app-account-selection [formGroup]="tranForm.get('tranAcctForm')"></app-account-selection>
 </mat-card>
 
 <!-- TODO: Give them a date picker here. Disallow choosing a date on or prior to last transaction in the ath-->

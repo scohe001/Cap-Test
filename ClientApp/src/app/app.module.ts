@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { CurrencyPipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -86,7 +87,8 @@ import { DownloadDashboardComponent } from './download-dashboard/download-dashbo
   ],
   providers: [
     AccountmanagerService,
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent }
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent },
+    CurrencyPipe,
   ],
   bootstrap: [AppComponent],
   entryComponents: [AreYouSureDeleteDialog],

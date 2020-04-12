@@ -40,4 +40,8 @@ export class AccountmanagerService {
                                     { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
   }
 
+  isObjectAnAccount(obj: any): obj is Account {
+    return obj && obj != null && typeof obj.Id === "number" && typeof obj.FirstName === "string" && typeof obj.LastName === "string";
+  }
+
 }

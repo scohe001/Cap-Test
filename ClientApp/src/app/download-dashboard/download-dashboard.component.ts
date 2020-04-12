@@ -7,12 +7,12 @@ import { TransactionmanagerService } from '../services/transactionmanager.servic
 @Component({
   selector: 'app-download-dashboard',
   templateUrl: './download-dashboard.component.html',
-  styleUrls: ['./download-dashboard.component.css']
+  styleUrls: ['./download-dashboard.component.css'],
 })
 export class DownloadDashboardComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
-              private tranManager: TransactionmanagerService) { }
+              private tranManager: TransactionmanagerService,) { }
 
   // boring way:
   // tranForm: FormGroup = new FormGroup({

@@ -1,11 +1,11 @@
-<form class="account-selection-form">
+<form class="account-selection-form" [formGroup]="formGroup">
     <mat-form-field class="full-width">
       <input matInput
              placeholder="Account"
              aria-label="Account"
              required
              [matAutocomplete]="auto"
-             [formControl]="acctCtrl"
+             formControlName="tranAccount"
              (keydown.enter)="acctCtrl.disable()"
              #acctAutoComplete="matAutocompleteTrigger"
              >
@@ -22,7 +22,7 @@
       </mat-autocomplete>
 
       <button mat-icon-button
-          *ngIf="isAccount(this.acctCtrl.value)"
+          *ngIf="accountManager.isObjectAnAccount(this.acctCtrl.value)"
           mat-stroked-button
           matSuffix
           matTooltip="Clear Selection"
@@ -32,7 +32,7 @@
           <mat-icon aria-hidden="false" aria-label="Clear Selection">clear</mat-icon>
       </button>
       <button mat-icon-button
-          *ngIf="isAccount(this.acctCtrl.value)"
+          *ngIf="accountManager.isObjectAnAccount(this.acctCtrl.value)"
           (click)="openAccount()"
           mat-stroked-button
           matSuffix

@@ -7,6 +7,7 @@ import { Transaction, TransactionDistribution, RevenueCode_TypeDef } from '../in
 import { TransactionmanagerService } from '../services/transactionmanager.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { CommonService } from '../services/common.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-singleaccount',
@@ -36,18 +37,29 @@ export class SingleaccountComponent implements OnInit {
     private accountManager: AccountmanagerService,
     private transactionManager: TransactionmanagerService,
     private commonManager: CommonService,
-    private cdRef: ChangeDetectorRef,) { }
+    private cdRef: ChangeDetectorRef,
+    private titleService: Title) { }
 
   // TODO: Add option for "Account Adjustment" and then give option for Misc or Reversal
   //  Reversal allows to choose a past transaction to reverse (but disallows it if it'd put resale or return balance below 0)
   //  Misc allows free reign. Enter an adjustment amount for Resale and for Return (also disallow either balance going below 0)
   //  Both require a "reason" text field
   async ngOnInit() {
-    this.RefreshTable();
+    await this.RefreshTable();
+    this.titleService.setTitle(`${this.account.FirstName} ${this.account.LastName} - Credit Cache`);
   }
 
-  thing() {
-    console.log(this.account);
+  private async RefreshTable() {
+    // Try to grab account from route. If it's bad, go back to account search
+    this.account = await this.GetAccountFromRoute();
+    if(!this.account) {
+      this.router.navigate(['/accounts']);
+      return;
+    }
+
+    // Duplicate each row. One is main, one is hidden detail
+    this.transactionTableSource.data = this.account.Transactions.sort((tranA, tranB) => (tranA.Date < tranB.Date) ? 1 : -1).map(tran => [{ detailRow: false, tran: tran }, { detailRow: true, tran: tran }]).flat();
+    console.log(this.transactionTableSource.data);
   }
 
   private getDistForTran(tran: Transaction, revCodeId: RevenueCode_TypeDef) {
@@ -66,22 +78,13 @@ export class SingleaccountComponent implements OnInit {
     return this.getDistForTran(tran, RevenueCode_TypeDef.RETURN_ID);
   }
 
-  private async RefreshTable() {
-    // Try to grab account from route. If it's bad, go back to account search
-    this.account = await this.GetAccountFromRoute();
-    if(!this.account) {
-      this.router.navigate(['/accounts']);
-      return;
-    }
-
-    // Duplicate each row. One is main, one is hidden detail
-    this.transactionTableSource.data = this.account.Transactions.sort((tranA, tranB) => (tranA.Date < tranB.Date) ? 1 : -1).map(tran => [{ detailRow: false, tran: tran }, { detailRow: true, tran: tran }]).flat();
-    console.log(this.transactionTableSource.data);
-  }
-
   private async GetAccountFromRoute() {
     let id = this.route.snapshot.paramMap.get('id');
     return await this.accountManager.GetAccount(id);
+  }
+
+  thing() {
+    console.log(this.account);
   }
 }
 

@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CurrencyPipe } from '@angular/common';
@@ -96,6 +96,7 @@ import { TransactionDetailsInputComponent } from './transaction-register/transac
     AccountmanagerService,
     { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent },
     CurrencyPipe,
+    Title,
   ],
   bootstrap: [AppComponent],
   entryComponents: [AreYouSureDeleteDialog, TranPostingErrorDialog],

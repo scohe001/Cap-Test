@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ResponsiveService } from '../services/responsive.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-usertable',
@@ -45,9 +46,12 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
               private cdRef: ChangeDetectorRef,
               private router: Router,
               private dialog: MatDialog,
-              private responsiveManager: ResponsiveService,) { }
+              private responsiveManager: ResponsiveService,
+              private titleService: Title) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Account Search - Credit Cache");
+
     this.ResetInputs();
     this.RefreshTable();
     this.RefreshWindowSize([null, window.innerWidth]);

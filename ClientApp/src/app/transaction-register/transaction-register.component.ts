@@ -11,6 +11,7 @@ import { Transaction } from '../interfaces/transaction';
 import { TransactionType, TranType_TypeDef } from '../interfaces/transactiontype';
 import { CommonService, HttpStatusCodeResponse } from '../services/common.service';
 import { MatStepper, MatSnackBar, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-transaction-register',
@@ -28,7 +29,8 @@ export class TransactionRegisterComponent implements OnInit {
     private commonManager: CommonService,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private snackBarManager: MatSnackBar,) { }
+    private snackBarManager: MatSnackBar,
+    private titleService: Title) { }
 
   @ViewChild('stepper',  {static: false}) private tranStepper: MatStepper;
 
@@ -46,6 +48,7 @@ export class TransactionRegisterComponent implements OnInit {
   });
 
   async ngOnInit() {
+    this.titleService.setTitle("Transaction Register - Credit Cache");
     // Make sure we know if account selection changes
     this.tranForm.get('tranAcctForm').get('tranAccount').valueChanges.subscribe(this.acctSelectionChanged);
   } 
@@ -79,7 +82,6 @@ export class TransactionRegisterComponent implements OnInit {
   private currencyToNumber(currency: string) {
     return Number(currency.replace(/[^0-9.-]+/g,""));
   }
-
 
   public async onSubmit() {
     let newTransaction: Transaction = {

@@ -36,6 +36,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: initial;
 }
 
+.page-title {
+  margin: 15px;
+  width: initial;
+}
+
 /* Footer stuff */
 .footer {
   /* This would be if we want it always visible (which we don't)

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DailyAveragesComponent } from './daily-averages/daily-averages.component';
 import { ResponsiveService } from '../services/responsive.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,9 +22,12 @@ export class DashboardComponent implements OnInit {
 
   public dateRangeVal: Date[]; // Going to be unused, but leaving it just in case
 
-  constructor(private responsiveManager: ResponsiveService) { }
+  constructor(
+    private responsiveManager: ResponsiveService,
+    private titleService: Title) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Dashboard - Credit Cache");
     this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
     });
 

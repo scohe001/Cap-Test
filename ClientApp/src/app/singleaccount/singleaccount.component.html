@@ -1,4 +1,4 @@
-<h1 id="tableLabel">Single Account View</h1>
+<h1 class="page-title">Single Account View</h1>
 
 <p *ngIf="!account"><em>Loading...</em></p>
 <h2 *ngIf="account"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h2>

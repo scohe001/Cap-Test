@@ -17,7 +17,7 @@
               <span class="total-col"> {{acct.Total | currency}} </span>
             </div>
             <div class="acct-row" *ngIf="!showGridDropdown">
-              <span>{{acct.FirstName}} {{acct.LastName}} - {{acct.Total | currency}}</span>
+              <span class="condensed-acct-info">{{acct.FirstName}} {{acct.LastName}} - {{acct.Total | currency}}</span>
             </div>
         </mat-option>
       </mat-autocomplete>

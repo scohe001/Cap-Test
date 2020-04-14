@@ -51,3 +51,7 @@
 .icon-but:active {
   background-color: slategrey;
 }
+
+.condensed-acct-info {
+  padding-left: 10px;
+}

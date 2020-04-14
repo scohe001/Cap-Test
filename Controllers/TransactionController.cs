@@ -8,7 +8,9 @@ using HttpStatusCodeResult = System.Web.Mvc.HttpStatusCodeResult;
 
 using thing.Data;
 using thing.Models;
+using thing.Common;
 using System.Globalization;
+using Microsoft.AspNetCore.Http;
 
 namespace thing.Controllers
 {
@@ -46,10 +48,21 @@ namespace thing.Controllers
                     .ToArray();
     }
 
+    // Maybe make this return IActionResult<Transaction> and then have CreateTransaction
+    //   return a Transaction on success for us to give back??
     [HttpPost]
-    public HttpStatusCodeResult AddTransaction(Transaction pTran)
+    public IActionResult AddTransaction(Transaction pTran)
     {
-      return Transaction.CreateTransaction(pTran, context);
+      try { 
+        Transaction.CreateTransaction(pTran, context);
+        return Ok();
+      }
+      catch(ForbiddenException e) { 
+        return StatusCode(StatusCodes.Status403Forbidden, e.Message);
+      }
+      catch(NotFoundException e) { 
+        return NotFound(e.Message);
+      }
     }
 
     #region Gets for analytics

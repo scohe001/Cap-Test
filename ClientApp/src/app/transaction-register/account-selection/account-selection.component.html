@@ -10,12 +10,14 @@
              >
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="acctToString">
         <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct">
-            <div class="acct-row">
+            <div class="acct-row" *ngIf="showGridDropdown">
               <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
-              <!-- TODO: Slap an ngIf on the phone call so we don't display it if screen is too small (might need to do something with the css for the other columns so they expand out)-->
               <!-- Stick an invisible character in here in case phone number is empty-->
               <span class="phone-col"> &zwnj; {{acct.PhoneNumber}} </span>
               <span class="total-col"> {{acct.Total | currency}} </span>
+            </div>
+            <div class="acct-row" *ngIf="!showGridDropdown">
+              <span>{{acct.FirstName}} {{acct.LastName}} - {{acct.Total | currency}}</span>
             </div>
         </mat-option>
       </mat-autocomplete>

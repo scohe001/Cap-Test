@@ -1,10 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionType } from '../interfaces/transactiontype';
 import { DataSet, DataPoint } from '../interfaces/graphdata';
 import { HttpStatusCodeResponse } from './common.service';
+import { MatDialog } from '@angular/material';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,8 @@ import { HttpStatusCodeResponse } from './common.service';
 export class TransactionmanagerService {
   private url: string = 'https://localhost:5001/';
 
-  constructor(private http: HttpClient) { }// , @Inject('SERVER_URL') serverUrl: string) {
+  constructor(
+    private http: HttpClient,) { }// , @Inject('SERVER_URL') serverUrl: string) {
 
   public async GetTransactions() {
     return await this.http.get<Transaction[]>(this.url + 'Transaction/GetTransactions').toPromise();
@@ -23,13 +26,19 @@ export class TransactionmanagerService {
   }
 
   public async AddTransaction(tran: Transaction) {
-    return await this.http.post<HttpStatusCodeResponse>(this.url + 'Transaction/AddTransaction', tran).toPromise();
+    return await this.http.post<HttpStatusCodeResponse>(this.url + 'Transaction/AddTransaction', tran)
+      .toPromise()
+      .catch((err: HttpErrorResponse) => {
+        return {StatusCode: err.status, StatusDescription: err.error};
+      });
   }
 
   public async GetTransactionsForAccountId(acctId: number) {
     return await this.http.get<Transaction[]>(this.url + 'Transaction/GetTransactionForAccountId',
                                     { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
   }
+
+  //#region Get Analytics Data
 
   public async GetTransactionDataByDay(startDate: Date, endDate: Date) {
     return await this.http.get<DataSet[]>(this.url + 'Transaction/GetTransactionDataByDays',
@@ -74,4 +83,6 @@ export class TransactionmanagerService {
                                                 .set('endDate', endDate.toUTCString())
                                     }).toPromise();
   }
+
+  //#endregion
 }

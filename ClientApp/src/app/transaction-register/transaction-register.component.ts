@@ -98,7 +98,7 @@ export class TransactionRegisterComponent implements OnInit {
 
     let result: HttpStatusCodeResponse = await this.transactionManager.AddTransaction(newTransaction);
 
-    if(result.StatusCode === 200) { // Okay!
+    if(!result) { // Okay!
       this.snackBarManager.open(`Success! Redirecting to ${this.tranForm.get('tranAcctForm').get('tranAccount').value.FirstName}'s account page in 3 seconds...`, "Dismiss", {
         duration: 3000,
       });

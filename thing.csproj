@@ -26,5 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dates\" />
+    <Folder Include="Common\" />
   </ItemGroup>
 </Project>

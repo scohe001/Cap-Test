@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Account } from '../../interfaces/account';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
   selector: 'app-account-selection',
@@ -17,16 +18,24 @@ export class AccountSelectionComponent implements OnInit {
   @Input() formGroup: FormGroup;
   public acctCtrl: FormControl;
 
+  public static smallestSize: number = 600;
+  public showGridDropdown: boolean = true;
+
   accountList: Account[] = null;
   filteredAccounts: Observable<Account[]>;
 
   constructor(
     private accountManager: AccountmanagerService,
     private router: Router,
-    private route: ActivatedRoute,) { }
+    private route: ActivatedRoute,
+    public responsiveManager: ResponsiveService,) { }
 
   async ngOnInit() {
     this.acctCtrl = this.formGroup.get('tranAccount') as FormControl;
+
+    this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
+      this.showGridDropdown = vals[1] > AccountSelectionComponent.smallestSize;
+    });
 
     await this.setupAccountDropdown();
 
@@ -73,12 +82,14 @@ export class AccountSelectionComponent implements OnInit {
     return acct.FirstName + ' ' + acct.LastName + (acct.PhoneNumber && acct.PhoneNumber.length > 0 ? (' (' + acct.PhoneNumber + ')') : '');
   }
 
+  // TODO: Consider doing this on the backend? That'd prevent having to send over a FULL list of accounts
+  // and then having to store all of those accounts on the client side (would need to do the same thing with the acount view)
   private _filterAccounts(searchVal: any): Account[] {
     if(this.accountManager.isObjectAnAccount(searchVal)) { 
       return [this.accountList.find( acct => acct.Id === (<Account>searchVal).Id )]
     }
 
-    if(!searchVal) { return this.accountList.slice(); }
+    if(!searchVal) { return this.accountList.slice(0, 20); }
 
     // Else we have a string, so do the actual filtering...
     const filterVal = (<string>searchVal).toLowerCase();
@@ -87,7 +98,7 @@ export class AccountSelectionComponent implements OnInit {
       acct.FirstName.toLowerCase().includes(filterVal)
       || acct.LastName.toLowerCase().includes(filterVal)
       || (acct.PhoneNumber && acct.PhoneNumber.toLowerCase().includes(filterVal))
-    );
+    ).slice(0, 20);
   }
 
 }

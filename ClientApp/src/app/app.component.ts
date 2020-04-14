@@ -84,10 +84,15 @@ export class AppComponent implements AfterViewChecked, OnInit {
     } else {
       this.responsiveManager.toggleSideNavOpen();
     }
+    window.dispatchEvent(new Event('resize')); // push a window resize event to recalc everything
   }
 
   closeSideNav() {
-    // this.sideNavOpened = false;
+    // If sidenav is closeable, close it
+    if(!this.isBiggerScreen()) { 
+      this.responsiveManager.setSideNavOpen(false);
+    }
+    window.dispatchEvent(new Event('resize')); // push a window resize event to recalc everything
   }
 }
 

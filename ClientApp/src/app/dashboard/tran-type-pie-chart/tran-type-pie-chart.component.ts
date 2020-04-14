@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataPoint } from 'src/app/interfaces/graphdata';
 import { TransactionmanagerService } from 'src/app/services/transactionmanager.service';
+import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
   selector: 'app-tran-type-pie-chart',
@@ -9,13 +10,17 @@ import { TransactionmanagerService } from 'src/app/services/transactionmanager.s
 })
 export class TranTypePieChartComponent implements OnInit {
   @Input() colorScheme: any;
+  // Undefined forces dynamic resizing
+  dimensions: number[] = undefined;
   
-  view: any[] = [1000, 300];
-  gradient: boolean = true;
+  public tranTotals: DataPoint[];
 
-  tranTotals: DataPoint[];
+  private readonly SMALLEST_COOL_PIECHART_SIZE = 700;
+  public showCoolPieChart: boolean = true;
 
-  constructor(private transactionManager: TransactionmanagerService,) { }
+  constructor(
+    private transactionManager: TransactionmanagerService,
+    private responsiveManager: ResponsiveService,) { }
 
   //#region INPUT dateRange
 
@@ -33,6 +38,10 @@ export class TranTypePieChartComponent implements OnInit {
   //#endregion
 
   ngOnInit() {
+    this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
+      this.showCoolPieChart = vals[1] > this.SMALLEST_COOL_PIECHART_SIZE;
+    });
+
     this.refreshData();
   }
   

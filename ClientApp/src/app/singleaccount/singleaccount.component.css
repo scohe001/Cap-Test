@@ -66,16 +66,10 @@ Don't want the table to be clickable, so don't do this
   background-color:whitesmoke;
 }
 
-.header-row {
-  min-height: 30px;
-  height: 30px;
+.header-row, .header-cell {
+  min-height: 40px;
+  height: 40px;
 }
-
-.header-cell {
-  min-height: 30px;
-  height: 30px;
-}
-
 
 /*
 .my-row.expanded {

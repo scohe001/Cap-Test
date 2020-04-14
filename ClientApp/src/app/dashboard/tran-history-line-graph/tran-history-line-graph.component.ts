@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataSet } from 'src/app/interfaces/graphdata';
 import { TransactionmanagerService } from 'src/app/services/transactionmanager.service';
+import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
   selector: 'app-tran-history-line-graph',
@@ -9,8 +10,16 @@ import { TransactionmanagerService } from 'src/app/services/transactionmanager.s
 })
 export class TranHistoryLineGraphComponent implements OnInit {
   @Input() colorScheme: any;
+  // Undefined forces dynamic resizing
+  dimensions: number[] = undefined;
 
-  view: any[] = [1000, 500];
+  readonly SMALLEST_LEGEND_SIZE: number = 700;
+  readonly SMALLEST_AXES_SIZE: number = 700;
+  readonly SMALLEST_TIMELINE_SIZE: number = 700;
+
+  public showLegend: boolean = true;
+  public showAxes: boolean = true;
+  public showTimeline: boolean = true;
 
   readonly GROUP_BY_MONTH: string = "Month";
   readonly GROUP_BY_WEEK: string = "Week";
@@ -22,7 +31,9 @@ export class TranHistoryLineGraphComponent implements OnInit {
   moneyDataByWeek: DataSet[];
   moneyDataByMonth: DataSet[];
 
-  constructor(private transactionManager: TransactionmanagerService,) { }
+  constructor(
+    private transactionManager: TransactionmanagerService,
+    private responsiveManager: ResponsiveService,) { }
 
   //#region INPUT dateRange
 
@@ -41,7 +52,14 @@ export class TranHistoryLineGraphComponent implements OnInit {
   
   //#endregion
 
+
   ngOnInit() {
+    this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
+      this.showLegend = vals[1] > this.SMALLEST_LEGEND_SIZE;
+      this.showAxes = vals[1] > this.SMALLEST_AXES_SIZE;
+      this.showTimeline = vals[1] > this.SMALLEST_TIMELINE_SIZE;
+    });
+
     this.updateGroupBy();
     this.refreshData();
   }

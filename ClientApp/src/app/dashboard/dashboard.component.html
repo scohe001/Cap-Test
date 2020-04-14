@@ -16,10 +16,11 @@
   <mat-card class="content-item">
     <h6 class="card-title">Totals by Transaction</h6>
     <mat-divider></mat-divider>
-    <div class="row">
+    <div class="row tran-type-totals-div">
       <app-tran-type-pie-chart
           [dateRange]="dateRange"
-          [colorScheme]="colorScheme">
+          [colorScheme]="colorScheme"
+          class="tran-type-totals-component">
       </app-tran-type-pie-chart>
     </div>
   </mat-card>
@@ -27,10 +28,11 @@
   <mat-card class="content-item">
     <h6 class="card-title">Total Transaction Amount History</h6>
     <mat-divider></mat-divider>
-    <div class="row">
+    <div class="row line-graph-div">
       <app-tran-history-line-graph
           [dateRange]="dateRange"
-          [colorScheme]="colorScheme">
+          [colorScheme]="colorScheme"
+          class="line-graph-component">
       </app-tran-history-line-graph>
     </div>
   </mat-card>
@@ -38,10 +40,11 @@
   <mat-card class="content-item">
     <h6 class="card-title">Totals by Weekday</h6>
     <mat-divider></mat-divider>
-    <div class="row">
+    <div class="row day-totals-div">
       <app-daily-averages
           [dateRange]="dateRange"
-          [colorScheme]="colorScheme">
+          [colorScheme]="colorScheme"
+          class="day-totals-div">
       </app-daily-averages>
     </div>
   </mat-card>

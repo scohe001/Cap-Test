@@ -16,3 +16,27 @@
     padding: 20px 20px 0px 20px;
     width: 100%;
 }
+
+.line-graph-div {
+    width: 100%;
+    height: calc(40vw + 100px);
+    max-height: 600px;
+    margin-bottom: 10px !important;
+}
+
+.day-totals-div {
+    width: 100%;
+    height: calc(30vw + 200px);
+    max-height: 575px;
+}
+
+.tran-type-totals-div {
+    width: 100%;
+    height: calc(5vw + 200px);
+    max-height: 275px;
+}
+
+.line-graph-component, .day-totals-component, .tran-type-totals-component {
+    width: 100%;
+    height: 100%
+}

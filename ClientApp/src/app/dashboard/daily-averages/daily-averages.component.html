@@ -1,16 +1,20 @@
-<ngx-charts-bar-vertical-2d
-  [roundEdges]="false"
-  [view]="view"
-  [scheme]="colorScheme"
-  [gradient]="'false'"
-  [xAxis]="'true'"
-  [yAxis]="'true'"
-  [legend]="'true'"
-  [showXAxisLabel]="'true'"
-  [showYAxisLabel]="'true'"
-  [xAxisLabel]="'Day'"
-  [yAxisLabel]="'Average Value ($)'"
-  [legendTitle]="'Legend'"
-  [results]="weekData"
-  >
-</ngx-charts-bar-vertical-2d>
+<div class="chart-container">
+  <ngx-charts-bar-vertical-2d
+    [roundEdges]="false"
+    [view]="dimensions"
+    [scheme]="colorScheme"
+    [gradient]="true"
+    [xAxis]="true"
+    [yAxis]="true"
+    [legend]="showLegend"
+    [showXAxisLabel]="showAxisLabels"
+    [showYAxisLabel]="showAxisLabels"
+    [xAxisLabel]="'Day'"
+    [yAxisLabel]="'Average Value ($)'"
+    [legendTitle]="'Legend'"
+    [results]="weekData"
+    [barPadding]="1"
+    [groupPadding]="4"
+    >
+  </ngx-charts-bar-vertical-2d>
+</div>

@@ -18,7 +18,7 @@ export class AccountSelectionComponent implements OnInit {
   @Input() formGroup: FormGroup;
   public acctCtrl: FormControl;
 
-  public static smallestSize: number = 600;
+  private readonly smallestSize: number = 600;
   public showGridDropdown: boolean = true;
 
   accountList: Account[] = null;
@@ -34,7 +34,7 @@ export class AccountSelectionComponent implements OnInit {
     this.acctCtrl = this.formGroup.get('tranAccount') as FormControl;
 
     this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
-      this.showGridDropdown = vals[1] > AccountSelectionComponent.smallestSize;
+      this.showGridDropdown = vals[1] > this.smallestSize;
     });
 
     await this.setupAccountDropdown();

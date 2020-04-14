@@ -9,7 +9,7 @@
              #acctAutoComplete="matAutocompleteTrigger"
              >
       <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="acctToString">
-        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct">
+        <mat-option *ngFor="let acct of filteredAccounts | async" [value]="acct" class="account-grid">
             <div class="acct-row" *ngIf="showGridDropdown">
               <span class="name-col">{{acct.FirstName}} {{acct.LastName}}</span>
               <!-- Stick an invisible character in here in case phone number is empty-->

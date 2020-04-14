@@ -6,4 +6,10 @@
 
 .group-by-options {
     margin: 10px;
+    height: 32px;
+}
+
+.chart-container {
+    display: grid;
+    height: calc(100% - 32px - 7px);
 }

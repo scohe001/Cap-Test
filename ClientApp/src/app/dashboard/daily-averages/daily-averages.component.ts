@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataSet } from 'src/app/interfaces/graphdata';
 import { TransactionmanagerService } from 'src/app/services/transactionmanager.service';
+import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
   selector: 'app-daily-averages',
@@ -9,13 +10,22 @@ import { TransactionmanagerService } from 'src/app/services/transactionmanager.s
 })
 export class DailyAveragesComponent implements OnInit {
   @Input() colorScheme: any;
-  
-  view: any[] = [1000, 500];
-  gradient: boolean = true;
+  // Undefined forces dynamic resizing
+  dimensions: number[] = undefined;
+
+  readonly SMALLEST_LEGEND_SIZE: number = 700;
+  readonly SMALLEST_AXISLABES_SIZE: number = 700;
+  readonly SMALLEST_YAXIS_SIZE: number = 700;
+
+  public showLegend: boolean = true;
+  public showAxisLabes: boolean = true;
+  public showYAxis: boolean = true;
 
   weekData: DataSet[];
 
-  constructor(private transactionManager: TransactionmanagerService,) { }
+  constructor(
+    private transactionManager: TransactionmanagerService,
+    private responsiveManager: ResponsiveService,) { }
 
   //#region INPUT dateRange
 
@@ -33,6 +43,13 @@ export class DailyAveragesComponent implements OnInit {
   //#endregion
 
   ngOnInit() {
+    this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
+      console.log("Daily got an event");
+      this.showLegend = vals[1] > this.SMALLEST_LEGEND_SIZE;
+      this.showAxisLabes = vals[1] > this.SMALLEST_AXISLABES_SIZE;
+      this.showYAxis = vals[1] > this.SMALLEST_YAXIS_SIZE;
+    });
+
     this.refreshData();
   }
   

@@ -12,6 +12,7 @@
     width: 45%;
     border-bottom: 2px solid black;
     border-right: 1px dashed black;
+    padding-left: 16px;
 }
 
 /*
@@ -28,6 +29,11 @@
     width: 20%;
     border-bottom: 2px solid black;
     padding-left: 10px;
+    padding-right: 16px;
+}
+
+.account-grid {
+  padding: 0;
 }
 
 .acct-row span {

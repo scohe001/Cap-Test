@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace thing.Common
+namespace CreditCache.Common
 {
   // Not really needed just yet...
   // public class Common

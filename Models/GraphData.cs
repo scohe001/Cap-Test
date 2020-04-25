@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace thing.Models
+namespace CreditCache.Models
 {
   public class DataPoint<T> {
     // Really a string, but we're doing date so we can work with it easier

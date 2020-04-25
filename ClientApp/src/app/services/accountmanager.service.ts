@@ -10,10 +10,11 @@ import { CommonService } from './common.service';
   providedIn: 'root'
 })
 export class AccountmanagerService {
-  private url: string = 'https://localhost:5001/';
-
-  constructor(private http: HttpClient,
-              private commonManager: CommonService) { } // , @Inject('SERVER_URL') serverUrl: string) {
+  constructor(
+    private http: HttpClient,
+    private commonManager: CommonService,
+    @Inject('BASE_URL') private url: string,
+  ) { }
 
   public async AddAccount(acct: Account) {
     // this.http.post<Account>(this.url + 'Tester/AddAccountByAccount', acct).subscribe(result => {

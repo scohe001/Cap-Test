@@ -5,9 +5,10 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CommonService {
-  private url: string = 'https://localhost:5001/';
-
-  constructor(private http: HttpClient) { } // , @Inject('SERVER_URL') serverUrl: string) {
+  constructor(
+    private http: HttpClient,
+    @Inject('BASE_URL') private url: string,
+  ) { }
 
   public async GetVersionString() {
     return (await this.http.get<VersionObj>(this.url + 'Common/GetVersionString').toPromise()).Version;

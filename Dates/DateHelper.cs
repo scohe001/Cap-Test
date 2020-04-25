@@ -1,7 +1,7 @@
 using System;
 using System.Globalization;
 
-namespace thing.Dates
+namespace CreditCache.Dates
 {
   public class DateHelper
   {

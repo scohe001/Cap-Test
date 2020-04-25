@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using System.Web.Mvc;
-using thing.Data;
 using System.Net;
 
-using thing.Dates;
-using thing.Common;
+using CreditCache.Data;
+using CreditCache.Dates;
+using CreditCache.Common;
 
-namespace thing.Models
+namespace CreditCache.Models
 {
-  public class Transaction
+  public class Transaction: AuditedEntity
   {
     #region Properties
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

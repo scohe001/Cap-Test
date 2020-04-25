@@ -4,7 +4,7 @@ import { Account } from '../interfaces/account';
 import { Transaction } from '../interfaces/transaction';
 import { TransactionType } from '../interfaces/transactiontype';
 import { DataSet, DataPoint } from '../interfaces/graphdata';
-import { HttpStatusCodeResponse } from './common.service';
+import { HttpStatusCodeResponse, CommonService } from './common.service';
 import { MatDialog } from '@angular/material';
 import { map } from 'rxjs/operators';
 
@@ -12,10 +12,11 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TransactionmanagerService {
-  private url: string = 'https://localhost:5001/';
-
   constructor(
-    private http: HttpClient,) { }// , @Inject('SERVER_URL') serverUrl: string) {
+    private http: HttpClient,
+    private commonManager: CommonService,
+    @Inject('BASE_URL') private url: string,
+  ) { }
 
   public async GetTransactions() {
     return await this.http.get<Transaction[]>(this.url + 'Transaction/GetTransactions').toPromise();
@@ -55,7 +56,7 @@ export class TransactionmanagerService {
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
                                                 .set('endDate', endDate.toUTCString())
-                                    }).toPromise();
+                                    }).toPromise().catch(error => console.error(error));
   }
 
   public async GetTransactionDataByMonth(startDate: Date, endDate: Date) {

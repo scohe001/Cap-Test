@@ -18,7 +18,7 @@ export class DailyAveragesComponent implements OnInit {
   readonly SMALLEST_YAXIS_SIZE: number = 700;
 
   public showLegend: boolean = true;
-  public showAxisLabes: boolean = true;
+  public showAxisLabels: boolean = true;
   public showYAxis: boolean = true;
 
   weekData: DataSet[];
@@ -46,7 +46,7 @@ export class DailyAveragesComponent implements OnInit {
     this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
       console.log("Daily got an event");
       this.showLegend = vals[1] > this.SMALLEST_LEGEND_SIZE;
-      this.showAxisLabes = vals[1] > this.SMALLEST_AXISLABES_SIZE;
+      this.showAxisLabels = vals[1] > this.SMALLEST_AXISLABES_SIZE;
       this.showYAxis = vals[1] > this.SMALLEST_YAXIS_SIZE;
     });
 

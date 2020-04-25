@@ -11,22 +11,31 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { HelpComponent } from './help/help.component';
 import { TransactionRegisterComponent } from './transaction-register/transaction-register.component';
 import { DownloadDashboardComponent } from './download-dashboard/download-dashboard.component';
+import { HomeComponent } from './home/home.component';
+import { CounterComponent } from './counter/counter.component';
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 
 
 const routes: Routes = [
-  { path: 'accounts', component: UsertableComponent, data: {animation: 'AccountTable'} },
-  { path: 'transactions', component: AlltransactiontableComponent },
-  { path: 'account/:id', component: AccountPathUpdaterComponent },
+  { path: 'accounts', component: UsertableComponent, data: {animation: 'AccountTable'}, canActivate: [AuthorizeGuard] },
+  { path: 'transactions', component: AlltransactiontableComponent, canActivate: [AuthorizeGuard] },
+  { path: 'account/:id', component: AccountPathUpdaterComponent, canActivate: [AuthorizeGuard] },
   { path: 'a/:id', redirectTo: '/account/:id', pathMatch: 'full' },
-  { path: 'account/:id/:name', component: SingleaccountComponent, data: {animation: 'SingleAccount'} },
+  { path: 'account/:id/:name', component: SingleaccountComponent, data: {animation: 'SingleAccount'}, canActivate: [AuthorizeGuard] },
   { path: 'a/:id/:name', redirectTo: '/account/:id/:name', pathMatch: 'full' },
-  { path: 'transaction-register', component: TransactionRegisterComponent },
-  { path: 'transaction-register/:id', component: TransactionRegisterComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'download', component: DownloadDashboardComponent },
+  { path: 'transaction-register', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard] },
+  { path: 'transaction-register/:id', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard] },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthorizeGuard] },
+  { path: 'download', component: DownloadDashboardComponent, canActivate: [AuthorizeGuard] },
   { path: 'help', component: HelpComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', component: NotFoundComponent },
+
+  // { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'counter', component: CounterComponent },
+  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+
+  // { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

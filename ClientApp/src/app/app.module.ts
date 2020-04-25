@@ -1,18 +1,30 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { CurrencyPipe } from '@angular/common';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule, MatInputModule, MatButtonModule, MatSelectModule, 
-          MatBadgeModule, MatRippleModule, MatPaginatorModule, MatIconModule,
-          MatPaginatorIntl, MatDatepickerModule, MatRadioModule,
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+
+import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { HomeComponent } from './home/home.component';
+import { CounterComponent } from './counter/counter.component';
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
+import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
+
+// import { MatTableModule } from '@angular/material/table';
+// MatSortModule, MatRippleModule, MatPaginatorModule, MatPaginatorIntl, MatNativeDateModule
+import { MatInputModule, MatButtonModule, MatSelectModule, 
+          MatBadgeModule, MatIconModule, MatTableModule,
+          MatDatepickerModule, MatRadioModule, MatSortModule,
           MatSidenavModule, MatToolbarModule, MatDividerModule,
           MatListModule, MatGridListModule, MatCardModule, 
           MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,
-          MatDialogModule, MatStepperModule, MatNativeDateModule,
-          MatSnackBarModule,} from '@angular/material';
+          MatDialogModule, MatStepperModule, MatRippleModule,
+          MatSnackBarModule, MatPaginatorModule, MatNativeDateModule,
+          } from '@angular/material';
+// import { MatTableModule } from '@angular/material/table';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
@@ -34,11 +46,16 @@ import { TransactionRegisterComponent, TranPostingErrorDialog } from './transact
 import { AccountSelectionComponent } from './transaction-register/account-selection/account-selection.component';
 import { DownloadDashboardComponent } from './download-dashboard/download-dashboard.component';
 import { TransactionDetailsInputComponent } from './transaction-register/transaction-details-input/transaction-details-input.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavMenuComponent,
+    HomeComponent,
+    CounterComponent,
+    FetchDataComponent,
+
     UsertableComponent,
     AlltransactiontableComponent,
     SingleaccountComponent,
@@ -59,7 +76,7 @@ import { TransactionDetailsInputComponent } from './transaction-register/transac
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    // BrowserModule,
+
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -91,10 +108,19 @@ import { TransactionDetailsInputComponent } from './transaction-register/transac
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),
+
+    HttpClientModule,
+    ApiAuthorizationModule,
+    // RouterModule.forRoot([
+    //   { path: '', component: HomeComponent, pathMatch: 'full' },
+    //   { path: 'counter', component: CounterComponent },
+    //   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+    // ])
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     AccountmanagerService,
-    { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent },
+    // { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent },
     CurrencyPipe,
     Title,
   ],

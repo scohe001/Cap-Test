@@ -6,15 +6,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
-using thing.Data;
-using thing.Models;
 using System.Globalization;
 using System.IO;
 using Newtonsoft.Json;
 
-namespace thing.Controllers
+using CreditCache.Data;
+using CreditCache.Models;
+
+namespace CreditCache.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("{controller=Home}/{action=Index}/{id?}")] //This is cheating. Should really be routing each method individually
   public class CommonController : Controller
@@ -35,8 +38,8 @@ namespace thing.Controllers
 
     // To convert credits over. This is a pretty hacky job. Going to need to do it better when it's for real
     // Commenting out HttpPost and making private so it can't be called...
-    // [HttpPost]
-    private IActionResult Convert() {
+    [HttpPost]
+    public IActionResult Convert() {
       ClearAll();
 
       CreateTransactionTypes();

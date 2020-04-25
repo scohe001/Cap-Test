@@ -7,11 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-using thing.Data;
+using CreditCache.Data;
 
-namespace thing.Models
+namespace CreditCache.Models
 {
-  public class Account
+  public class Account: AuditedEntity
   {
     #region Properties
 

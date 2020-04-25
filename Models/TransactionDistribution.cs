@@ -5,13 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using thing.Data;
 
-using thing.Dates;
+using CreditCache.Data;
+using CreditCache.Dates;
 
-namespace thing.Models
+namespace CreditCache.Models
 {
-  public class TransactionDistribution
+  public class TransactionDistribution: AuditedEntity
   {
     #region Properties
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

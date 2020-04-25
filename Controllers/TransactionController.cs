@@ -4,16 +4,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using HttpStatusCodeResult = System.Web.Mvc.HttpStatusCodeResult;
+using Microsoft.AspNetCore.Authorization;
 
-using thing.Data;
-using thing.Models;
-using thing.Common;
 using System.Globalization;
 using Microsoft.AspNetCore.Http;
 
-namespace thing.Controllers
+using CreditCache.Data;
+using CreditCache.Models;
+using CreditCache.Common;
+
+namespace CreditCache.Controllers
 {
+  [Authorize]
   [ApiController]
   [Route("{controller=Home}/{action=Index}/{id?}")] //This is cheating. Should really be routing each method individually
   public class TransactionController : Controller

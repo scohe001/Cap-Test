@@ -25,7 +25,7 @@ export class AccountSelectionComponent implements OnInit {
   filteredAccounts: Observable<Account[]>;
 
   constructor(
-    private accountManager: AccountmanagerService,
+    public accountManager: AccountmanagerService,
     private router: Router,
     private route: ActivatedRoute,
     public responsiveManager: ResponsiveService,) { }

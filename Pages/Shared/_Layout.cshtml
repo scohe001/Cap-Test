@@ -1,0 +1,44 @@
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CreditCache</title>
+    <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/Identity/css/site.css" />
+</head>
+<body style="position: absolute;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0;
+    background-image: url('/boxed-bg.jpg');
+    background-color: silver;">
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            <!-- Would be nice, but I can't get it to fit to the child's max-width
+            <div class="container" 
+                 style="margin-top: calc(40vh - 200px);
+                        box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+                        padding: 16px;
+                        border-radius: 4px;
+                        background-color: whitesmoke;">
+                -->
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer border-top text-muted" style="background-color: whitesmoke">
+        <div class="container" style="margin-left: inherit;">
+            &copy; 2020 - CreditCache - <a asp-area="" asp-page="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Identity/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

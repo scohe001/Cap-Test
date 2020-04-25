@@ -56,7 +56,7 @@ export class TransactionmanagerService {
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
                                                 .set('endDate', endDate.toUTCString())
-                                    }).toPromise().catch(error => console.error(error));
+                                    }).toPromise();
   }
 
   public async GetTransactionDataByMonth(startDate: Date, endDate: Date) {

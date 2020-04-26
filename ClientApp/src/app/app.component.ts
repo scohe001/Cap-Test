@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { slideInAnimation, sideNavAnimation } from './animations';
 import { ResponsiveService } from './services/responsive.service';
 import { CommonService } from './services/common.service';
+import { AuthorizeService, IUser } from 'src/api-authorization/authorize.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
   sideNavOpened: boolean = true;
   // sideNavExpanded: boolean = true;
   versionNum: string = "V1.4.19";
+  currentUser: IUser = null;
 
   sideNavOptions: SideNavOption[] = [
       {link: '/dashboard', icon: 'dashboard', name: 'Dashboard'},
@@ -28,7 +30,8 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   constructor(private cdRef: ChangeDetectorRef,
               public responsiveManager: ResponsiveService,
-              private commonManager: CommonService) {
+              private commonManager: CommonService,
+              public authManager: AuthorizeService) {
 
     // Setup initial
     if(window.innerWidth < this.smallestSize) {
@@ -39,6 +42,8 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   private readonly smallestSize: number = 768;
   async ngOnInit() {
+    this.authManager.getUser().subscribe(user => this.currentUser = user);
+
     this.versionNum = await this.commonManager.GetVersionString()
 
     this.responsiveManager.onResizeActual$.subscribe((vals: [number, number]) => {

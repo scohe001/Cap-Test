@@ -14,6 +14,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Newtonsoft.Json.Serialization;
+using System.Threading.Tasks;
+using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace CreditCache
 {
@@ -33,14 +40,25 @@ namespace CreditCache
                 options.UseLoggerFactory(loggerFactory).EnableSensitiveDataLogging()
                        .UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+              options.SignIn.RequireConfirmedAccount = true;
+              options.User.RequireUniqueEmail = true;
+            })
+                .AddRoles<ApplicationRole>()
+                .AddRoleManager<RoleManager<ApplicationRole>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer()
                 .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+            services.AddAuthentication(options =>
+            {
+              options.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+              options.DefaultChallengeScheme = IdentityConstants.ApplicationScheme;
+              options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+            })
+            .AddIdentityServerJwt();
 
             services.AddControllersWithViews().AddNewtonsoftJson(options => {
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
@@ -56,7 +74,7 @@ namespace CreditCache
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -102,13 +120,42 @@ namespace CreditCache
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            CreateRoles(services).Wait();
         }
 
-        public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+            IdentityResult roleResult;
+
+            foreach(ApplicationRole role in ApplicationRole.RoleList) { 
+                var roleCheck = await RoleManager.RoleExistsAsync(role.Name);
+                if (!roleCheck)
+                {
+                    roleResult = await RoleManager.CreateAsync(role);
+
+                    // This is an issue. But not sure what we want to do with it (shouldn't ever really happen)
+                    if(!roleResult.Succeeded) { continue; } 
+
+                    // Stick it on our test user as we create it
+                    ApplicationUser user = await UserManager.FindByEmailAsync("test@test");
+                    if (user != null)
+                    {
+                      await UserManager.AddToRoleAsync(user, role.Name);
+                    }
+                }
+            }
+        }
+
+    public static readonly ILoggerFactory loggerFactory = LoggerFactory.Create(builder => {
         builder.AddFilter("Microsoft", LogLevel.Warning)
                .AddFilter("System", LogLevel.Warning)
                .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information)
                .AddConsole();
             });
     }
+
 }

@@ -37,7 +37,7 @@ export class LogoutComponent implements OnInit {
         await this.processLogoutCallback();
         break;
       case LogoutActions.LoggedOut:
-        this.message.next('You successfully logged out!');
+          this.logoutSuccessful();
         break;
       default:
         throw new Error(`Invalid action '${action}'`);
@@ -64,7 +64,7 @@ export class LogoutComponent implements OnInit {
           throw new Error('Invalid authentication result status.');
       }
     } else {
-      this.message.next('You successfully logged out!');
+      this.logoutSuccessful();
     }
   }
 
@@ -106,6 +106,12 @@ export class LogoutComponent implements OnInit {
     return (state && state.returnUrl) ||
       fromQuery ||
       ApplicationPaths.LoggedOut;
+  }
+
+  private logoutSuccessful() {
+      this.message.next('You have successfully logged out!');
+      // Re-route back to login page once they've logged out
+      this.router.navigate(ApplicationPaths.LoginPathComponents);
   }
 }
 

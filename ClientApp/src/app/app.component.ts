@@ -5,6 +5,7 @@ import { ResponsiveService } from './services/responsive.service';
 import { CommonService } from './services/common.service';
 import { AuthorizeService, IUser } from 'src/api-authorization/authorize.service';
 import { RoleType_TypeDef } from './interfaces/applicationrole';
+import { ApplicationUserManagerService } from './services/application-user-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,8 @@ export class AppComponent implements AfterViewChecked, OnInit {
   constructor(private cdRef: ChangeDetectorRef,
               public responsiveManager: ResponsiveService,
               private commonManager: CommonService,
-              public authManager: AuthorizeService) {
+              public authManager: AuthorizeService,
+              private appUserManager: ApplicationUserManagerService) {
 
     // Setup initial
     if(window.innerWidth < this.smallestSize) {
@@ -49,7 +51,7 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   private readonly smallestSize: number = 768;
   async ngOnInit() {
-    let roles = await this.commonManager.GetUserRoles()
+    let roles = await this.appUserManager.GetCurrentUserRoles()
     this.isUserAnAdmin = roles.some(role => role.Name === RoleType_TypeDef.Admin);
 
     this.authManager.getUser().subscribe(user => {

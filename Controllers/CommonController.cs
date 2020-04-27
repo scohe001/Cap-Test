@@ -42,12 +42,76 @@ namespace CreditCache.Controllers
     }
 
     [HttpGet]
-    public async Task<IList<ApplicationRole>> GetUserRoles() { 
+    public async Task<IList<ApplicationRole>> GetCurrentUserRoles() { 
       var currentUser = await GetCurrentUser();
-      var userRoles = await userManager.GetRolesAsync(currentUser);
+      return await GetRolesForUser(currentUser);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<Dictionary<string, List<ApplicationRole>>> GetAllUsersRoles() { 
+      var userRoleDict = new Dictionary<string, List<ApplicationRole>>();
+      List<ApplicationUser> users = userManager.Users.ToList();
+
+      foreach(ApplicationUser user in users) { 
+        userRoleDict[user.Id] = await GetRolesForUser(user);
+      }
+
+      return userRoleDict;
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public List<ApplicationUser> GetAllUsers() { 
+      return userManager.Users.ToList();
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public async Task<IActionResult> AddRoleToUser(string roleName, string userId) {
+      if (ApplicationRole.RoleList.FirstOrDefault(role => role.Name.Equals(roleName)) == null)
+      {
+        return NotFound($"Could not find role with name {roleName}");
+      }
+
+      ApplicationUser user = await userManager.FindByIdAsync(userId);
+      if(user == null) { return NotFound($"Could not find user with Id {userId}"); }
+
+      var result = await userManager.AddToRoleAsync(user, roleName);
+      if(!result.Succeeded) { throw new Exception(String.Join(", ", result.Errors.ToList())); }
+
+      return Ok();
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public void SetRolesOnUser(string roleNamesCommaSeparated, string userId) {
+      Console.WriteLine($"Got user: {userId}");
+      Console.WriteLine($"Got role names: {roleNamesCommaSeparated}");
+      List<string> roleNames = new List<string>(roleNamesCommaSeparated.Split(','));
+      SetRolesOnUser(roleNames, userId);
+    }
+
+    private async void SetRolesOnUser(List<string> roleNames, string userId) {
+      if (roleNames.Any(roleName => ApplicationRole.RoleList.FirstOrDefault(role => role.Name.Equals(roleName)) == null))
+      {
+        throw new Exception($"Could not find role.");
+      }
+
+      ApplicationUser user = await userManager.FindByIdAsync(userId);
+      if(user == null) { throw new Exception($"Could not find user with Id {userId}"); }
+
+      var result = await userManager.AddToRolesAsync(user, roleNames);
+      if(!result.Succeeded) { throw new Exception(String.Join(", ", result.Errors.ToList())); }
+
+      IEnumerable<string> excludedRoles = ApplicationRole.RoleList.Where(role => !roleNames.Contains(role.Name)).Select(role => role.Name);
+      result = await userManager.RemoveFromRolesAsync(user, excludedRoles);
+      if(!result.Succeeded) { throw new Exception(String.Join(", ", result.Errors.ToList())); }
+    }
+
+    private async Task<List<ApplicationRole>> GetRolesForUser(ApplicationUser user) { 
+      var userRoles = await userManager.GetRolesAsync(user);
       // Map role names to actual roles
-      // This'll definitely give names and definitions, but not sure if it'll get
-      //    Id's, etc. correctly. May need to actually fetch from db if we want those
       return userRoles.Select(roleName => ApplicationRole.RoleList.FirstOrDefault(role => role.Name.Equals(roleName))).ToList();
     }
 

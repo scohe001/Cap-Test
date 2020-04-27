@@ -1,1 +1,20 @@
-<p>role-center works!</p>
+
+<mat-card class="content-item">
+  <h3>Current Role setup:</h3>
+
+  <button mat-button (click)="thing()">Stick Employee/Admin on 'Ugh'</button>
+  <button mat-button (click)="thing2()">Stick Unregistered on 'Ugh'</button>
+  
+  <div *ngIf="users && roles">
+    <ul>
+        <div *ngFor="let user of users">
+          <li >{{user.UserName}} ({{user.Email}})</li>
+            <ul>
+              <li *ngFor="let role of roles[user.Id]">{{role.Name}} - {{role.Description}}</li>
+            </ul>
+        </div>
+    </ul>
+  </div>
+
+  <b>NOTE: Users may need to log out and back in before changes will take affect.</b>
+</mat-card>

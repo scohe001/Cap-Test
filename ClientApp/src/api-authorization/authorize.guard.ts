@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthorizeService } from './authorize.service';
 import { tap } from 'rxjs/operators';
 import { ApplicationPaths, QueryParameterNames } from './api-authorization.constants';
-import { CommonService } from 'src/app/services/common.service';
+import { ApplicationUserManagerService } from 'src/app/services/application-user-manager.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class AuthorizeGuard implements CanActivate {
   constructor(
     private authorize: AuthorizeService,
     private router: Router,
-    private commonManager: CommonService,) { }
+    private appUserManager: ApplicationUserManagerService,) { }
 
   canActivate(
     _next: ActivatedRouteSnapshot,
@@ -35,7 +35,7 @@ export class AuthorizeGuard implements CanActivate {
     }
 
     // Unauthorized
-    let currentUserRoles = await this.commonManager.GetUserRoles();
+    let currentUserRoles = await this.appUserManager.GetCurrentUserRoles();
     let userHasRole: boolean = currentUserRoles.some(userRole => roles.some(permittedRole => permittedRole === userRole.Name));
     if(!userHasRole) {
       this.router.navigate(ApplicationPaths.UnauthorizedPath, {

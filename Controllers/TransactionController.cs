@@ -15,7 +15,7 @@ using CreditCache.Common;
 
 namespace CreditCache.Controllers
 {
-  [Authorize(Roles = "Admin")]
+  [Authorize(Roles = "Admin,Employee")]
   [ApiController]
   [Route("{controller=Home}/{action=Index}/{id?}")] //This is cheating. Should really be routing each method individually
   public class TransactionController : Controller

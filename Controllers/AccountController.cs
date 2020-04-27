@@ -12,7 +12,7 @@ using CreditCache.Models;
 
 namespace CreditCache.Controllers
 {
-  [Authorize]
+  [Authorize(Roles = "Admin,Employee")]
   [ApiController]
   [Route("{controller=Home}/{action=Index}/{id?}")] //This is cheating. Should really be routing each method individually
   public class AccountController : Controller

@@ -1,0 +1,37 @@
+table {
+    width: 100%;
+    border: 2px black;
+}
+
+.my-row {
+    height: auto;
+}
+  
+.my-cell {
+  padding: 10px; /* 0px 0px 0px 0; */
+}
+
+.my-but {
+    display: inline-block;
+    width: auto;
+}
+
+.highlight:hover {
+  background-color: gainsboro !important;
+}
+
+.highlight:active {
+  background-color: slategrey;
+}
+
+.user-table-container {
+  padding: 10px;
+}
+
+.cc-user-row:nth-child(even){
+  background-color:white;
+}
+
+.cc-user-row:nth-child(odd){
+  background-color:whitesmoke;
+}

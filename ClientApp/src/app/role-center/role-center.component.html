@@ -1,9 +1,6 @@
 
 <mat-card class="content-item">
   <h3>Current Role setup:</h3>
-
-  <button mat-button (click)="thing()">Stick Employee/Admin on 'Ugh'</button>
-  <button mat-button (click)="thing2()">Stick Unregistered on 'Ugh'</button>
   
   <div *ngIf="users && roles">
     <ul>
@@ -17,4 +14,41 @@
   </div>
 
   <b>NOTE: Users may need to log out and back in before changes will take affect.</b>
+
+</mat-card>
+
+<mat-card class="content-item">
+
+  <div class="user-table-container">
+    <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
+    <table mat-table [dataSource]="users" matSort class="user-table" [hidden]="!refreshedOnce">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+        
+        <ng-container matColumnDef="Username">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+          <td mat-cell *matCellDef="let element" class="my-cell"> {{element.UserName}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let element" class="my-cell"> {{element.Email}} </td>
+        </ng-container>
+      
+        <div *ngFor="let roleName of myRoleList">
+          <ng-container [matColumnDef]="roleName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{roleName}} </th>
+            <td mat-cell *matCellDef="let element" class="my-cell"> 
+                <mat-checkbox *ngIf="userRoles[element.Id]" [(ngModel)]="userRoles[element.Id][roleName]"></mat-checkbox> 
+            </td>
+          </ng-container>
+        </div>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': !buttonMousedOver}" class="my-row user-table-row"></tr>
+    </table><br>
+  </div>
+
+  <button mat-stroked-button color="primary" class="my-but" [disabled]="!hasChanges()" (click)="submit()">Save</button>
 </mat-card>

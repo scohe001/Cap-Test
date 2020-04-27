@@ -22,7 +22,7 @@ import { MatInputModule, MatButtonModule, MatSelectModule,
           MatListModule, MatGridListModule, MatCardModule, 
           MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,
           MatDialogModule, MatStepperModule, MatRippleModule,
-          MatSnackBarModule, MatPaginatorModule, MatNativeDateModule,
+          MatSnackBarModule, MatPaginatorModule, MatNativeDateModule, MatCheckboxModule,
           } from '@angular/material';
 // import { MatTableModule } from '@angular/material/table';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -107,6 +107,7 @@ import { RoleCenterComponent } from './role-center/role-center.component';
     MatStepperModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    MatCheckboxModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),

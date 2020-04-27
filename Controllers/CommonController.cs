@@ -44,20 +44,13 @@ namespace CreditCache.Controllers
     [HttpGet]
     public async Task<IList<ApplicationRole>> GetCurrentUserRoles() { 
       var currentUser = await GetCurrentUser();
-      return await GetRolesForUser(currentUser);
+      return await ApplicationRole.GetRolesForUser(currentUser, userManager);
     }
 
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<Dictionary<string, List<ApplicationRole>>> GetAllUsersRoles() { 
-      var userRoleDict = new Dictionary<string, List<ApplicationRole>>();
-      List<ApplicationUser> users = userManager.Users.ToList();
-
-      foreach(ApplicationUser user in users) { 
-        userRoleDict[user.Id] = await GetRolesForUser(user);
-      }
-
-      return userRoleDict;
+      return await ApplicationRole.GetAllUsersRoles(userManager);
     }
 
     [Authorize(Roles = "Admin")]
@@ -86,33 +79,12 @@ namespace CreditCache.Controllers
     [Authorize(Roles = "Admin")]
     [HttpGet]
     public void SetRolesOnUser(string roleNamesCommaSeparated, string userId) {
-      Console.WriteLine($"Got user: {userId}");
-      Console.WriteLine($"Got role names: {roleNamesCommaSeparated}");
-      List<string> roleNames = new List<string>(roleNamesCommaSeparated.Split(','));
-      SetRolesOnUser(roleNames, userId);
-    }
-
-    private async void SetRolesOnUser(List<string> roleNames, string userId) {
-      if (roleNames.Any(roleName => ApplicationRole.RoleList.FirstOrDefault(role => role.Name.Equals(roleName)) == null))
+      List<string> roleNames = new List<string>();
+      if (roleNamesCommaSeparated != null && roleNamesCommaSeparated.Length > 0)
       {
-        throw new Exception($"Could not find role.");
+        roleNames = new List<string>(roleNamesCommaSeparated.Split(','));
       }
-
-      ApplicationUser user = await userManager.FindByIdAsync(userId);
-      if(user == null) { throw new Exception($"Could not find user with Id {userId}"); }
-
-      var result = await userManager.AddToRolesAsync(user, roleNames);
-      if(!result.Succeeded) { throw new Exception(String.Join(", ", result.Errors.ToList())); }
-
-      IEnumerable<string> excludedRoles = ApplicationRole.RoleList.Where(role => !roleNames.Contains(role.Name)).Select(role => role.Name);
-      result = await userManager.RemoveFromRolesAsync(user, excludedRoles);
-      if(!result.Succeeded) { throw new Exception(String.Join(", ", result.Errors.ToList())); }
-    }
-
-    private async Task<List<ApplicationRole>> GetRolesForUser(ApplicationUser user) { 
-      var userRoles = await userManager.GetRolesAsync(user);
-      // Map role names to actual roles
-      return userRoles.Select(roleName => ApplicationRole.RoleList.FirstOrDefault(role => role.Name.Equals(roleName))).ToList();
+      ApplicationRole.SetRolesOnUser(roleNames, userId, userManager);
     }
 
     private async Task<ApplicationUser> GetCurrentUser()  

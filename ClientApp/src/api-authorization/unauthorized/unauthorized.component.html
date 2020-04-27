@@ -1,0 +1,9 @@
+<h1 class="page-title">Unauthorized!</h1>
+
+<mat-card class="content-item">
+  <p *ngIf="returnUrl">You don't have the authorization to access <i>{{returnUrl}}</i>. If you feel you should
+        have access to this location, contact your administrator about modifying your roles.</p>
+
+  <p *ngIf="!returnUrl">You don't have the authorization to access this page. If you feel you should
+        have access to this location, contact your administrator about modifying your roles.</p>
+</mat-card>

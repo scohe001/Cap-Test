@@ -3,14 +3,17 @@ import { CommonModule } from '@angular/common';
 import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { RouterModule } from '@angular/router';
 import { ApplicationPaths } from './api-authorization.constants';
 import { HttpClientModule } from '@angular/common/http';
+import { MatCardModule } from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    MatCardModule,
     RouterModule.forChild(
       [
         { path: ApplicationPaths.Register, component: LoginComponent },
@@ -20,11 +23,12 @@ import { HttpClientModule } from '@angular/common/http';
         { path: ApplicationPaths.LoginCallback, component: LoginComponent },
         { path: ApplicationPaths.LogOut, component: LogoutComponent },
         { path: ApplicationPaths.LoggedOut, component: LogoutComponent },
-        { path: ApplicationPaths.LogOutCallback, component: LogoutComponent }
+        { path: ApplicationPaths.LogOutCallback, component: LogoutComponent },
+        { path: ApplicationPaths.Unauthorized, component: UnauthorizedComponent },
       ]
     )
   ],
-  declarations: [LoginMenuComponent, LoginComponent, LogoutComponent],
+  declarations: [LoginMenuComponent, LoginComponent, LogoutComponent, UnauthorizedComponent],
   exports: [LoginMenuComponent, LoginComponent, LogoutComponent]
 })
 export class ApiAuthorizationModule { }

@@ -42,7 +42,10 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   private readonly smallestSize: number = 768;
   async ngOnInit() {
-    this.authManager.getUser().subscribe(user => this.currentUser = user);
+    this.authManager.getUser().subscribe(user => {
+      console.log("Got User!", user);
+      this.currentUser = user;
+    });
 
     this.versionNum = await this.commonManager.GetVersionString()
 

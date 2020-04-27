@@ -12,9 +12,6 @@
   <nav
     class="navbar navbar-expand-sm navbar-toggleable-sm header-navbar"
   >
-  <!--
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  -->
     <div class="container header-navbar-container">
       <div
         class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
@@ -28,17 +25,6 @@
                 <a  class="nav-link header-text" [routerLink]='["/authentication/logout"]' [state]='{ local: true }' title="Logout" style="padding-right: 15px">Logout</a>
             </li>
         </ul>
-        <!--
-        </ul>
-        <ul class="navbar-nav flex-grow">
-          <li class="nav-item header-nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link header-text" [routerLink]="['/counter']"> Counter </a>
-          </li>
-          <li class="nav-item header-nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link header-text" [routerLink]="['/fetch-data']"> Fetch data </a>
-          </li>
-        </ul>
-        -->
       </div>
     </div>
   </nav>

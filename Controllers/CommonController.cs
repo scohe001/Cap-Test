@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 using System.Globalization;
 using System.IO;
@@ -23,8 +26,10 @@ namespace CreditCache.Controllers
   public class CommonController : Controller
   {
     private readonly ApplicationDbContext context;
-    public CommonController(ApplicationDbContext c) {
+    private readonly UserManager<ApplicationUser> userManager;
+    public CommonController(ApplicationDbContext c, UserManager<ApplicationUser> um) {
       context = c;
+      userManager = um;
     }
 
     [HttpGet]
@@ -35,6 +40,21 @@ namespace CreditCache.Controllers
       versionDict["Version"] = fileVersionInfo.ProductVersion;
       return versionDict;
     }
+
+    [HttpGet]
+    public async Task<IList<ApplicationRole>> GetUserRoles() { 
+      var currentUser = await GetCurrentUser();
+      var userRoles = await userManager.GetRolesAsync(currentUser);
+      // Map role names to actual roles
+      // This'll definitely give names and definitions, but not sure if it'll get
+      //    Id's, etc. correctly. May need to actually fetch from db if we want those
+      return userRoles.Select(roleName => ApplicationRole.RoleList.FirstOrDefault(role => role.Name.Equals(roleName))).ToList();
+    }
+
+    private async Task<ApplicationUser> GetCurrentUser()  
+    {  
+        return await userManager.GetUserAsync(HttpContext.User);  
+    }  
 
     // To convert credits over. This is a pretty hacky job. Going to need to do it better when it's for real
     // Commenting out HttpPost and making private so it can't be called...

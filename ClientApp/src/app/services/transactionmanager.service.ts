@@ -19,11 +19,11 @@ export class TransactionmanagerService {
   ) { }
 
   public async GetTransactions() {
-    return await this.http.get<Transaction[]>(this.url + 'Transaction/GetTransactions').toPromise();
+    return await this.http.get<Transaction[]>(this.url + 'Transaction/GetTransactions').toPromise().catch(reason => null);
   }
 
   public async GetTransactionTypes() {
-    return await this.http.get<TransactionType[]>(this.url + 'Transaction/GetTransactionTypes').toPromise();
+    return await this.http.get<TransactionType[]>(this.url + 'Transaction/GetTransactionTypes').toPromise().catch(reason => null);
   }
 
   public async AddTransaction(tran: Transaction) {
@@ -36,7 +36,7 @@ export class TransactionmanagerService {
 
   public async GetTransactionsForAccountId(acctId: number) {
     return await this.http.get<Transaction[]>(this.url + 'Transaction/GetTransactionForAccountId',
-                                    { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();
+                                    { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise().catch(reason => null);
   }
 
   //#region Get Analytics Data
@@ -47,7 +47,7 @@ export class TransactionmanagerService {
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
                                                 .set('endDate', endDate.toUTCString())
-                                    }).toPromise();
+                                    }).toPromise().catch(reason => null);
   }
   
   public async GetTransactionDataByWeek(startDate: Date, endDate: Date) {
@@ -56,7 +56,7 @@ export class TransactionmanagerService {
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
                                                 .set('endDate', endDate.toUTCString())
-                                    }).toPromise();
+                                    }).toPromise().catch(reason => null);
   }
 
   public async GetTransactionDataByMonth(startDate: Date, endDate: Date) {
@@ -65,7 +65,7 @@ export class TransactionmanagerService {
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
                                                 .set('endDate', endDate.toUTCString())
-                                    }).toPromise();
+                                    }).toPromise().catch(reason => null);
   }
   public async GetAveragesForWeekDays(startDate: Date, endDate: Date) {
     return await this.http.get<DataSet[]>(this.url + 'Transaction/GetAveragesForWeekDays',
@@ -73,7 +73,7 @@ export class TransactionmanagerService {
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
                                                 .set('endDate', endDate.toUTCString())
-                                    }).toPromise();
+                                    }).toPromise().catch(reason => null);
   }
 
   public async GetTransactionTotals(startDate: Date, endDate: Date) {
@@ -82,7 +82,7 @@ export class TransactionmanagerService {
                                       params: new HttpParams()
                                                 .set('startDate', startDate.toUTCString())
                                                 .set('endDate', endDate.toUTCString())
-                                    }).toPromise();
+                                    }).toPromise().catch(reason => null);
   }
 
   //#endregion

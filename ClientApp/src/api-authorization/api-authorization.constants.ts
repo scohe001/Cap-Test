@@ -32,6 +32,7 @@ let applicationPaths: ApplicationPathsType = {
   LogOut: `authentication/${LogoutActions.Logout}`,
   LoggedOut: `authentication/${LogoutActions.LoggedOut}`,
   LogOutCallback: `authentication/${LogoutActions.LogoutCallback}`,
+  Unauthorized: 'Unauthorized',
   LoginPathComponents: [],
   LoginFailedPathComponents: [],
   LoginCallbackPathComponents: [],
@@ -41,7 +42,8 @@ let applicationPaths: ApplicationPathsType = {
   LoggedOutPathComponents: [],
   LogOutCallbackPathComponents: [],
   IdentityRegisterPath: '/Identity/Account/Register',
-  IdentityManagePath: '/Identity/Account/Manage'
+  IdentityManagePath: '/Identity/Account/Manage',
+  UnauthorizedPath: [],
 };
 
 applicationPaths = {
@@ -52,7 +54,8 @@ applicationPaths = {
   ProfilePathComponents: applicationPaths.Profile.split('/'),
   LogOutPathComponents: applicationPaths.LogOut.split('/'),
   LoggedOutPathComponents: applicationPaths.LoggedOut.split('/'),
-  LogOutCallbackPathComponents: applicationPaths.LogOutCallback.split('/')
+  LogOutCallbackPathComponents: applicationPaths.LogOutCallback.split('/'),
+  UnauthorizedPath: applicationPaths.Unauthorized.split('/'),
 };
 
 interface ApplicationPathsType {
@@ -66,6 +69,7 @@ interface ApplicationPathsType {
   readonly LogOut: string;
   readonly LoggedOut: string;
   readonly LogOutCallback: string;
+  readonly Unauthorized: string;
   readonly LoginPathComponents: string [];
   readonly LoginFailedPathComponents: string [];
   readonly LoginCallbackPathComponents: string [];
@@ -76,6 +80,7 @@ interface ApplicationPathsType {
   readonly LogOutCallbackPathComponents: string [];
   readonly IdentityRegisterPath: string;
   readonly IdentityManagePath: string;
+  readonly UnauthorizedPath: string [];
 }
 
 export const ApplicationPaths: ApplicationPathsType = applicationPaths;

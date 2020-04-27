@@ -23,18 +23,21 @@ export class TransactionDetailsInputComponent implements OnInit {
   tranTypes: TransactionType[];
 
   async ngOnInit() {
-    this.tranTypes = (await this.tranManager.GetTransactionTypes()).filter(tt => !tt.IsSystemType);
+    let allTypes: TransactionType[] = await this.tranManager.GetTransactionTypes();
+    this.tranTypes = !allTypes ? [] : allTypes.filter(tt => !tt.IsSystemType);
 
     this.tranTypeCtrl = this.formGroup.get('tranType') as FormControl;
     this.tranAmountCtrl = this.formGroup.get('tranAmount') as FormControl;
 
     this.formGroup.get('tranType').valueChanges.subscribe(this.tranTypeSelected);
 
-    // populate initial value
-    this.formGroup.patchValue({
-      tranType: this.tranTypes.find(tt => tt.Id === TranType_TypeDef.PURCHASE_ID),
-      tranAmount: '$0.00',
-    })
+    if(this.tranTypes) {
+      // populate initial value
+      this.formGroup.patchValue({
+        tranType: this.tranTypes.find(tt => tt.Id === TranType_TypeDef.PURCHASE_ID),
+        tranAmount: '$0.00',
+      })
+    }
   }
 
   // When they tab out/click away from the amount, format it like a money val
@@ -45,6 +48,8 @@ export class TransactionDetailsInputComponent implements OnInit {
       //Bad number format
       currentAmountVal = '0';
     }
+
+    if(!this.tranTypeCtrl.value) { return; }
 
     if((this.tranTypeCtrl.value.Id == TranType_TypeDef.PURCHASE_ID 
         || this.tranTypeCtrl.value.Id == TranType_TypeDef.CASHOUT_ID)

@@ -70,11 +70,11 @@ export class TranHistoryLineGraphComponent implements OnInit {
 
     // For some reason the dates don't want to convert coming over, so we have to do it manually
     this.moneyDataByDay = await this.transactionManager.GetTransactionDataByDay(this.startDate, this.endDate);
-    this.moneyDataByDay = this.moneyDataByDay.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
+    this.moneyDataByDay = !this.moneyDataByDay ? [] : this.moneyDataByDay.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
     this.moneyDataByWeek = await this.transactionManager.GetTransactionDataByWeek(this.startDate, this.endDate);
-    this.moneyDataByWeek = this.moneyDataByWeek.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
+    this.moneyDataByWeek = !this.moneyDataByWeek ? [] : this.moneyDataByWeek.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
     this.moneyDataByMonth = await this.transactionManager.GetTransactionDataByMonth(this.startDate, this.endDate);
-    this.moneyDataByMonth = this.moneyDataByMonth.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
+    this.moneyDataByMonth = !this.moneyDataByMonth ? [] : this.moneyDataByMonth.map(dataSet => { return {name: dataSet.name, series: dataSet.series.map(series => { return {name: new Date(series.name), value: series.value} })} });
   }
 
   groupByChanged(event) {

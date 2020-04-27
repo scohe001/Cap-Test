@@ -18,22 +18,22 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 
 
 const routes: Routes = [
-  { path: 'accounts', component: UsertableComponent, data: {animation: 'AccountTable'}, canActivate: [AuthorizeGuard] },
-  { path: 'transactions', component: AlltransactiontableComponent, canActivate: [AuthorizeGuard] },
-  { path: 'account/:id', component: AccountPathUpdaterComponent, canActivate: [AuthorizeGuard] },
+  { path: 'accounts', component: UsertableComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'transactions', component: AlltransactiontableComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'account/:id', component: AccountPathUpdaterComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
   { path: 'a/:id', redirectTo: '/account/:id', pathMatch: 'full' },
-  { path: 'account/:id/:name', component: SingleaccountComponent, data: {animation: 'SingleAccount'}, canActivate: [AuthorizeGuard] },
+  { path: 'account/:id/:name', component: SingleaccountComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
   { path: 'a/:id/:name', redirectTo: '/account/:id/:name', pathMatch: 'full' },
-  { path: 'transaction-register', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard] },
-  { path: 'transaction-register/:id', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthorizeGuard] },
-  { path: 'download', component: DownloadDashboardComponent, canActivate: [AuthorizeGuard] },
+  { path: 'transaction-register', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'transaction-register/:id', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'download', component: DownloadDashboardComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
   { path: 'help', component: HelpComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
   // { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
-  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
 
   // { path: '**', component: NotFoundComponent },
 ];

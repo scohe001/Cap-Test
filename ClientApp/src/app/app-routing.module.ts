@@ -15,25 +15,28 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
+import { RoleCenterComponent } from './role-center/role-center.component';
+import { RoleType_TypeDef } from './interfaces/applicationrole';
 
 
 const routes: Routes = [
-  { path: 'accounts', component: UsertableComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
-  { path: 'transactions', component: AlltransactiontableComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
-  { path: 'account/:id', component: AccountPathUpdaterComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'accounts', component: UsertableComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
+  { path: 'transactions', component: AlltransactiontableComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
+  { path: 'account/:id', component: AccountPathUpdaterComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
   { path: 'a/:id', redirectTo: '/account/:id', pathMatch: 'full' },
-  { path: 'account/:id/:name', component: SingleaccountComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'account/:id/:name', component: SingleaccountComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
   { path: 'a/:id/:name', redirectTo: '/account/:id/:name', pathMatch: 'full' },
-  { path: 'transaction-register', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
-  { path: 'transaction-register/:id', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
-  { path: 'download', component: DownloadDashboardComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'transaction-register', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
+  { path: 'transaction-register/:id', component: TransactionRegisterComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
+  { path: 'download', component: DownloadDashboardComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
+  { path: 'roles', component: RoleCenterComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin]} },
   { path: 'help', component: HelpComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
   // { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
-  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard], data: {roles: ['Admin', 'Employee']} },
+  { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard], data: {roles: [RoleType_TypeDef.Admin, RoleType_TypeDef.Employee]} },
 
   // { path: '**', component: NotFoundComponent },
 ];

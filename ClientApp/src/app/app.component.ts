@@ -4,6 +4,7 @@ import { slideInAnimation, sideNavAnimation } from './animations';
 import { ResponsiveService } from './services/responsive.service';
 import { CommonService } from './services/common.service';
 import { AuthorizeService, IUser } from 'src/api-authorization/authorize.service';
+import { RoleType_TypeDef } from './interfaces/applicationrole';
 
 @Component({
   selector: 'app-root',
@@ -17,15 +18,21 @@ export class AppComponent implements AfterViewChecked, OnInit {
   // sideNavExpanded: boolean = true;
   versionNum: string = "V1.4.19";
   currentUser: IUser = null;
+  isUserAnAdmin: boolean = false;
+
+  showRolesItem = (): boolean => {
+    return this.isUserAnAdmin;
+  }
 
   sideNavOptions: SideNavOption[] = [
-      {link: '/dashboard', icon: 'dashboard', name: 'Dashboard'},
-      {link: '/accounts', icon: 'person', name: 'Customers'},
-      {link: '/transaction-register', icon: 'credit_card', name: 'Register'},
+      new SideNavOption('/dashboard', 'dashboard', 'Dashboard'),
+      new SideNavOption('/accounts', 'person', 'Customers'),
+      new SideNavOption('/transaction-register', 'credit_card', 'Register'),
       // {link: '/transactions', icon: 'library_books', name: 'Transactions'},
-      {link: '/download', icon: 'cloud_download', name: 'Download'},
-      {link: '/', icon: 'settings', name: 'Preferences'},
-      {link: '/help', icon: 'help', name: 'Help'},
+      {link: '/roles', icon: 'library_books', name: 'Roles', show: this.showRolesItem},
+      new SideNavOption('/download', 'cloud_download', 'Download'),
+      new SideNavOption('/', 'settings', 'Preferences'),
+      new SideNavOption('/help', 'help', 'Help'),
       ]
 
   constructor(private cdRef: ChangeDetectorRef,
@@ -42,6 +49,9 @@ export class AppComponent implements AfterViewChecked, OnInit {
 
   private readonly smallestSize: number = 768;
   async ngOnInit() {
+    let roles = await this.commonManager.GetUserRoles()
+    this.isUserAnAdmin = roles.some(role => role.Name === RoleType_TypeDef.Admin);
+
     this.authManager.getUser().subscribe(user => {
       console.log("Got User!", user);
       this.currentUser = user;
@@ -102,10 +112,19 @@ export class AppComponent implements AfterViewChecked, OnInit {
       setTimeout(() => window.dispatchEvent(new Event('resize'))); // push a window resize event to recalc everything
     }
   }
+
 }
 
 class SideNavOption {
   link: string;
   icon: string;
   name: string;
+  show: Function;
+
+  constructor(link: string, icon: string, name: string) {
+    this.link = link;
+    this.icon = icon;
+    this.name = name;
+    this.show = () => true;
+  }
 }

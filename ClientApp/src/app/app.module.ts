@@ -47,6 +47,7 @@ import { AccountSelectionComponent } from './transaction-register/account-select
 import { DownloadDashboardComponent } from './download-dashboard/download-dashboard.component';
 import { TransactionDetailsInputComponent } from './transaction-register/transaction-details-input/transaction-details-input.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RoleCenterComponent } from './role-center/role-center.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DownloadDashboardComponent,
     TransactionDetailsInputComponent,
     TranPostingErrorDialog,
+    RoleCenterComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

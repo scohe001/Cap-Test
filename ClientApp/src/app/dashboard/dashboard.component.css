@@ -3,7 +3,7 @@
 }
 
 .date-input {
-    width: 170px;
+    width: 150px;
 }
 
 .refresh-btn {
@@ -41,5 +41,5 @@
 }
 
 .from-to-text {
-    margin: 20px 10px 0 0px;
+    margin: 20px 10px 0 10px;
 }

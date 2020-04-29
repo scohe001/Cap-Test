@@ -30,8 +30,9 @@ export class AppComponent implements AfterViewChecked, OnInit {
       new SideNavOption('/accounts', 'person', 'Customers'),
       new SideNavOption('/transaction-register', 'credit_card', 'Register'),
       // {link: '/transactions', icon: 'library_books', name: 'Transactions'},
-      {link: '/roles', icon: 'library_books', name: 'Roles', show: this.showRolesItem},
       new SideNavOption('/download', 'cloud_download', 'Download'),
+      // Maybe use 'assignment' or 'contacts' for the icon for roles
+      {link: '/roles', icon: 'library_books', name: 'Roles', show: this.showRolesItem},
       new SideNavOption('/', 'settings', 'Preferences'),
       new SideNavOption('/help', 'help', 'Help'),
       ]

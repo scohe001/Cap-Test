@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApplicationUserManagerService } from '../services/application-user-manager.service';
 import { ApplicationRole, RoleList } from '../interfaces/applicationrole';
 import { ApplicationUser } from '../interfaces/applicationuser';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-role-center',
@@ -22,9 +23,11 @@ export class RoleCenterComponent implements OnInit {
   public userRoles: { [userId: string]: {[roleName: string]: boolean} } = {};
 
   constructor(
-    private appUserManager: ApplicationUserManagerService) { }
+    private appUserManager: ApplicationUserManagerService,
+    private titleService: Title) { }
 
   ngOnInit() {
+    this.titleService.setTitle("Roles - Credit Cache");
     this.Refresh()
   }
 

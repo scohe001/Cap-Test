@@ -114,16 +114,10 @@ import { RoleCenterComponent } from './role-center/role-center.component';
 
     HttpClientModule,
     ApiAuthorizationModule,
-    // RouterModule.forRoot([
-    //   { path: '', component: HomeComponent, pathMatch: 'full' },
-    //   { path: 'counter', component: CounterComponent },
-    //   { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-    // ])
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     AccountmanagerService,
-    // { provide: MatPaginatorIntl, useClass: CustomPaginatorComponent },
     CurrencyPipe,
     Title,
   ],

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DailyAveragesComponent } from './daily-averages/daily-averages.component';
 import { ResponsiveService } from '../services/responsive.service';
 import { Title } from '@angular/platform-browser';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,6 +20,8 @@ export class DashboardComponent implements OnInit {
 
   // Initialize to some nice dates (in prod, should probably do by week and then initialize to last 3 months)
   public dateRange: [Date, Date] = [new Date('01/01/2014'), new Date('09/10/2015')];
+  public startDateCtrl = new FormControl(this.dateRange[0]);
+  public endDateCtrl = new FormControl(this.dateRange[1]);
 
   public dateRangeVal: Date[]; // Going to be unused, but leaving it just in case
 
@@ -45,6 +48,10 @@ export class DashboardComponent implements OnInit {
   refresh() {
     if(!this.dateRangeVal || this.dateRangeVal == null || this.dateRangeVal.length < 2) { return; }
     this.dateRange = [this.dateRangeVal[0], this.dateRangeVal[1]];
+  }
+
+  public dateChange(newDate, dateIndx) {
+    this.dateRange[dateIndx] = newDate;
   }
 
 }

@@ -4,10 +4,41 @@
   <h6 class="card-title">Date Range Selection</h6>
   <mat-divider></mat-divider>
   <div class="row date-selection">
-    <input class="date-input" #drp="bsDaterangepicker" bsDaterangepicker [(ngModel)]="dateRangeVal" (bsValueChange)="dateRangeValChange($event)" [bsConfig]="{ showWeekNumbers:false }">
-    <div class="refresh-btn">
-      <button mat-stroked-button matSuffix color="primary" class="btn my-but" (click)="refresh()">Refresh Data</button>
+    <div>
+      <span class="from-to-text"> From </span>
+      <mat-form-field class="date-input">
+        <mat-label>Start date</mat-label>
+        <input
+          matInput
+          [min]="minDate"
+          [max]="maxDate"
+          [matDatepicker]="startDatePicker"
+          [formControl]="startDateCtrl"
+          (dateChange)="dateChange($event.value, 0)"
+          (click)="startDatePicker.open()">
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #startDatePicker></mat-datepicker>
+      </mat-form-field>
     </div>
+
+    <div>
+      <span class="from-to-text"> to </span>
+      <mat-form-field class="date-input">
+        <mat-label>End date</mat-label>
+        <input
+          matInput
+          [min]="minDate"
+          [max]="maxDate"
+          [matDatepicker]="endDatePicker"
+          [formControl]="endDateCtrl"
+          (dateChange)="dateChange($event.value, 1)"
+          (click)="endDatePicker.open()">
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #endDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+
+    <button mat-stroked-button matSuffix color="primary" class="btn refresh-btn" (click)="refresh()">Refresh Data</button>
   </div>
 </mat-card>
 

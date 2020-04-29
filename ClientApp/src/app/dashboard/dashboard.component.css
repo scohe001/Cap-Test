@@ -3,12 +3,11 @@
 }
 
 .date-input {
-    width: 88%;
-    margin-right: 2%;
+    width: 170px;
 }
 
 .refresh-btn {
-    width: 10%;
+    margin: 10px 10px 20px 10px;
 }
 
 .date-selection {
@@ -39,4 +38,8 @@
 .line-graph-component, .day-totals-component, .tran-type-totals-component {
     width: 100%;
     height: 100%
+}
+
+.from-to-text {
+    margin: 20px 10px 0 0px;
 }

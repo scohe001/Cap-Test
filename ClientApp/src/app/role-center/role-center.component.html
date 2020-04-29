@@ -1,3 +1,4 @@
+<!-- More for testing than anything else...
 
 <mat-card class="content-item">
   <h3>Current Role setup:</h3>
@@ -12,16 +13,17 @@
         </div>
     </ul>
   </div>
-
-  <b>NOTE: Users may need to log out and back in before changes will take affect.</b>
-
 </mat-card>
+
+-->
+
+<h1 class="page-title">Roles</h1>
 
 <mat-card class="content-item">
 
   <div class="user-table-container">
     <!-- <table mat-table [dataSource]="accountList" class="mat-elevation-z8" *ngIf="accountList"> -->
-    <table mat-table [dataSource]="users" matSort class="user-table" [hidden]="!refreshedOnce">
+    <table mat-table [dataSource]="users" matSort class="user-table cc-table" [hidden]="!refreshedOnce">
 
         <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
@@ -51,4 +53,5 @@
   </div>
 
   <button mat-stroked-button color="primary" class="my-but" [disabled]="!hasChanges()" (click)="submit()">Save</button>
+  <span class="login-note"><b>NOTE: Users may need to log out and back in before changes will take affect.</b></span>
 </mat-card>

@@ -18,7 +18,7 @@ import { MatInputModule, MatButtonModule, MatSelectModule,
           MatListModule, MatGridListModule, MatCardModule, 
           MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,
           MatDialogModule, MatStepperModule, MatRippleModule,
-          MatSnackBarModule, MatPaginatorModule, MatNativeDateModule, MatCheckboxModule,
+          MatSnackBarModule, MatPaginatorModule, MatNativeDateModule, MatCheckboxModule, MatTabsModule,
           } from '@angular/material';
 // import { MatTableModule } from '@angular/material/table';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -44,6 +44,7 @@ import { DownloadDashboardComponent } from './download-dashboard/download-dashbo
 import { TransactionDetailsInputComponent } from './transaction-register/transaction-details-input/transaction-details-input.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoleCenterComponent } from './role-center/role-center.component';
+import { AccountTransactionHistoryComponent } from './singleaccount/account-transaction-history/account-transaction-history.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { RoleCenterComponent } from './role-center/role-center.component';
     TransactionDetailsInputComponent,
     TranPostingErrorDialog,
     RoleCenterComponent,
+    AccountTransactionHistoryComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -100,6 +102,7 @@ import { RoleCenterComponent } from './role-center/role-center.component';
     MatNativeDateModule,
     MatSnackBarModule,
     MatCheckboxModule,
+    MatTabsModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),

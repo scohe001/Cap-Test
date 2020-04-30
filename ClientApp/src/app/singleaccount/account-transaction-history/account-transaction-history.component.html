@@ -1,0 +1,59 @@
+
+<div
+  matRipple
+  [matRippleUnbounded]=true
+  [matRippleRadius]="'10'"
+  [matRippleColor]="'pink'">
+
+  <!-- TODO: Reorganize these to look more like ATH. Maybe add some links? -->
+  <mat-table [dataSource]="transactionTableSource" matSort class="cc-table">
+
+      <ng-container matColumnDef="Amount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Amount </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tran.Amount | currency}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="Type">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Type </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tran.TransactionType.Name}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="Date">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tran.Date | date:'shortDate'}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="Total">
+        <mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Running Total </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.tran.NewTotal | currency}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ResaleDistLabel">
+        <mat-cell *matCellDef="let element"> Resale Distribution: </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ResaleDistVal">
+        <mat-cell *matCellDef="let element"> {{getResaleDist(element.tran) | currency}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ReturnDistLabel">
+        <mat-cell *matCellDef="let element"> Return Distribution: </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ReturnDistVal">
+        <mat-cell *matCellDef="let element"> {{getReturnDist(element.tran) | currency}} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="header-row"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"
+        class="my-row cc-table-row"
+        [class.expanded]="expandedId === row.tran.Id"
+        [class.mat-elevation-z20]="expandedId === row.tran.Id"
+        (click)="expandedId = (expandedId === row.tran.Id) ? null : row.tran.Id"></mat-row>
+
+      <mat-row *matRowDef="let row; columns: ['ResaleDistLabel', 'ResaleDistVal', 'ReturnDistLabel', 'ReturnDistVal']; when: isExpansionDetailRow"
+        [@detailExpand]="row.tran.Id === expandedId ? 'expanded' : 'collapsed'"
+        style="overflow: hidden; height: '0px'; visibility: 'hidden';"
+        class="detail-row depressed"></mat-row>
+  </mat-table>
+</div>

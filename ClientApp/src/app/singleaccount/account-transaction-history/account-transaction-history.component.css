@@ -1,0 +1,63 @@
+table {
+    width: 100%;
+    overflow: auto;
+}
+
+.my-row:hover {
+  background-color: lightgrey;
+  position: relative;
+}
+
+/*
+Don't want the table to be clickable, so don't do this
+.my-row:active {
+  background-color: slategrey;
+}
+*/
+
+.detail-row {
+  background-color: gainsboro;
+}
+
+.expanded-element {
+  background-color: gray;
+}
+
+.mat-row {
+    height: auto;
+  }
+
+.my-row {
+  cursor: pointer;
+}
+
+.my-row:hover {
+  background: whitesmoke;
+}
+
+.depressed {
+  box-shadow: 0px 0px 10px 1px inset rgba(0, 0, 0, 0.2)
+}
+
+.cc-table-row:hover {
+  background-color: gainsboro;
+}
+
+.cc-table-row:nth-child(4n){
+  background-color:white;
+}
+
+.cc-table-row:nth-child(4n + 2){
+  background-color:whitesmoke;
+}
+
+.header-row, .header-cell {
+  min-height: 40px;
+  height: 40px;
+}
+
+/*
+.my-row.expanded {
+  border-bottom-color: transparent;
+}
+*/

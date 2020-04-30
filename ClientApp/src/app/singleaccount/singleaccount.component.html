@@ -1,7 +1,5 @@
-<h1 class="page-title">Single Account View</h1>
-
 <p *ngIf="!account"><em>Loading...</em></p>
-<h2 *ngIf="account"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h2>
+<h1 *ngIf="account" class="page-title"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h1>
 
 <!-- TODO: Now that we can get here from the TransactionRegister, back shouldn't always go to /accounts 
             Going to need to be clever here (maybe get passed something in the url?)

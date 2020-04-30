@@ -10,8 +10,7 @@
         <mat-label>Start date</mat-label>
         <input
           matInput
-          [min]="minDate"
-          [max]="maxDate"
+          [max]="dateRange[1]"
           [matDatepicker]="startDatePicker"
           [formControl]="startDateCtrl"
           (dateChange)="dateChange($event.value, 0)"
@@ -27,8 +26,7 @@
         <mat-label>End date</mat-label>
         <input
           matInput
-          [min]="minDate"
-          [max]="maxDate"
+          [min]="dateRange[0]"
           [matDatepicker]="endDatePicker"
           [formControl]="endDateCtrl"
           (dateChange)="dateChange($event.value, 1)"

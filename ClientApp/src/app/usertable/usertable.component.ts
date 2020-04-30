@@ -58,6 +58,8 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.accountTableSource.paginator = this.paginator;
 
+    // Note to self: this matches Notes even though notes aren't visible.
+    //  Could lead to confusion (definitely did for me)
     this.accountTableSource.sortingDataAccessor = (acct: Account, sortHeader: string) => {
       return sortHeader !== "Total" ? acct[sortHeader].toLowerCase() : acct[sortHeader]; // Ignore case on the sorting
     };

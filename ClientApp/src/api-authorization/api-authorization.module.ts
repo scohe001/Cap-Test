@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginMenuComponent } from './login-menu/login-menu.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
@@ -28,7 +27,7 @@ import { MatCardModule } from '@angular/material';
       ]
     )
   ],
-  declarations: [LoginMenuComponent, LoginComponent, LogoutComponent, UnauthorizedComponent],
-  exports: [LoginMenuComponent, LoginComponent, LogoutComponent]
+  declarations: [LoginComponent, LogoutComponent, UnauthorizedComponent],
+  exports: [LoginComponent, LogoutComponent]
 })
 export class ApiAuthorizationModule { }

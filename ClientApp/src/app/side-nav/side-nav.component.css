@@ -1,8 +1,8 @@
 .main-sidenav {
     background-color: var(--sidenav-background);
 }
-.main-content {
 
+.main-content {
     background-color: var(--content-backdrop);
     min-height: calc(100vh - var(--header-height));
     display: flex;

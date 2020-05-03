@@ -6,7 +6,7 @@
   <mat-sidenav
     #sidenav
     [mode]="isBiggerScreen() ? 'side' : 'push'"
-    [(opened)]="responsiveManager.isSideNavOpened"
+    [opened]="responsiveManager.isSideNavOpened"
     [fixedInViewport]="true"
     class="main-sidenav"
     [@sideNavAnimation]="responsiveManager.isSideNavExpanded ? 'expanded' : 'contracted'"

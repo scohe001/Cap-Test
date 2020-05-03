@@ -1,10 +1,12 @@
-<div class="router-content">
-  <ng-content></ng-content>
+<div class="content-container">
+  <div class="router-content">
+    <ng-content></ng-content>
+  </div>
+  
+  <!-- This'll make sure the screen extends to the bottom -->
+  <div class="space-taker"></div>
+  
+  <footer class="footer">
+    <p class="footer-right"> Credit Cache {{versionNum}} </p>
+  </footer>
 </div>
-
-<!-- This'll make sure the screen extends to the bottom -->
-<div class="space-taker"></div>
-
-<footer class="footer">
-  <p class="footer-right"> Credit Cache {{versionNum}} </p>
-</footer>

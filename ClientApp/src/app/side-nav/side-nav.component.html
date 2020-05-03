@@ -3,10 +3,26 @@
 
 <mat-sidenav-container>
   <!-- Sidenav -->
-  <app-navigation [MinSideNavWidth]="MinSideNavWidth"></app-navigation>
+  <mat-sidenav
+    #sidenav
+    [mode]="isBiggerScreen() ? 'side' : 'push'"
+    [(opened)]="responsiveManager.isSideNavOpened"
+    [fixedInViewport]="true"
+    class="main-sidenav"
+    [@sideNavAnimation]="responsiveManager.isSideNavExpanded ? 'expanded' : 'contracted'"
+    [fixedTopGap]="'0'"
+    [fixedBottomGap]="'0'"
+    (closedStart)="closeSideNavEvent()"
+    >
+
+    <app-navigation [MinSideNavWidth]="MinSideNavWidth"></app-navigation>
+
+  </mat-sidenav>
 
   <!-- Main content -->
-  <app-nav-content>
-      <ng-content></ng-content>
-  </app-nav-content>
+  <mat-sidenav-content [ngClass]="!responsiveManager.isSideNavOpened ? 'main-content-full' : responsiveManager.isSideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
+    <app-nav-content>
+        <ng-content></ng-content>
+    </app-nav-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>

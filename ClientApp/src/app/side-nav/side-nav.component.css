@@ -1,0 +1,22 @@
+.main-sidenav {
+    background-color: var(--sidenav-background);
+}
+.main-content {
+
+    background-color: var(--content-backdrop);
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-flow: column;
+}
+
+.main-content-contracted {
+    margin-left: var(--sidenav-contracted-width) !important;
+}
+
+.main-content-expanded {
+    margin-left: var(--sidenav-expanded-width) !important;
+}
+
+.main-content-full {
+    margin-left: 0px !important;
+}

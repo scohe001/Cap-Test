@@ -1,14 +1,10 @@
-  <mat-sidenav-content [ngClass]="!responsiveManager.isSideNavOpened ? 'main-content-full' : responsiveManager.isSideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
+<div class="router-content">
+  <ng-content></ng-content>
+</div>
 
-    <div class="router-content">
-      <ng-content></ng-content>
-    </div>
+<!-- This'll make sure the screen extends to the bottom -->
+<div class="space-taker"></div>
 
-    <!-- This'll make sure the screen extends to the bottom -->
-    <div class="space-taker"></div>
-
-    <footer class="footer">
-      <p class="footer-right"> Credit Cache {{versionNum}} </p>
-    </footer>
-
-  </mat-sidenav-content>
+<footer class="footer">
+  <p class="footer-right"> Credit Cache {{versionNum}} </p>
+</footer>

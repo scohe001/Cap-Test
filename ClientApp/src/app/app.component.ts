@@ -1,6 +1,5 @@
 import { Component, AfterViewChecked, ChangeDetectorRef, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { slideInAnimation, sideNavAnimation } from './animations';
 import { ResponsiveService } from './services/responsive.service';
 import { CommonService } from './services/common.service';
 import { AuthorizeService, IUser } from 'src/api-authorization/authorize.service';
@@ -11,7 +10,6 @@ import { ApplicationUserManagerService } from './services/application-user-manag
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  animations: [slideInAnimation, sideNavAnimation],
 })
 export class AppComponent implements AfterViewChecked, OnInit {
   title = 'ClientApp';

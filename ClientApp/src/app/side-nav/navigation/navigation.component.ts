@@ -3,14 +3,12 @@ import { ResponsiveService } from 'src/app/services/responsive.service';
 import { CommonService } from 'src/app/services/common.service';
 import { AuthorizeService, IUser } from 'src/api-authorization/authorize.service';
 import { ApplicationUserManagerService } from 'src/app/services/application-user-manager.service';
-import { slideInAnimation, sideNavAnimation } from 'src/app/animations';
 import { RoleType_TypeDef } from 'src/app/interfaces/applicationrole';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css'],
-  animations: [slideInAnimation, sideNavAnimation],
 })
 export class NavigationComponent implements OnInit {
   @Input() MinSideNavWidth: number;

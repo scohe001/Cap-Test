@@ -9,11 +9,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-attachment:fixed;
 }
 
-.main-app {
-  max-width: 1200px;
-  margin: auto;
-}
-
 /* Styling variables */
 :root {
   --sidenav-text-color: lightgray;

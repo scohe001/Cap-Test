@@ -1,0 +1,12 @@
+<!-- Toolbar -->
+<app-nav-toolbar [CurrentUser]="CurrentUser" [MinSideNavWidth]="MinSideNavWidth"></app-nav-toolbar>
+
+<mat-sidenav-container>
+  <!-- Sidenav -->
+  <app-navigation [MinSideNavWidth]="MinSideNavWidth"></app-navigation>
+
+  <!-- Main content -->
+  <app-nav-content>
+      <ng-content></ng-content>
+  </app-nav-content>
+</mat-sidenav-container>

@@ -1,0 +1,33 @@
+.main-sidenav {
+    background-color: var(--sidenav-background);
+}
+
+.nav-icon {
+    margin-right: 5px;
+}
+
+.sidenav-item, .sidenav-item svg {
+    color: var(--sidenav-text-color);
+    background-color: var(--sidenav-background);
+}
+
+.sidenav-item:hover, .sidenav-item:hover svg, .active-sidenav-item:hover, .active-sidenav-item:hover svg {
+    color: var(--sidenav-hover-text-color);
+    background-color: var(--sidenav-hover-background);
+}
+
+.active-sidenav-item, .active-sidenav-item svg, .active-sidenav-item:focus, .active-sidenav-item:focus svg {
+    color: var(--sidenav-hover-text-color);
+    background-color: var(--sidenav-hover-background);
+}
+
+.sidenav-header {
+    cursor: pointer;
+    color: var(--sidenav-hover-text-color);
+    background-color: var(--sidenav-header-background);
+    height: var(--header-height);
+}
+
+.sidenav-header:hover {
+    background-color: var(--sidenav-header-hover-background);
+}

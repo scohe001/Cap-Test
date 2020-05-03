@@ -1,0 +1,57 @@
+.main-toolbar {
+    background-color: var(--sidenav-header-background);
+    height: var(--header-height);
+    padding-right: 0px;
+}
+
+.header-content-contracted {
+    padding-left: calc(var(--sidenav-contracted-width) - 16px) !important;
+}
+
+.header-content-expanded {
+    padding-left: calc(var(--sidenav-expanded-width) - 16px) !important;
+} 
+
+.header-content-closed {
+    margin-left: -16px !important;
+} 
+
+.header-options {
+    float: right;
+    width: 100%;
+}
+
+.header-nav-item {
+    cursor: pointer;
+    height: var(--header-height);
+    display: block;
+    color: white; /* var(--sidenav-text-color); */
+}
+
+.header-nav-item:hover {
+    background-color: var(--sidenav-header-hover-background);
+}
+
+.header-text {
+    color: white;
+    padding-top: 1rem;
+}
+
+.header-navbar {
+    padding: 0;
+}
+
+.header-navbar-container {
+    padding-right: 0;
+}
+
+.nav-tool-items {
+    cursor: pointer;
+    height: var(--header-height);
+    padding: calc(var(--header-height) / 4);
+    display: block;
+}
+
+.nav-tool-items-butt:hover {
+    background-color: var(--sidenav-header-hover-background);
+}

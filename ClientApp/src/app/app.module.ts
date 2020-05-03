@@ -18,7 +18,8 @@ import { MatInputModule, MatButtonModule, MatSelectModule,
           MatListModule, MatGridListModule, MatCardModule, 
           MatFormFieldModule, MatAutocompleteModule, MatTooltipModule,
           MatDialogModule, MatStepperModule, MatRippleModule,
-          MatSnackBarModule, MatPaginatorModule, MatNativeDateModule, MatCheckboxModule, MatTabsModule,
+          MatSnackBarModule, MatPaginatorModule, MatNativeDateModule, 
+          MatCheckboxModule, MatTabsModule, MatProgressSpinnerModule,
           } from '@angular/material';
 // import { MatTableModule } from '@angular/material/table';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
@@ -45,6 +46,11 @@ import { TransactionDetailsInputComponent } from './transaction-register/transac
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoleCenterComponent } from './role-center/role-center.component';
 import { AccountTransactionHistoryComponent } from './singleaccount/account-transaction-history/account-transaction-history.component';
+import { SideNavComponent } from './side-nav/side-nav.component';
+import { NavigationComponent } from './side-nav/navigation/navigation.component';
+import { NavContentComponent } from './side-nav/nav-content/nav-content.component';
+import { NavToolbarComponent } from './side-nav/nav-toolbar/nav-toolbar.component';
+import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +75,11 @@ import { AccountTransactionHistoryComponent } from './singleaccount/account-tran
     TranPostingErrorDialog,
     RoleCenterComponent,
     AccountTransactionHistoryComponent,
+    SideNavComponent,
+    NavigationComponent,
+    NavContentComponent,
+    NavToolbarComponent,
+    LoadingScreenComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -103,6 +114,7 @@ import { AccountTransactionHistoryComponent } from './singleaccount/account-tran
     MatSnackBarModule,
     MatCheckboxModule,
     MatTabsModule,
+    MatProgressSpinnerModule,
     FormsModule,
     NgxChartsModule,
     BsDatepickerModule.forRoot(),

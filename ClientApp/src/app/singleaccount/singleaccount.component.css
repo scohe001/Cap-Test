@@ -43,3 +43,14 @@
   display: flex;
   flex-flow: row wrap;
 }
+
+.acct-actions {
+  float: right;
+}
+
+.header-bar {
+  display: block;
+  padding: 0px 16px;
+  background-color: transparent;
+  height: auto;
+}

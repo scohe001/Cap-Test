@@ -2,6 +2,8 @@
             Going to need to be clever here (maybe get passed something in the url?)
 <button mat-stroked-button color="primary" class="my-but" routerLink="/accounts">Back</button>
 -->
+
+<mat-toolbar class="header-bar">
 <button
   mat-icon-button
   class="icon-but"
@@ -9,44 +11,50 @@
   routerLink="/accounts">
   <mat-icon aria-hidden="false" aria-label="Back">arrow_back</mat-icon>
 </button>
+  
+<div class="acct-actions">
+  <button
+    *ngIf="account"
+    mat-icon-button
+    class="icon-but"
+    matTooltip="Make a transaction with this account"
+    routerLink="/transaction-register/{{account.Id}}">
+    <mat-icon aria-hidden="false" aria-label="Transact!">credit_card</mat-icon>
+  </button>
+  
+  <button
+    *ngIf="account"
+    mat-icon-button
+    class="icon-but"
+    matTooltip="Edit"
+    (click)="EditClicked()">
+    <mat-icon aria-hidden="false" aria-label="Edit">edit</mat-icon>
+  </button>
+  
+  <button
+    *ngIf="account"
+    mat-icon-button
+    class="icon-but"
+    matTooltip="Delete"
+    (click)="DeleteClicked()">
+    <mat-icon aria-hidden="false" aria-label="Delete">delete</mat-icon>
+  </button>
+  
+  <button
+    mat-icon-button
+    class="icon-but"
+    matTooltip="For testing purposes"
+    (click)="thing()">
+    <mat-icon aria-hidden="false" aria-label="Test">build</mat-icon>
+  </button>
+</div>
+</mat-toolbar>
 
-<button
-  *ngIf="account"
-  mat-icon-button
-  class="icon-but"
-  matTooltip="Make a transaction with this account"
-  routerLink="/transaction-register/{{account.Id}}">
-  <mat-icon aria-hidden="false" aria-label="Transact!">credit_card</mat-icon>
-</button>
-
-<button
-  *ngIf="account"
-  mat-icon-button
-  class="icon-but"
-  matTooltip="Edit"
-  routerLink="/accounts">
-  <mat-icon aria-hidden="false" aria-label="Edit">edit</mat-icon>
-</button>
-
-<button
-  *ngIf="account"
-  mat-icon-button
-  class="icon-but"
-  matTooltip="Delete"
-  (click)="DeleteClicked()">
-  <mat-icon aria-hidden="false" aria-label="Delete">delete</mat-icon>
-</button>
-
-<button
-  mat-icon-button
-  class="icon-but"
-  matTooltip="For testing purposes"
-  (click)="thing()">
-  <mat-icon aria-hidden="false" aria-label="Test">build</mat-icon>
-</button>
-
-<p *ngIf="!account"><em>Loading...</em></p>
-<h1 *ngIf="account" class="page-title"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h1>
+<!--
+<mat-card class="content-item">
+-->
+  <p *ngIf="!account"><em>Loading...</em></p>
+  <h1 *ngIf="account" class="page-title"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h1>
 
 <div class="account-flex-box">
   <mat-card *ngIf="account" class="content-item notes-item">

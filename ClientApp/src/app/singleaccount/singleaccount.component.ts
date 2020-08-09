@@ -66,9 +66,14 @@ export class SingleaccountComponent implements OnInit {
       // Dialog will return true if deleted, else null
       if(x) {
         console.log("Can confirm: DELTED");
+        alert("Account successfully deleted. Navigating back to account search...");
         this.router.navigate(['/accounts']);
       }
     });
+  }
+
+  public EditClicked() {
+    alert("Edit functionality has not yet been built.");
   }
 
   thing() {

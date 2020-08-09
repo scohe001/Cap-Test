@@ -10,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ResponsiveService } from '../services/responsive.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -187,8 +187,14 @@ export class UsertableComponent implements OnInit, OnDestroy, AfterViewInit {
   templateUrl: 'are-you-sure-delete-dialog.html',
 })
 export class AreYouSureDeleteDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public acct: Account) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public acct: Account,
+    public matDialogRef: MatDialogRef<AreYouSureDeleteDialog>) { }
+
   public deleteAcct() {
     console.log("Deleted!");
+    // Return true if we actually deleted. Probably going to need
+    //  error checking here with a real delete
+    this.matDialogRef.close(true);
   }
 }

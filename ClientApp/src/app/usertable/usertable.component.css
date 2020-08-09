@@ -28,6 +28,7 @@ table {
 
 .my-row {
     height: auto;
+    cursor: pointer;
 }
   
 .my-cell {

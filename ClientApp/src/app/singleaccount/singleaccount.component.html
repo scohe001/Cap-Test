@@ -1,29 +1,82 @@
+<!-- TODO: Now that we can get here from the TransactionRegister, back shouldn't always go to /accounts 
+            Going to need to be clever here (maybe get passed something in the url?)
+<button mat-stroked-button color="primary" class="my-but" routerLink="/accounts">Back</button>
+-->
+<button
+  mat-icon-button
+  class="icon-but"
+  matTooltip="Back"
+  routerLink="/accounts">
+  <mat-icon aria-hidden="false" aria-label="Back">arrow_back</mat-icon>
+</button>
+
+<button
+  *ngIf="account"
+  mat-icon-button
+  class="icon-but"
+  matTooltip="Make a transaction with this account"
+  routerLink="/transaction-register/{{account.Id}}">
+  <mat-icon aria-hidden="false" aria-label="Transact!">credit_card</mat-icon>
+</button>
+
+<button
+  *ngIf="account"
+  mat-icon-button
+  class="icon-but"
+  matTooltip="Edit"
+  routerLink="/accounts">
+  <mat-icon aria-hidden="false" aria-label="Edit">edit</mat-icon>
+</button>
+
+<button
+  *ngIf="account"
+  mat-icon-button
+  class="icon-but"
+  matTooltip="Delete"
+  (click)="DeleteClicked()">
+  <mat-icon aria-hidden="false" aria-label="Delete">delete</mat-icon>
+</button>
+
+<button
+  mat-icon-button
+  class="icon-but"
+  matTooltip="For testing purposes"
+  (click)="thing()">
+  <mat-icon aria-hidden="false" aria-label="Test">build</mat-icon>
+</button>
+
 <p *ngIf="!account"><em>Loading...</em></p>
 <h1 *ngIf="account" class="page-title"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h1>
 
-<!-- TODO: Now that we can get here from the TransactionRegister, back shouldn't always go to /accounts 
-            Going to need to be clever here (maybe get passed something in the url?)
--->
-<button mat-stroked-button color="primary" class="my-but" routerLink="/accounts">Back</button>
+<div class="account-flex-box">
+  <mat-card *ngIf="account" class="content-item notes-item">
+    <h4> Notes </h4>
+    <p> Here are some notes... </p>
+  </mat-card>
 
-<button mat-stroked-button color="primary" class="my-but" (click)="thing()">Test!</button>
+  <mat-card *ngIf="account" class="content-item stats-item">
+    <h4> Stats </h4>
+    <p> Some charts at some point hopefully. </p>
+    <!--
+    <div class="row tran-type-totals-div">
+      <app-tran-type-pie-chart
+          [dateRange]="dateRange"
+          [colorScheme]="colorScheme"
+          class="tran-type-totals-component">
+      </app-tran-type-pie-chart>
+    </div>
+    -->
+  </mat-card>
 
-<button *ngIf="account" routerLink="/transaction-register/{{account.Id}}" mat-stroked-button color="primary" class="my-but">Make Transaction With This Account!</button><br><br>
-
-
-<mat-card *ngIf="account" class="content-item">
-  <mat-tab-group mat-align-tabs="center">
-    <mat-tab label="General">
-      I'm a General Tab
-    </mat-tab>
-
-    <mat-tab label="Transaction History">
+  <mat-card *ngIf="account" class="content-item tran-history-item">
+      <h4> Transaction History </h4>
       <app-account-transaction-history [account]="account">
       </app-account-transaction-history>
-    </mat-tab>
+  </mat-card>
 
-    <mat-tab label="Notes">
-      I'm a notes tab
-    </mat-tab>
-  </mat-tab-group>
-</mat-card>
+  <mat-card *ngIf="account" class="content-item info-item">
+    <h4> Info </h4>
+    <p> A list of id/first/last/phone/email/other info </p>
+  </mat-card>
+  
+</div>

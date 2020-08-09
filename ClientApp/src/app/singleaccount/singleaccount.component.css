@@ -1,4 +1,3 @@
-
 .my-butt:hover {
   background-color: slategrey;
 }
@@ -6,4 +5,41 @@
 .my-but {
     display: inline-block;
     width: auto;
+}
+
+.icon-but {
+  margin: 3px 0px 0px 3px;
+}
+
+.icon-but:hover {
+  background-color: lightgray;
+}
+
+.tran-history-item {
+  min-width: 400px;
+  flex-grow: 2;
+  flex-shrink: 1;
+}
+
+.notes-item {
+  min-width: 200px;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.stats-item {
+  min-width: 500px;
+  flex-grow: 2;
+  flex-shrink: 1;
+}
+
+.info-item {
+  min-width: 200px;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.account-flex-box {
+  display: flex;
+  flex-flow: row wrap;
 }

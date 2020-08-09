@@ -4,17 +4,9 @@
     padding-right: 0px;
 }
 
-.header-content-contracted {
-    padding-left: calc(var(--sidenav-contracted-width) - 16px) !important;
-}
-
-.header-content-expanded {
-    padding-left: calc(var(--sidenav-expanded-width) - 16px) !important;
-} 
-
-.header-content-closed {
+.header-content {
     margin-left: -16px !important;
-} 
+}
 
 .header-options {
     float: right;

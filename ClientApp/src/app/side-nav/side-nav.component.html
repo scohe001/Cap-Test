@@ -1,6 +1,3 @@
-<!-- Toolbar -->
-<app-nav-toolbar [CurrentUser]="CurrentUser" [MinSideNavWidth]="MinSideNavWidth"></app-nav-toolbar>
-
 <mat-sidenav-container>
   <!-- Sidenav -->
   <mat-sidenav
@@ -14,13 +11,13 @@
     [fixedBottomGap]="'0'"
     (closedStart)="closeSideNavEvent()"
     >
-
     <app-navigation [MinSideNavWidth]="MinSideNavWidth"></app-navigation>
-
   </mat-sidenav>
 
-  <!-- Main content -->
   <mat-sidenav-content [ngClass]="!responsiveManager.isSideNavOpened ? 'main-content-full' : responsiveManager.isSideNavExpanded ? 'main-content-expanded' : 'main-content-contracted'" class="main-content">
+    <!-- Toolbar -->
+    <app-nav-toolbar [CurrentUser]="CurrentUser" [MinSideNavWidth]="MinSideNavWidth"></app-nav-toolbar>
+    <!-- Main content -->
     <app-nav-content>
         <ng-content></ng-content>
     </app-nav-content>

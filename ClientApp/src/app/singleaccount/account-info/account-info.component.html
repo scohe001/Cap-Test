@@ -1,0 +1,26 @@
+<div class="info-group">
+  <!--
+  <p class="info-row">Account Id: {{currentAccount.Id}}</p>
+  <p class="info-row">First Name: {{currentAccount.FirstName}}</p>
+  <p class="info-row">Last Name: {{currentAccount.LastName}}</p>
+  <p class="info-row">Phone Number: {{currentAccount.PhoneNumber}}</p>
+  -->
+  <div class="info-row">
+  <p class="info-name">Account Id:   </p> <input class="info-val" matInput [disabled]="true" [value]="currentAccount.Id">
+  </div>
+  <div class="info-row">
+  <p class="info-name">First Name:   </p> <input class="info-val" matInput [disabled]="!editing" [value]="currentAccount.FirstName" #firstNameInput>
+  </div>
+  <div class="info-row">
+  <p class="info-name">Last Name:    </p> <input class="info-val" matInput [disabled]="!editing" [value]="currentAccount.LastName">
+  </div>
+  <div class="info-row">
+  <p class="info-name">Phone Number: </p> <input class="info-val" matInput [disabled]="!editing" [value]="currentAccount.PhoneNumber">
+  </div>
+
+</div>
+
+<div class="edit-buts" *ngIf="editing">
+    <button mat-button (click)="cancelClicked()">Cancel</button>
+    <button mat-button (click)="submitClicked()">Submit</button>
+</div>

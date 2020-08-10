@@ -1,0 +1,22 @@
+.info-group {
+    display: table;
+}
+
+.info-name {
+    padding: 3px;
+    display: table-cell;
+}
+
+.info-val {
+    padding: 3px;
+    margin: 3px;
+}
+
+.info-row {
+    display: table-row
+}
+
+.edit-buts {
+    text-align: right;
+    margin-top: 5px;
+}

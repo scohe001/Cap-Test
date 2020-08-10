@@ -52,6 +52,7 @@ import { NavContentComponent } from './side-nav/nav-content/nav-content.componen
 import { NavToolbarComponent } from './side-nav/nav-toolbar/nav-toolbar.component';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
 import { TransactionReviewComponent } from './transaction-register/transaction-review/transaction-review.component';
+import { AccountInfoComponent } from './singleaccount/account-info/account-info.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { TransactionReviewComponent } from './transaction-register/transaction-r
     NavToolbarComponent,
     LoadingScreenComponent,
     TransactionReviewComponent,
+    AccountInfoComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

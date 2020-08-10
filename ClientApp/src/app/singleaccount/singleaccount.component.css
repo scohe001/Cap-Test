@@ -16,27 +16,30 @@
 }
 
 .tran-history-item {
-  min-width: 400px;
+  min-width: 300px;
   flex-grow: 2;
   flex-shrink: 1;
 }
 
 .notes-item {
   min-width: 200px;
-  flex-grow: 1;
+  flex-grow: 2;
   flex-shrink: 1;
 }
 
 .stats-item {
-  min-width: 500px;
+  max-width: 1000px;
+  min-width: 300px;
   flex-grow: 2;
   flex-shrink: 1;
 }
 
 .info-item {
+  max-width: 400px;
   min-width: 200px;
-  flex-grow: 1;
+  flex-grow: 0;
   flex-shrink: 1;
+  filter: blur(0px) !important;
 }
 
 .account-flex-box {
@@ -53,4 +56,17 @@
   padding: 0px 16px;
   background-color: transparent;
   height: auto;
+}
+
+.card-title {
+    color: slategrey;
+    margin: -7px 0px 3px 0px;
+}
+
+.card-head {
+  margin-bottom: 15px;
+}
+
+.blur {
+  filter: blur(7px);
 }

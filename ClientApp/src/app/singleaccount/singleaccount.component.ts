@@ -24,6 +24,8 @@ export class SingleaccountComponent implements OnInit {
     domain: ['#8CB369', '#F4A259', '#BC4B51', '#5B8E7D']
   };
 
+  editing: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -73,7 +75,17 @@ export class SingleaccountComponent implements OnInit {
   }
 
   public EditClicked() {
-    alert("Edit functionality has not yet been built.");
+    // alert("Edit functionality has not yet been built.");
+    this.editing = !this.editing;
+  }
+
+  public doneEditingNoChanges() {
+    this.editing = false;
+  }
+
+  public doneEditingWithChanges() {
+    this.editing = false;
+    //Refresh
   }
 
   thing() {

@@ -3,7 +3,7 @@
 <button mat-stroked-button color="primary" class="my-but" routerLink="/accounts">Back</button>
 -->
 
-<mat-toolbar class="header-bar">
+<mat-toolbar class="header-bar" [ngClass]="{'blur': editing}">
 <button
   mat-icon-button
   class="icon-but"
@@ -50,41 +50,40 @@
 </div>
 </mat-toolbar>
 
-<!--
-<mat-card class="content-item">
--->
-  <p *ngIf="!account"><em>Loading...</em></p>
-  <h1 *ngIf="account" class="page-title"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h1>
+<p *ngIf="!account"><em>Loading...</em></p>
+<h1 *ngIf="account" class="page-title" [ngClass]="{'blur': editing}"> {{account.FirstName}} {{account.LastName}} <span *ngIf="account.PhoneNumber && account.PhoneNumber != null && account.PhoneNumber.length > 0">({{account.PhoneNumber}})</span></h1>
 
 <div class="account-flex-box">
-  <mat-card *ngIf="account" class="content-item notes-item">
-    <h4> Notes </h4>
-    <p> Here are some notes... </p>
-  </mat-card>
-
-  <mat-card *ngIf="account" class="content-item stats-item">
-    <h4> Stats </h4>
-    <p> Some charts at some point hopefully. </p>
-    <!--
-    <div class="row tran-type-totals-div">
-      <app-tran-type-pie-chart
-          [dateRange]="dateRange"
-          [colorScheme]="colorScheme"
-          class="tran-type-totals-component">
-      </app-tran-type-pie-chart>
-    </div>
-    -->
-  </mat-card>
-
-  <mat-card *ngIf="account" class="content-item tran-history-item">
-      <h4> Transaction History </h4>
-      <app-account-transaction-history [account]="account">
-      </app-account-transaction-history>
-  </mat-card>
-
   <mat-card *ngIf="account" class="content-item info-item">
-    <h4> Info </h4>
-    <p> A list of id/first/last/phone/email/other info </p>
+    <div class="card-head" id="info">
+      <h4 class="card-title"> Info </h4>
+      <mat-divider></mat-divider>
+    </div>
+    <app-account-info [account]="account" [isEdit]="editing" (doneEditingNoChanges)="doneEditingNoChanges()" (doneEditingWithChanges)="doneEditingWithChanges()"></app-account-info>
+  </mat-card>
+
+  <mat-card *ngIf="account" class="content-item stats-item" [ngClass]="{'blur': editing}">
+    <div class="card-head">
+      <h4 class="card-title"> Stats </h4>
+      <mat-divider></mat-divider>
+    </div>
+    <p> Some charts at some point. </p>
+  </mat-card>
+
+  <mat-card *ngIf="account" class="content-item tran-history-item" [ngClass]="{'blur': editing}">
+    <div class="card-head">
+      <h4 class="card-title"> Transaction History </h4>
+      <mat-divider></mat-divider>
+    </div>
+    <app-account-transaction-history [account]="account"></app-account-transaction-history>
+  </mat-card>
+
+  <mat-card *ngIf="account" class="content-item notes-item" [ngClass]="{'blur': editing}">
+    <div class="card-head">
+      <h4 class="card-title"> Notes </h4>
+      <mat-divider></mat-divider>
+    </div>
+    <p> Here are some notes... </p>
   </mat-card>
   
 </div>

@@ -172,7 +172,7 @@ namespace CreditCache.Controllers
     }
 
     private void CreateCashout(decimal val, decimal runningTotal, int acctId, DateTime date) {
-      decimal baseVal = Math.Round(val * .8M, 2);
+      decimal baseVal = Math.Round(val * Transaction.CASHOUT_DISCOUNT, 2);
       decimal discountVal = val - baseVal;
       Transaction baseT = new Transaction
       {

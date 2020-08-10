@@ -51,6 +51,7 @@ import { NavigationComponent } from './side-nav/navigation/navigation.component'
 import { NavContentComponent } from './side-nav/nav-content/nav-content.component';
 import { NavToolbarComponent } from './side-nav/nav-toolbar/nav-toolbar.component';
 import { LoadingScreenComponent } from './loading-screen/loading-screen.component';
+import { TransactionReviewComponent } from './transaction-register/transaction-review/transaction-review.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { LoadingScreenComponent } from './loading-screen/loading-screen.componen
     NavContentComponent,
     NavToolbarComponent,
     LoadingScreenComponent,
+    TransactionReviewComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

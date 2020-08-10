@@ -256,7 +256,7 @@ namespace CreditCache.Models
     private static void CreateCashout(decimal _, decimal resaleTotal, decimal returnTotal, int acctId, DateTime date, ApplicationDbContext context) {
       decimal val = -resaleTotal;
 
-      decimal baseVal = Math.Round(val * .8M, 2);
+      decimal baseVal = Math.Round(val * CASHOUT_DISCOUNT, 2);
       decimal discountVal = val - baseVal;
       Transaction baseT = new Transaction
       {
@@ -404,6 +404,12 @@ namespace CreditCache.Models
       context.Add(td);
       context.SaveChanges();
     }
+
+    #endregion
+
+    #region Constants
+
+    public const decimal CASHOUT_DISCOUNT = .8M;
 
     #endregion
 

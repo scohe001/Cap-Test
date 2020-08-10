@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Inject, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormBuilder, Validators, ValidatorFn, ValidationErrors} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith, filter} from 'rxjs/operators';
 
@@ -51,20 +51,15 @@ export class TransactionRegisterComponent implements OnInit {
     this.titleService.setTitle("Transaction Register - Credit Cache");
     // Make sure we know if account selection changes
     this.tranForm.get('tranAcctForm').get('tranAccount').valueChanges.subscribe(this.acctSelectionChanged);
+    this.tranForm.get('tranDetailsForm').setValidators(this.AmountCheckValidator());
   } 
 
   public acctSelectionChanged = (newAcctSelection: any) => {
-    if(!newAcctSelection) {
-      //empty selection...maybe do something special?
+    // If it's empty or not an account, not much we can do
+    if(!newAcctSelection || !this.accountManager.isObjectAnAccount(newAcctSelection)) {
       this.tranStepper.selectedIndex = 0; // Move to Account selection step
       this.selectedAccount = null;
       console.log("Empty acct selection!");
-      return;
-    }
-
-    // If it's not an account, we don't really care...
-    if(!this.accountManager.isObjectAnAccount(newAcctSelection)) { 
-      this.selectedAccount = null;
       return;
     }
 
@@ -77,6 +72,7 @@ export class TransactionRegisterComponent implements OnInit {
 
   public thing() {
     console.log("Raw form val is: ", this.tranForm.getRawValue());
+    console.log("Has error: ", this.tranForm.invalid);
   }
 
   private currencyToNumber(currency: string) {
@@ -111,6 +107,31 @@ export class TransactionRegisterComponent implements OnInit {
         data: result
       });
     }
+  }
+
+  public AmountCheckValidator() : ValidatorFn{
+    return (group: FormGroup): ValidationErrors => {
+       console.log("Validator being called!");
+       const amountControl = group.controls['tranAmount'];
+       const amount: number = this.currencyToNumber(amountControl.value);
+       console.log(amount);
+       const tranType: TransactionType = group.controls['tranType'].value;
+       if(tranType.Id == TranType_TypeDef.CASHOUT_ID || tranType.Id == TranType_TypeDef.PURCHASE_ID) {
+         if(amount > -.01) {
+           amountControl.setErrors({invalidAmount: true});
+         } else {
+           amountControl.setErrors(null);
+         }
+       }
+       if(tranType.Id == TranType_TypeDef.RESALE_ID || tranType.Id == TranType_TypeDef.RETURN_ID) {
+         if(amount < .01) {
+           amountControl.setErrors({invalidAmount: true});
+         } else {
+           amountControl.setErrors(null);
+         }
+       }
+       return;
+    };
   }
 }
 

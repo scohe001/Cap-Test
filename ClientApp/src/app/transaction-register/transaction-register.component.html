@@ -22,21 +22,22 @@
         <mat-step [stepControl]="tranForm.get('tranDetailsForm')">
           <ng-template matStepLabel>Enter Transaction Details</ng-template>
             <div>
-                <app-transaction-details-input [formGroup]="tranForm.get('tranDetailsForm')"></app-transaction-details-input>
+                <app-transaction-details-input [formGroup]="tranForm.get('tranDetailsForm')" [account]="selectedAccount"></app-transaction-details-input>
             </div>
             <div>
               <button mat-button matStepperPrevious type="button">Back</button>
-              <button mat-button matStepperNext type="button">Next</button>
+              <button mat-button matStepperNext type="button" [disabled]="tranForm.invalid">Next</button>
             </div>
         </mat-step>
 
         <mat-step>
           <ng-template matStepLabel>Review</ng-template>
-          <!-- TODO: Build this into a nice review step -->
-          <p>You are now done.</p>
+          <div>
+            <app-transaction-review [formGroup]="tranForm"></app-transaction-review>
+          </div>
+
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
             <button mat-button type="submit" [disabled]="!tranForm.valid">Submit</button>
           </div>
         </mat-step>

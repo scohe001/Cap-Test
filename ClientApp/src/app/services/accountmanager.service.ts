@@ -36,6 +36,12 @@ export class AccountmanagerService {
     return this.GetAccountFromDb(acctId);
   }
 
+  public async GetAccountCashoutValue(acctId: string) {
+    if(!this.commonManager.IsGoodIdFormat(acctId)) { return null; }
+    return await this.http.get<number>(this.url + "Account/GetCashoutValue", 
+                                    { params: new HttpParams().set('acctId', acctId) }).toPromise();
+  }
+
   private async GetAccountFromDb(acctId: string) {
     return await this.http.get<Account>(this.url + 'Account/GetAccount',
                                     { params: new HttpParams().set('acctId', acctId.toString()) }).toPromise();

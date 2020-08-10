@@ -3,6 +3,8 @@ import { TransactionType, TranType_TypeDef } from 'src/app/interfaces/transactio
 import { TransactionmanagerService } from 'src/app/services/transactionmanager.service';
 import { FormGroup, FormControl, Form } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
+import { AccountmanagerService } from 'src/app/services/accountmanager.service';
+import { Account } from 'src/app/interfaces/account';
 
 @Component({
   selector: 'app-transaction-details-input',
@@ -12,11 +14,13 @@ import { CurrencyPipe } from '@angular/common';
 export class TransactionDetailsInputComponent implements OnInit {
 
   @Input() formGroup: FormGroup;
+  @Input() account: Account;
   public tranTypeCtrl: FormControl;
   public tranAmountCtrl: FormControl;
 
   constructor(
     private tranManager: TransactionmanagerService,
+    private accountManager: AccountmanagerService,
     private currencyPipe: CurrencyPipe,
   ) { }
 
@@ -35,7 +39,7 @@ export class TransactionDetailsInputComponent implements OnInit {
       // populate initial value
       this.formGroup.patchValue({
         tranType: this.tranTypes.find(tt => tt.Id === TranType_TypeDef.PURCHASE_ID),
-        tranAmount: '$0.00',
+        tranAmount: '$-1.00',
       })
     }
   }
@@ -82,10 +86,13 @@ export class TransactionDetailsInputComponent implements OnInit {
     this.validateAmountField();
   }
 
-  private cashOutSelected() {
-    this.formGroup.patchValue({
-      tranAmount: 29.72,
+  private async cashOutSelected() {
+    this.accountManager.GetAccountCashoutValue(this.account.Id.toString()).then(cashoutVal => {
+      this.formGroup.patchValue({
+        tranAmount: cashoutVal.toString()
+      });
+      this.tranAmountCtrl.disable()
+      this.validateAmountField();
     });
-    this.tranAmountCtrl.disable()
   }
 }

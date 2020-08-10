@@ -83,6 +83,16 @@ namespace CreditCache.Models
                     .FirstOrDefault();
     }
 
+    public static decimal GetCashoutValue(int acctId, ApplicationDbContext context) { 
+      Account account = GetSingleAccount(acctId, context);
+      if(account == null) { 
+        throw new KeyNotFoundException($"Could not find account with Id {acctId}");
+      }
+
+      decimal currentResaleTotal = account.Transactions.Sum(tran => tran.TransactionDistributions.Where(tranDist => tranDist.RevenueCodeId == RevenueCode.RESALE_ID).Sum(tranDist => tranDist.Amount));
+      return Math.Round(currentResaleTotal * Transaction.CASHOUT_DISCOUNT, 2);
+    }
+
     #endregion
 
     #region Deletes

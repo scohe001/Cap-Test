@@ -1,0 +1,6 @@
+<div *ngIf="account">
+    <p> Account: {{account.FirstName}} {{account.LastName}} </p>
+    <p> Transaction Amount: {{amount}} </p>
+    <p> Transaction Date: {{date | date:'shortDate'}} </p>
+    <p> Transaction Type: {{tranType.Name}} </p>
+</div>

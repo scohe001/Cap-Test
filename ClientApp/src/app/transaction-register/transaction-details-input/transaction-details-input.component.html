@@ -19,12 +19,15 @@
               Transaction Amount is <strong>required</strong>
             </mat-error>
             -->
+            <mat-error *ngIf="formGroup.get('tranAmount') && formGroup.get('tranAmount').hasError('invalidAmount')">
+              Transaction Amount <strong>must not be 0</strong>
+            </mat-error>
         </mat-form-field><br><br>
     </div>
 
     <div>
         <mat-form-field>
-            <mat-label>Angular forms</mat-label>
+            <mat-label>Transaction Date</mat-label>
             <input matInput [matDatepicker]="tranDatePicker" formControlName="tranDate">
             <mat-datepicker-toggle matSuffix [for]="tranDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #tranDatePicker></mat-datepicker>

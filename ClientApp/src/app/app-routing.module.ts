@@ -31,6 +31,7 @@ const routes: Routes = [
   { path: 'help', component: HelpComponent },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
+  // Can't get this working since it prevents redirects to the auth pages (login/acct info)
   // { path: '**', component: NotFoundComponent },
 ];
 

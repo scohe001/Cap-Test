@@ -41,6 +41,12 @@ namespace CreditCache.Controllers
       return Account.GetSingleAccount(acctId, context);
     }
 
+    [HttpGet]
+    public decimal GetCashoutValue(int acctId)
+    {
+      return Account.GetCashoutValue(acctId, context);
+    }
+
     [HttpPost]
     public Account AddAccount(string pFirstName, string pLastName)
     {

@@ -23,8 +23,6 @@ export class DashboardComponent implements OnInit {
   public startDateCtrl = new FormControl(this.dateRange[0]);
   public endDateCtrl = new FormControl(this.dateRange[1]);
 
-  public dateRangeVal: Date[]; // Going to be unused, but leaving it just in case
-
   constructor(
     private responsiveManager: ResponsiveService,
     private titleService: Title) { }
@@ -33,21 +31,10 @@ export class DashboardComponent implements OnInit {
     this.titleService.setTitle("Dashboard - Credit Cache");
     this.responsiveManager.onResize$.subscribe((vals: [number, number]) => {
     });
-
-    // Initialize it this way so that the val will show in the date range input
-    this.dateRangeVal = this.dateRange;
-  }
-
-  thing() {
-  }
-
-  dateRangeValChange(range: Date[]) {
-    console.log("Date range changed to: ", range);
   }
 
   refresh() {
-    if(!this.dateRangeVal || this.dateRangeVal == null || this.dateRangeVal.length < 2) { return; }
-    this.dateRange = [this.dateRangeVal[0], this.dateRangeVal[1]];
+    this.dateRange = [this.dateRange[0], this.dateRange[1]]; // Force refresh for children views
   }
 
   public dateChange(newDate, dateIndx) {

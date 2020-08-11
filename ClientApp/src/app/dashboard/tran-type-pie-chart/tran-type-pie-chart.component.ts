@@ -59,7 +59,7 @@ export class TranTypePieChartComponent implements OnInit {
 
     // Stick some commas in the integer part
     val = Math.floor(val);
-    var intVal: string = (val % 1000).toString();
+    var intVal: string = (val % 1000).toString().padStart(3, '0');
     val = Math.floor(val/1000);
     while(val > 0) {
       intVal = (val % 1000) + ',' + intVal;

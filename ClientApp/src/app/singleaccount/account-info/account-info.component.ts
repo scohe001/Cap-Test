@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
+import { Account } from '../../interfaces/account';
 
 @Component({
   selector: 'app-account-info',

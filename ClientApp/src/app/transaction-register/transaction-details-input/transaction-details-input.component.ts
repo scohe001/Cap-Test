@@ -39,7 +39,7 @@ export class TransactionDetailsInputComponent implements OnInit {
       // populate initial value
       this.formGroup.patchValue({
         tranType: this.tranTypes.find(tt => tt.Id === TranType_TypeDef.PURCHASE_ID),
-        tranAmount: '$-1.00',
+        tranAmount: '-$1.00',
       })
     }
   }

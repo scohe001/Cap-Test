@@ -51,7 +51,8 @@ export class TranTypePieChartComponent implements OnInit {
     this.tranTotals = await this.transactionManager.GetTransactionTotals(this.startDate, this.endDate);
   }
 
-  dollarValueFormat(val: number) : string {
+  dollarValueFormat = (val: number) : string  => {
+    if(!val) { return '$0.00'; }
     // Find the decimal part
     let decCapture = /\.(\d+)/.exec(val.toFixed(2).toString())
     var decVal: string = '';
@@ -59,15 +60,24 @@ export class TranTypePieChartComponent implements OnInit {
 
     // Stick some commas in the integer part
     val = Math.floor(val);
-    var intVal: string = (val % 1000).toString().padStart(3, '0');
+    var intVal: string = this.getHundredsStr(val);
     val = Math.floor(val/1000);
     while(val > 0) {
-      intVal = (val % 1000) + ',' + intVal;
+      intVal = this.getHundredsStr(val) + ',' + intVal;
       val = Math.floor(val/1000);
     }
 
     // Return the final
     return '$' + intVal + decVal;
+  }
+
+  public getHundredsStr(val: number) {
+    var intVal: string = (val % 1000).toString();
+    if(Math.floor(val / 1000) > 0) {
+      intVal = intVal.padStart(3, '0');
+    }
+
+    return intVal;
   }
 
 }
